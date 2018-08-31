@@ -1,0 +1,46 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/times/times",
+    "pages/music/music",
+    "pages/wall/wall"
+  ],
+  "window":{
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#262834",
+    "navigationBarTitleText": "iFoodiMusic",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#1C1F27"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "发现",
+        "iconPath": "images/icon/food.png",
+        "selectedIconPath": "images/icon/food.png"
+      }, 
+      {
+        "pagePath": "pages/times/times",
+        "text": "好时光",
+        "iconPath": "images/icon/diary.png",
+        "selectedIconPath": "images/icon/diary.png"
+      },
+      {
+        "pagePath": "pages/music/music",
+        "text": "音乐盒",
+        "iconPath": "images/icon/music.png",
+        "selectedIconPath": "images/icon/music.png"
+      },
+      {
+        "pagePath": "pages/wall/wall",
+        "text": "表白墙",
+        "iconPath": "images/icon/unburden.png",
+        "selectedIconPath": "images/icon/unburden.png"
+      }
+    ],
+    "color": "#c2c4d0",
+    "selectedColor": "#3483e9",
+    "backgroundColor": "#252934"
+  }
+}
