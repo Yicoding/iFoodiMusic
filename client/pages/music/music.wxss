@@ -1,0 +1,16 @@
+audio{
+    margin: 10rpx;
+}
+input{
+    border: 1rpx solid #ddd;
+    margin: 10rpx;
+    height: 70rpx;
+}
+button{
+    margin: 10rpx;
+}
+.music{
+    margin: 10rpx;
+    display: flex;
+    align-items: center;
+}
