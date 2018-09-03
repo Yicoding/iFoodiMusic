@@ -1,8 +1,8 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/times/times",
     "pages/music/music",
+    "pages/times/times",
     "pages/wall/wall"
   ],
   "window":{
@@ -16,21 +16,21 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "发现",
+        "text": "艾美食",
         "iconPath": "images/icon/food.png",
         "selectedIconPath": "images/icon/food.png"
       }, 
+      {
+        "pagePath": "pages/music/music",
+        "text": "艾音乐",
+        "iconPath": "images/icon/music.png",
+        "selectedIconPath": "images/icon/music.png"
+      },
       {
         "pagePath": "pages/times/times",
         "text": "好时光",
         "iconPath": "images/icon/diary.png",
         "selectedIconPath": "images/icon/diary.png"
-      },
-      {
-        "pagePath": "pages/music/music",
-        "text": "音乐盒",
-        "iconPath": "images/icon/music.png",
-        "selectedIconPath": "images/icon/music.png"
       },
       {
         "pagePath": "pages/wall/wall",
