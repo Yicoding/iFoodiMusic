@@ -1,19 +1,31 @@
 <view class="album">
-  <swiper indicator-dots="{{true}}"
-    autoplay circular interval="{{5000}}" duration="{{500}}">
+  <swiper 
+    indicator-dots="{{showDots}}"
+    autoplay 
+    circular 
+    interval="{{interval}}" 
+    duration="{{duration}}"
+    indicator-active-color="#fff"
+    indicator-color="hsla(0,0%,100%,.5)"
+  >
     <block wx:for="{{imgUrls}}" wx:key="{{imgUrls}}">
       <swiper-item class="swiper-container">
-        <image src="{{item}}" class="slide-image" />
+        <image src="{{item}}" />
       </swiper-item>
     </block>
   </swiper>
-  <scroll-view scroll-y>
-    <view wx:for="{{albumList}}" wx:key="{{item.id}}" class="scroll-list">
-      <image src="{{item.poster}}" />
-      <view>
-        <text>{{item.name}}</text>
-        <text>{{item.info}}</text>
-      </view>
+  <view class="title">歌单列表</view>
+  <view 
+    wx:for="{{albumList}}" 
+    wx:key="{{item.id}}" 
+    class="scroll-list"
+    bindtap="gotoSongList"
+    data-type="{{item}}"
+  >
+    <image src="{{item.poster}}" />
+    <view>
+      <text>{{item.name}}</text>
+      <text>{{item.info}}</text>
     </view>
-  </scroll-view>
+  </view>
 </view>

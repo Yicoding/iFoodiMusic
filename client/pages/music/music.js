@@ -1,10 +1,11 @@
 //index.js
 //获取应用实例
 var config = require('../../config')
+var audioList = require('./data.js')
 var app = getApp()
 Page({
   data: {
-    audioList: [],
+    audioList: audioList.default,
     audioIndex: 0,
     pauseStatus: true,
     listShow: false,
@@ -13,15 +14,16 @@ Page({
     duration:0,    
   },
   onLoad: function () {
-    wx.request({
-      url: config.service.album,
-      success: ({ data }) => {
-        console.log(data)
-        this.setData({
-          // audioList: data.data
-        })
-      }
-    })
+    // wx.request({
+    //   url: config.service.album,
+    //   success: ({ data }) => {
+    //     console.log(data)
+    //     this.setData({
+    //       // audioList: data.data
+    //     })
+    //   }
+    // })
+    console.log(this.data.audioList, 'this.data.audioList')
     console.log('onLoad')
     // console.log(this.data.audioList.length)
     //  获取本地存储存储audioIndex

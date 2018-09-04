@@ -1,24 +1,34 @@
 swiper{
-    height: 300rpx;
+    height: 350rpx;
 }
 .swiper-container image{
     width: 100%;
+    height: 350rpx;
 }
-scroll-view{
-    padding: 10rpx;
-    background: #222;
+.title{
+    color: #ffcd32;
+    font-size: 28rpx;
+    padding: 40rpx 0;
+    text-align: center;
 }
 .scroll-list{
     display: flex;
-    margin-bottom: 10rpx;
+    padding: 0 40rpx 40rpx;
 }
 .scroll-list image{
-    width: 150rpx;
-    height: 150rpx;
+    width: 120rpx;
+    height: 120rpx;
 }
 .scroll-list view{
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    margin-left: 40rpx;
+}
+.scroll-list view text:first-of-type{
+    color: #fff;
+}
+.scroll-list view text:last-of-type{
+    color: hsla(0,0%,100%,.3);
 }

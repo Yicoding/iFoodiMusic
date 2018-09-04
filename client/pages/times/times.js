@@ -5,11 +5,14 @@ const app = getApp()
 
 Page({
   data: {
+    interval: 3500,
+    duration: 300,
+    showDots: true,
     albumList: [],
     imgUrls: [
-      'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-      'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-      'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+      'https://qcloudtest-1257454171.cos.ap-guangzhou.myqcloud.com/img/swiper-1.jpg',
+      'https://qcloudtest-1257454171.cos.ap-guangzhou.myqcloud.com/img/swiper-2.jpg',
+      'https://qcloudtest-1257454171.cos.ap-guangzhou.myqcloud.com/img/swiper-3.jpg'
     ],
   },
   onLoad: function () {
@@ -23,4 +26,10 @@ Page({
       }
     })
   },
+  gotoSongList(e) {
+    let item = e.currentTarget.dataset.type
+    wx.navigateTo({
+      url: '../songlist/songlist?item=' + JSON.stringify(item)
+    })
+  }
 })

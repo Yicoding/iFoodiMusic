@@ -3,7 +3,8 @@
     "pages/times/times",
     "pages/index/index",
     "pages/music/music",
-    "pages/wall/wall"
+    "pages/wall/wall",
+    "pages/songlist/songlist"
   ],
   "window":{
     "backgroundTextStyle": "light",
