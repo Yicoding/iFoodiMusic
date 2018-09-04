@@ -1,38 +1,212 @@
 //index.js
 //获取应用实例
-const app = getApp()
-
+var config = require('../../config')
+var app = getApp()
 Page({
   data: {
-    
+    audioList: [],
+    audioIndex: 0,
+    pauseStatus: true,
+    listShow: false,
+    timer: '',
+    currentPosition: 0,
+    duration:0,    
   },
   onLoad: function () {
-    
+    wx.request({
+      url: config.service.album,
+      success: ({ data }) => {
+        console.log(data)
+        this.setData({
+          // audioList: data.data
+        })
+      }
+    })
+    console.log('onLoad')
+    // console.log(this.data.audioList.length)
+    //  获取本地存储存储audioIndex
+    var audioIndexStorage = wx.getStorageSync('audioIndex')
+    console.log(audioIndexStorage, 'audioIndexStorage')
+    if (audioIndexStorage) {
+      this.setData({audioIndex: audioIndexStorage}) 
+    }
   },
   onReady: function (e) {
+    console.log('onReady')
     // 使用 wx.createAudioContext 获取 audio 上下文 context
-    this.audioCtx = wx.createAudioContext('myAudio')
+    // this.audioCtx = wx.createAudioContext('audio')
   },
-  data: {
-    poster: 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000',
-    name: '单色戒指',
-    author: '易小林',
-    src: 'https://qcloudtest-1257454171.cos.ap-guangzhou.myqcloud.com/%E5%8D%95%E8%89%B2%E6%88%92%E6%8C%87.mp3',
+  bindSliderchange: function(e) {
+    // clearInterval(this.data.timer)
+    let value = e.detail.value
+    let that = this
+    console.log(e.detail.value)
+    wx.getBackgroundAudioPlayerState({
+      success: function (res) {
+        console.log(res)
+        let {status, duration} = res
+        if (status === 1 || status === 0) {
+          that.setData({
+            sliderValue: value
+          })
+          wx.seekBackgroundAudio({
+              position: value * duration / 100,
+          })
+        }
+      }
+    })
   },
-  audioPlay: function () {
-    this.audioCtx.play()
+  bindTapPrev: function() {
+    console.log('bindTapNext')
+    let length = this.data.audioList.length
+    let audioIndexPrev = this.data.audioIndex
+    let audioIndexNow = audioIndexPrev
+    if (audioIndexPrev === 0) {
+      audioIndexNow = length - 1
+    } else {
+      audioIndexNow = audioIndexPrev - 1
+    }
+    this.setData({
+      audioIndex: audioIndexNow,
+      sliderValue: 0,
+      currentPosition: 0,
+      duration:0, 
+    })
+    let that = this
+    setTimeout(() => {
+      if (that.data.pauseStatus === true) {
+        that.play()
+      }
+    }, 1000)
+    wx.setStorageSync('audioIndex', audioIndexNow)
   },
-  audioPause: function () {
-    this.audioCtx.pause()
+  bindTapNext: function() {
+    console.log('bindTapNext')
+    let length = this.data.audioList.length
+    let audioIndexPrev = this.data.audioIndex
+    let audioIndexNow = audioIndexPrev
+    if (audioIndexPrev === length - 1) {
+      audioIndexNow = 0
+    } else {
+      audioIndexNow = audioIndexPrev + 1
+    }
+    this.setData({
+      audioIndex: audioIndexNow,
+      sliderValue: 0,
+      currentPosition: 0,
+      duration:0, 
+    })
+    let that = this
+    setTimeout(() => {
+      if (that.data.pauseStatus === false) {
+        that.play()
+      }
+    }, 1000)
+    wx.setStorageSync('audioIndex', audioIndexNow)
   },
-  audio14: function () {
-    this.audioCtx.seek(14)
+  bindTapPlay: function() {
+    console.log('bindTapPlay')
+    console.log(this.data.pauseStatus)
+    if (this.data.pauseStatus === true) {
+      this.play()
+      
+    } else {
+      wx.pauseBackgroundAudio()
+    }
+    this.setData({pauseStatus: !this.data.pauseStatus})
   },
-  audioStart: function () {
-    this.audioCtx.seek(0)
+  bindTapList: function(e) {
+    console.log('bindTapList')
+    console.log(e)
+    this.setData({
+      listShow: true
+    })
   },
-  gotoTime: function(e) {
-    let val = e.detail.value
-    this.audioCtx.seek(val)
+  bindTapChoose: function(e) {
+    console.log('bindTapChoose')
+    console.log(e)
+    this.setData({
+      audioIndex: parseInt(e.currentTarget.id, 10),
+      listShow: false
+    })
+    let that = this
+    setTimeout(() => {
+      if (that.data.pauseStatus === false) {
+        that.play()
+      }
+    }, 1000)
+    wx.setStorageSync('audioIndex', parseInt(e.currentTarget.id, 10))
+  },
+  play() {
+    let {audioList, audioIndex} = this.data
+    wx.playBackgroundAudio({
+      dataUrl: audioList[audioIndex].src,
+      title: audioList[audioIndex].name,
+      coverImgUrl: audioList[audioIndex].poster
+    })
+    let that = this
+    let timer = setInterval(function() {
+      that.setDuration(that)
+    }, 1000)
+    this.setData({timer: timer})
+  },
+  setDuration(that) {
+    wx.getBackgroundAudioPlayerState({
+      success: function (res) {
+        console.log(res)
+        let {status, duration, currentPosition} = res
+        if (status === 1 || status === 0) {
+          that.setData({
+            currentPosition: that.stotime(currentPosition),
+            duration: that.stotime(duration),
+            sliderValue: Math.floor(currentPosition * 100 / duration),
+          })
+        }
+        // // 自动播放下一首
+        // if (status === 2 && that.data.sliderValue == 100) {
+        //   that.bindTapNext()
+        // }
+      }
+    })
+  },
+  stotime: function(s) {
+    let t = '';
+    if(s > -1) {
+      // let hour = Math.floor(s / 3600);
+      let min = Math.floor(s / 60) % 60;
+      let sec = s % 60;
+      // if (hour < 10) {
+      //   t = '0' + hour + ":";
+      // } else {
+      //   t = hour + ":";
+      // }
+
+      if (min < 10) { t += "0"; }
+      t += min + ":";
+      if (sec < 10) { t += "0"; }
+      t += sec;
+    }
+    t = t.slice(0, 5)
+    return t;
+  },
+  onShareAppMessage: function () {
+    let that = this
+    return {
+      title: 'light轻音乐：' + that.data.audioList[that.data.audioIndex].name,
+      success: function(res) {
+        wx.showToast({
+          title: '分享成功',
+          icon: 'success',
+          duration: 2000
+        })
+      },
+      fail: function(res) {
+        wx.showToast({
+          title: '分享失败',
+          icon: 'cancel',
+          duration: 2000
+        })
+      }
+    }
   }
 })

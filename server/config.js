@@ -20,8 +20,8 @@ const CONF = {
         host: 'localhost',
         port: 3306,
         user: 'root',
-        db: 'music',
-        pass: 'wxa951826c9c76290b',
+        db: 'ifoodimusic',
+        pass: '09210110063as',
         char: 'utf8mb4'
     },
 

@@ -1,0 +1,24 @@
+swiper{
+    height: 300rpx;
+}
+.swiper-container image{
+    width: 100%;
+}
+scroll-view{
+    padding: 10rpx;
+    background: #222;
+}
+.scroll-list{
+    display: flex;
+    margin-bottom: 10rpx;
+}
+.scroll-list image{
+    width: 150rpx;
+    height: 150rpx;
+}
+.scroll-list view{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
