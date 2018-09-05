@@ -26,9 +26,6 @@ swiper{
     justify-content: space-around;
     margin-left: 40rpx;
 }
-.scroll-list view text:first-of-type{
-    color: #fff;
-}
 .scroll-list view text:last-of-type{
     color: hsla(0,0%,100%,.3);
 }

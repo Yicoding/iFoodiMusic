@@ -18,6 +18,7 @@ Page({
     })
     this.getSongList(item.id)
   },
+  // 根据歌单id获取歌曲列表
   getSongList(id) {
     wx.request({
       url: config.service.getSongList,
@@ -30,6 +31,17 @@ Page({
           songList: data.data
         })
       }
+    })
+  },
+  // 播放歌曲
+  play(e) {
+    app.globalData.playList = this.data.songList
+    app.globalData.coverImg = this.data.coverImg
+    app.globalData.playIndex = e.currentTarget.dataset.index
+    let item = e.currentTarget.dataset.type
+    let url = `../player/player?item=${JSON.stringify(item)}`
+    wx.navigateTo({
+      url: url
     })
   }
 })

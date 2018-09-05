@@ -1,0 +1,13 @@
+<view>
+  <text>{{currentPosition === 0 ? '' : currentPosition}}</text>
+  <slider
+    value="{{sliderValue}}"
+    activeColor="#ffcd32"
+    style="width: 62%; margin: 50rpx;"
+    block-size="12"
+    block-color="#fff"
+    backgroundColor="rgba(0,0,0,.3)"
+    bindchange="slideChange"
+  />
+  <text>{{duration === 0 ? '' : duration}}</text>
+</view>

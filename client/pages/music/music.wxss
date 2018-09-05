@@ -75,7 +75,6 @@
     height: 60rpx;
   }
   .text{
-    color: #fff;
     text-align: center;
   }
   .icon-list{
@@ -99,7 +98,6 @@
     width: 19%;
     text-align: center;
     line-height: 18px;
-    color: #fff;
   }
   .wx-slider-handle{
     width: 18px!important;
@@ -158,7 +156,6 @@
     left: 0;
     height: 100%;
     width: 100%;
-    color: #fff;
   }
   .list-one{
     height: 160rpx;

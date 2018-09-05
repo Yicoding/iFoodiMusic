@@ -9,7 +9,6 @@
     margin-bottom: 30rpx;
 }
 .list view:first-of-type{
-    color: #fff;
     margin-bottom: 10rpx;
 }
 .list view:last-of-type{
