@@ -16,37 +16,30 @@ Page({
     parseLyric: '',
   },
   onLoad(options) {
-    this.getLyric()
-    if (options.item) {
-      console.log(app.globalData.playList, 'playList')
-      let item = JSON.parse(options.item)
+    console.log(wx.getStorageSync('item'), 'asycn')
+    let item = wx.getStorageSync('item')
+    console.log(app.globalData.playList, 'playList')
+    if (item) {
       this.setData({
-        item: JSON.parse(options.item)
+        item: item
       })
-      console.log(item)
       wx.setNavigationBarTitle({
         title: item.name
       })
       this.init(item)
     } else {
-      console.log('不存在')
+      console.log('item不存在')
     }
   },
-  getLyric() {
-    let lyric = Base64.decode('W3RpOuWQjOagt+eahOaDheivnV0KW2FyOuWogeS7lC/ljZXkuZ3luIxdClthbDrlkIzmoLfnmoTmg4Xor51dCltieTpdCltvZmZzZXQ6MF0KWzAwOjAwLjI1XeWQjOagt+eahOaDheivnSAtIOWogeS7lC/ljZXkuZ3luIwKWzAwOjAxLjExXeivje+8muWogeS7lApbMDA6MDEuNzJd5puy77ya5aiB5LuUClswMDowMi42MF3lpbPvvJrlkIzmoLfnmoTmg4Xor50KWzAwOjA0LjY3XeS9oOWcqOiwgeiAs+i+uemHjeWkjeS6huWHoOmBjQpbMDA6MDguMTRd5L2g5Y205rKh5pyJ6IS457qi5b+D6Lez5LiN5YePClswMDoxMS41OV0KWzAwOjEyLjc3XeWOn+acrOeCmeeDreeahOW/gwpbMDA6MTQuODBd6KKr5L2g5Ya757uT54ix6LWw5ZCR5bm754GtClswMDoxOC4wMV3miJHku6znmoTlm57lv4bpg73ooqvkvaDmkpXnoo4KWzAwOjIyLjAyXQpbMDA6MjIuOTJd55S377ya54K554eD5LqG6aaZ54OfClswMDoyNS43MF3ljbTmiJLkuI3mjonmgJ3lv7UKWzAwOjI4LjAyXeWcqOi/mSDnqbrmsJTnqIDoloTnmoTmiL/pl7QKWzAwOjMzLjc2XeWcqOi/meS4gOeerOmXtApbMDA6MzUuNThd5oCd5b+156qB54S25aW95by654OIClswMDozOC4wMV3lpI/lpKkg5piv5Liq5Lyk5oSf55qE5a2j6IqCClswMDo0Mi42NV0KWzAwOjQzLjY3XeacgOWQjueahOaDheiKggpbMDA6NDUuNDdd5L2g6Lqr5peB54m155qE5piv6LCBClswMDo0Ny43NV3kvKroo4Ug6YO95Y+Y5b6X6YKj5LmI6IKk5rWFClswMDo1Mi4wN10KWzAwOjUzLjQzXeayoeS9oOeahOa1t+i+uQpbMDA6NTUuMzJd6Ziz5YWJ5qC85aSW55qE5Yi655y8ClswMDo1Ny44MV3osIHov5gg6K6w5b6X5b2T5Yid55qE6KqT6KiAClswMTowMi4wOF3lpbPvvJrlkIzmoLfnmoTmg4Xor50KWzAxOjA0LjEwXeS9oOWcqOiwgeiAs+i+uemHjeWkjeS6huWHoOmBjQpbMDE6MDcuNDRd5L2g5Y205rKh5pyJ6IS457qi5b+D6Lez5LiN5YePClswMToxMi40N13ljp/mnKzngpnng63nmoTlv4MKWzAxOjE0LjI4Xeiiq+S9oOWGu+e7k+eIsei1sOWQkeW5u+eBrQpbMDE6MTcuMzZd5oiR5Lus55qE5Zue5b+G6YO96KKr5L2g5pKV56KOClswMToyMS4xN10KWzAxOjIyLjA1XeeUt++8mueCueeHg+S6hummmeeDnwpbMDE6MjUuMTNd5Y205oiS5LiN5o6J5oCd5b+1ClswMToyNy41N13lnKjov5kg56m65rCU56iA6JaE55qE5oi/6Ze0ClswMTozMS40NF0KWzAxOjMzLjA4XeWcqOi/meS4gOeerOmXtApbMDE6MzUuMDNd5oCd5b+156qB54S25aW95by654OIClswMTozNy4zN13lpI/lpKkg5piv5Liq5Lyk5oSf55qE5a2j6IqCClswMTo0MS44MV0KWzAxOjQzLjAxXeacgOWQjueahOaDheiKggpbMDE6NDQuOTBd5L2g6Lqr5peB54m155qE5piv6LCBClswMTo0Ny4zMV3kvKroo4Ug6YO95Y+Y5b6X6YKj5LmI6IKk5rWFClswMTo1MS4xOF0KWzAxOjUyLjkzXeayoeS9oOeahOa1t+i+uQpbMDE6NTQuNzNd6Ziz5YWJ5qC85aSW55qE5Yi655y8ClswMTo1Ny4yMl3osIHov5gg6K6w5b6X5b2T5Yid55qE6KqT6KiAClswMjowMS4zNF3lpbPvvJrlkIzmoLfnmoTmg4Xor50KWzAyOjAzLjU1XeS9oOWcqOiwgeiAs+i+uemHjeWkjeS6huWHoOmBjQpbMDI6MDYuODFd5L2g5Y205rKh5pyJ6IS457qi5b+D6Lez5LiN5YePClswMjoxMS42OV3ljp/mnKzngpnng63nmoTlv4MKWzAyOjEzLjY0Xeiiq+S9oOWGu+e7k+eIsei1sOWQkeW5u+eBrQpbMDI6MTYuNzhd5oiR5Lus55qE5Zue5b+G6YO96KKr5L2g5pKV56KOClswMjoyMC43OF3lkIjvvJrlkIzmoLfnmoTmg4Xor50KWzAyOjIzLjI1XeS9oOWcqOiwgeiAs+i+uemHjeWkjeS6huWHoOmBjQpbMDI6MjYuNThd5L2g5Y205rKh5pyJ6IS457qi5b+D6Lez5LiN5YePClswMjozMS40NV3ljp/mnKzngpnng63nmoTlv4MKWzAyOjMzLjQyXeiiq+S9oOWGu+e7k+eIsei1sOWQkeW5u+eBrQpbMDI6MzYuNTZd5oiR5Lus55qE5Zue5b+G6YO96KKr5L2g5pKV56KO')
-    // console.log(lyric)
+  onUnload() {
+    wx.removeStorageSync('item')
+  },
+  getLyric(songLyric) {
+    let lyric = Base64.decode(songLyric)
     this.setData({
       parseLyric: new Lyric(lyric, this.handleLyric)
     })
-    // let parseLyric = new Lyric(lyric, this.handleLyric)
-    // parseLyric.seek(0)
     this.data.parseLyric.play()
-    // console.log(Lyric)
-    // console.log(parseLyric, 'parseLyric')
-    // setInterval(() => {
-    //   let pureMusicLyric = parseLyric.lrc.replace(timeExp, '').trim()
-    //   console.log(pureMusicLyric)
-    // },1000)
   },
   handleLyric({lineNum, txt}) {
     console.log(lineNum, txt, 'txt')
@@ -56,11 +49,16 @@ Page({
   },
   // 初始化歌曲
   init(item) {
+    this.getLyric(item.lyric)
     let bgMusic = wx.getBackgroundAudioManager()
-    if (bgMusic.title !== item.name) {
-      this.play(item)
+    this.play(item)
+    if (bgMusic.src !== item.src) {
+      console.log('not not')
     } else {
+      console.log('setTimeesetTimeesetTimee')
       this.setTimee()
+      let bgMusic = wx.getBackgroundAudioManager()
+      this.data.parseLyric.seek(parseInt(bgMusic.currentTime)*1000)
     }
   },
   setTimee() {
@@ -84,9 +82,7 @@ Page({
       title: item.name,
       coverImgUrl: app.globalData.coverImg
     })
-    this.data.timee = setInterval(() => {
-      this.setDuration()
-    }, 1000)
+    this.setTimee()
   },
   // 完成一次拖动后触发的事件
   slideChange(e) {
@@ -100,6 +96,7 @@ Page({
           wx.seekBackgroundAudio({
             position: position
           })
+          this.data.parseLyric.seek(position*1000)
           this.setData({
             sliderValue: value
           })
