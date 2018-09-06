@@ -1,5 +1,7 @@
 <view>
-  <image src="{{coverImg}}" class="cover"/>
+  <view class="cover-container">
+    <image src="{{coverImg}}" class="cover"/>
+  </view>
   <view class="container">
     <view
       wx:for="{{songList}}" 

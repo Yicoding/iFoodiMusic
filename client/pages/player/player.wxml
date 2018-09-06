@@ -10,4 +10,6 @@
     bindchange="slideChange"
   />
   <text>{{duration === 0 ? '' : duration}}</text>
+  <view>{{currentLyric}}</view>
+  <button bindtap="switch">{{playStatus ? '暂停' : '播放'}}</button>
 </view>
