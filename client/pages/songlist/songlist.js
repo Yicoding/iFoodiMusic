@@ -39,7 +39,6 @@ Page({
     app.globalData.coverImg = this.data.coverImg
     app.globalData.playIndex = e.currentTarget.dataset.index
     let item = e.currentTarget.dataset.type
-    wx.setStorageSync('item', item)
     let url = '../player/player'
     wx.navigateTo({
       url: url

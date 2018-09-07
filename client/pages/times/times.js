@@ -28,6 +28,7 @@ Page({
   },
   gotoSongList(e) {
     let item = e.currentTarget.dataset.type
+    app.globalData.album = item
     wx.navigateTo({
       url: '../songlist/songlist?item=' + JSON.stringify(item)
     })

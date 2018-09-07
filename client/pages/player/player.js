@@ -1,9 +1,8 @@
 //index.js
 //获取应用实例
 const app = getApp();
-var Base64 = require('../../utils/base64.js').Base64;
-var Lyric = require('../../utils/lyric-parse.js').default;
-const timeExp = /\[(\d{2}):(\d{2}):(\d{2})]/g
+var Base64 = require('../../utils/base64.js').Base64
+var Lyric = require('../../utils/lyric-parse.js').default
 Page({
   data: {
     item: {}, // 歌曲信息
@@ -14,11 +13,16 @@ Page({
     timee: 0, // 定时器 根据歌曲进度改变slider进度
     currentLyric: '', // 当前歌词
     parseLyric: '',
+    mode: 'multiple', // 循环模式
+    coverImg: '',
   },
   onLoad(options) {
-    console.log(wx.getStorageSync('item'), 'asycn')
-    let item = wx.getStorageSync('item')
-    console.log(app.globalData.playList, 'playList')
+    console.log(app.globalData.mode, 'app.globalData.modeapp.globalData.modeapp.globalData.mode')
+    this.setData({
+      mode: app.globalData.mode,
+      coverImg: app.globalData.album.poster
+    })
+    let item = app.globalData.playList[app.globalData.playIndex]
     if (item) {
       this.setData({
         item: item
@@ -32,7 +36,6 @@ Page({
     }
   },
   onUnload() {
-    wx.removeStorageSync('item')
   },
   getLyric(songLyric) {
     let lyric = Base64.decode(songLyric)
@@ -49,16 +52,26 @@ Page({
   },
   // 初始化歌曲
   init(item) {
-    this.getLyric(item.lyric)
     let bgMusic = wx.getBackgroundAudioManager()
-    this.play(item)
     if (bgMusic.src !== item.src) {
-      console.log('not not')
+      this.getLyric(item.lyric)
+      this.play(item)
     } else {
-      console.log('setTimeesetTimeesetTimee')
       this.setTimee()
-      let bgMusic = wx.getBackgroundAudioManager()
-      this.data.parseLyric.seek(parseInt(bgMusic.currentTime)*1000)
+      wx.getBackgroundAudioPlayerState({
+        success: (res) => {
+          let { currentPosition, status } = res
+          let lyric = Base64.decode(item.lyric)
+          this.setData({
+            parseLyric: new Lyric(lyric, this.handleLyric)
+          })
+          console.log(currentPosition)
+          this.data.parseLyric.seek((currentPosition+0.5)*1000)
+          if (status == 0) {
+            this.data.parseLyric.togglePlay()
+          }
+        }
+      })
     }
   },
   setTimee() {
@@ -114,32 +127,88 @@ Page({
         })
         if (status === 1 || status === 0) { // 1：播放中，0：暂停中
           let { duration, currentPosition } = res
-          // console.log(duration,currentPosition)
           this.setData({
             currentPosition: this.stotime(currentPosition),
             duration: this.stotime(duration),
             sliderValue: Math.floor(currentPosition * 100 / duration),
           })
         } else {
-          clearInterval(this.data.timee)
-          console.log('over')
-          console.log(app.globalData.playIndex,  app.globalData.playList.length)
-          if (app.globalData.playIndex < app.globalData.playList.length - 1) {
-            app.globalData.playIndex ++
+          if (this.data.mode == 'multiple') {
+            this.cutNext()
           } else {
-            app.globalData.playIndex = 0
-          }
-          let pages = getCurrentPages()
-          let currentPage = pages[pages.length - 1].route
-          if (currentPage == 'pages/player/player') {
-            wx.setNavigationBarTitle({
-              title: app.globalData.playList[app.globalData.playIndex].name
+            this.play(app.globalData.playList[app.globalData.playIndex])
+            let lyric = Base64.decode(app.globalData.playList[app.globalData.playIndex].lyric)
+            this.setData({
+              parseLyric: new Lyric(lyric, this.handleLyric)
+            })
+            wx.getBackgroundAudioPlayerState({
+              success: (res) => {
+                this.data.parseLyric.play()
+              }
             })
           }
-          this.play(app.globalData.playList[app.globalData.playIndex])
         }
       }
     })
+  },
+  cutPrev() {
+    this.delSongChange('prev')
+  },
+  cutNext() {
+    this.delSongChange('next')
+  },
+  delSongChange(type) {
+    if (this.data.duration !== 0) {
+      clearInterval(this.data.timee)
+      this.data.parseLyric.stop()
+      if (type == 'prev') {
+        if (app.globalData.playIndex > 0) {
+          app.globalData.playIndex --
+        } else {
+          app.globalData.playIndex = app.globalData.playList.length - 1
+        }
+      } else {
+        if (app.globalData.playIndex < app.globalData.playList.length - 1) {
+          app.globalData.playIndex ++
+        } else {
+          app.globalData.playIndex = 0
+        }
+      }
+      this.setData({
+        item: app.globalData.playList[app.globalData.playIndex]
+      })
+      this.play(app.globalData.playList[app.globalData.playIndex])
+      let lyric = Base64.decode(app.globalData.playList[app.globalData.playIndex].lyric)
+      this.setData({
+        parseLyric: new Lyric(lyric, this.handleLyric)
+      })
+      wx.getBackgroundAudioPlayerState({
+        success: (res) => {
+          this.data.parseLyric.play()
+        }
+      })
+      let pages = getCurrentPages()
+      let currentPage = pages[pages.length - 1].route
+      if (currentPage == 'pages/player/player') {
+        wx.setNavigationBarTitle({
+          title: app.globalData.playList[app.globalData.playIndex].name
+        })
+      }
+    }
+  },
+  // 改变循环模式
+  changeMode() {
+    if (this.data.mode == 'multiple') {
+      this.setData({
+        mode: 'single'
+      })
+      app.globalData.mode = 'single'
+    } else {
+      this.setData({
+        mode: 'multiple'
+      })
+      app.globalData.mode = 'multiple'
+    }
   },
   // 时间格式转换
   stotime(s) {

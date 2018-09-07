@@ -36,6 +36,7 @@ App({
   globalData: {
     userInfo: null,
     playList: [],
-    coverImg: ''
+    coverImg: '',
+    mode: 'multiple'
   }
 })
