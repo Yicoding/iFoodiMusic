@@ -27,6 +27,7 @@ Page({
       },
       success:({ data }) => {
         console.log(data)
+        app.globalData.playList = data.data
         this.setData({
           songList: data.data
         })
@@ -35,10 +36,9 @@ Page({
   },
   // 播放歌曲
   play(e) {
-    app.globalData.playList = this.data.songList
     app.globalData.coverImg = this.data.coverImg
     app.globalData.playIndex = e.currentTarget.dataset.index
-    let item = e.currentTarget.dataset.type
+    console.log(app.globalData.playIndex, 'app.globalData.playIndex')
     let url = '../player/player'
     wx.navigateTo({
       url: url

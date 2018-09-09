@@ -34,9 +34,11 @@ App({
     })
   },
   globalData: {
-    userInfo: null,
-    playList: [],
-    coverImg: '',
-    mode: 'multiple'
+    userInfo: null, // 用户信息
+    playList: [], // 播放列表
+    playIndex: 0, // 当前播放歌曲index
+    album: {}, // 当前专辑信息
+    mode: 'multiple', // 循环模式 multiple: 循环播放, single: 单曲循环
+    imgRotate: 0, // 封面旋转角度
   }
 })

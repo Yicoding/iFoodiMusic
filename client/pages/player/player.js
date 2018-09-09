@@ -3,6 +3,7 @@
 const app = getApp();
 var Base64 = require('../../utils/base64.js').Base64
 var Lyric = require('../../utils/lyric-parse.js').default
+var stop = null
 Page({
   data: {
     item: {}, // 歌曲信息
@@ -15,6 +16,7 @@ Page({
     parseLyric: '',
     mode: 'multiple', // 循环模式
     coverImg: '',
+    imgRotate: 0,
   },
   onLoad(options) {
     console.log(app.globalData.mode, 'app.globalData.modeapp.globalData.modeapp.globalData.mode')
@@ -27,15 +29,14 @@ Page({
       this.setData({
         item: item
       })
-      wx.setNavigationBarTitle({
-        title: item.name
-      })
+      console.log(item)
       this.init(item)
     } else {
       console.log('item不存在')
     }
   },
   onUnload() {
+    stop && cancelAnimationFrame(stop)
   },
   getLyric(songLyric) {
     let lyric = Base64.decode(songLyric)
@@ -50,16 +51,29 @@ Page({
       currentLyric: txt
     })
   },
+  playRotate() {
+    app.globalData.imgRotate  = app.globalData.imgRotate + 0.3
+    this.setData({
+      imgRotate: app.globalData.imgRotate
+    })
+    stop = requestAnimationFrame(this.playRotate)
+  },
   // 初始化歌曲
   init(item) {
+    wx.setNavigationBarTitle({
+      title: item.name
+    })
     let bgMusic = wx.getBackgroundAudioManager()
     if (bgMusic.src !== item.src) {
+      console.log(item.name)
       this.getLyric(item.lyric)
       this.play(item)
+      app.globalData.imgRotate = 0
+      stop = requestAnimationFrame(this.playRotate)
     } else {
-      this.setTimee()
       wx.getBackgroundAudioPlayerState({
         success: (res) => {
+          this.setTimee()
           let { currentPosition, status } = res
           let lyric = Base64.decode(item.lyric)
           this.setData({
@@ -69,6 +83,11 @@ Page({
           this.data.parseLyric.seek((currentPosition+0.5)*1000)
           if (status == 0) {
             this.data.parseLyric.togglePlay()
+            this.setData({
+              imgRotate: app.globalData.imgRotate
+            })
+          } else {
+            this.playRotate()
           }
         }
       })
@@ -82,9 +101,17 @@ Page({
   // 播放/暂停
   switch() {
     this.data.parseLyric.togglePlay()
+    stop && cancelAnimationFrame(stop)
     if (this.data.playStatus) {
       wx.pauseBackgroundAudio()
+      this.setData({
+        playStatus: false
+      })
     } else {
+      stop = requestAnimationFrame(this.playRotate)
+      this.setData({
+        playStatus: true
+      })
       this.play(this.data.item)
     }
   },
@@ -133,33 +160,31 @@ Page({
             sliderValue: Math.floor(currentPosition * 100 / duration),
           })
         } else {
-          if (this.data.mode == 'multiple') {
-            this.cutNext()
+          console.log('结束')
+          if (app.globalData.mode == 'multiple') {
+            console.log('循环')
+            this.cutNext(1)
           } else {
             this.play(app.globalData.playList[app.globalData.playIndex])
-            let lyric = Base64.decode(app.globalData.playList[app.globalData.playIndex].lyric)
-            this.setData({
-              parseLyric: new Lyric(lyric, this.handleLyric)
-            })
-            wx.getBackgroundAudioPlayerState({
-              success: (res) => {
-                this.data.parseLyric.play()
-              }
-            })
+            this.data.parseLyric.play()
           }
         }
       }
     })
   },
   cutPrev() {
+    clearInterval(this.data.timee)
     this.delSongChange('prev')
+    stop && cancelAnimationFrame(stop)
   },
-  cutNext() {
+  cutNext(flag=0) {
+    clearInterval(this.data.timee)
     this.delSongChange('next')
+    flag == 0 && stop && cancelAnimationFrame(stop)
   },
   delSongChange(type) {
+    console.log('切换')
     if (this.data.duration !== 0) {
-      clearInterval(this.data.timee)
       this.data.parseLyric.stop()
       if (type == 'prev') {
         if (app.globalData.playIndex > 0) {
@@ -187,9 +212,7 @@ Page({
           this.data.parseLyric.play()
         }
       })
-      let pages = getCurrentPages()
-      let currentPage = pages[pages.length - 1].route
-      if (currentPage == 'pages/player/player') {
+      if (this.route == 'pages/player/player') {
         wx.setNavigationBarTitle({
           title: app.globalData.playList[app.globalData.playIndex].name
         })

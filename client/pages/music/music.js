@@ -164,10 +164,10 @@ Page({
             sliderValue: Math.floor(currentPosition * 100 / duration),
           })
         }
-        // // 自动播放下一首
-        // if (status === 2 && that.data.sliderValue == 100) {
-        //   that.bindTapNext()
-        // }
+        // 自动播放下一首
+        if (status === 2 || that.data.sliderValue == 100) {
+          that.bindTapNext()
+        }
       }
     })
   },
