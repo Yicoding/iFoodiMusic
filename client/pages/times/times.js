@@ -28,9 +28,9 @@ Page({
   },
   gotoSongList(e) {
     let item = e.currentTarget.dataset.type
-    app.globalData.album = item
+    app.globalData.album = item // 将专辑信息存入globalData
     wx.navigateTo({
-      url: '../songlist/songlist?item=' + JSON.stringify(item)
+      url: '../songlist/songlist'
     })
   }
 })

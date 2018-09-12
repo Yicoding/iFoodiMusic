@@ -6,22 +6,188 @@ var Lyric = require('../../utils/lyric-parse.js').default
 var stop = null
 Page({
   data: {
-    item: {}, // 歌曲信息
-    sliderValue: 0, // 滑块的值
-    playStatus: 0, // 播放状态
+    item: {}, // 当前歌曲信息
+    parseLyric: '', // 歌曲解析后的歌词
+    lineLyric: '', // 当前播放进度点的歌词
+    mode: '', // 播放模式
+    imgRotate: 0, // 封面旋转的角度
+    sliderValue: 0, // 进度条的值
     duration: 0, // 音频的长度（单位：s）
     currentPosition: 0, // 音频的播放位置（单位：s）
+    playStatus: 0, // 播放状态
     timee: 0, // 定时器 根据歌曲进度改变slider进度
-    parseLyric: '', // 解析的歌词
-    mode: 'multiple', // 循环模式
-    coverImg: '',
-    imgRotate: 0,
+    coverImg: '', // 封面图片
   },
-  onLoad(options) {
-    
+  onLoad() {
+    let item = app.globalData.playList[app.globalData.playIndex]
+    let album = app.globalData.album
+    // 获取背景音频信息
+    const backgroundAudioManager = wx.getBackgroundAudioManager()
+    console.log(backgroundAudioManager, 'backgroundAudioManager')
+    if (backgroundAudioManager.src == item.src) { // 继续听歌
+      console.log('继续听歌')
+    } else { // 播放新歌
+      app.globalData.imgRotate = 0
+      console.log('播放新歌')
+      backgroundAudioManager.title = item.name
+      backgroundAudioManager.epname = album.name
+      backgroundAudioManager.singer = item.author
+      backgroundAudioManager.coverImgUrl = album.poster
+      // 设置了 src 之后会自动播放
+      backgroundAudioManager.src = item.src
+    }
+    let lyric = Base64.decode(item.lyric)
+    this.setData({
+      item: item,
+      coverImg: album.poster,
+      playStatus: !backgroundAudioManager.paused,
+      // duration: this.stotime(backgroundAudioManager.duration),
+      parseLyric: new Lyric(lyric, this.handleLyric),
+      mode: app.globalData.mode,
+      imgRotate: app.globalData.imgRotate
+    })
+    this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000)
+    console.log(this.data.playStatus, 'playStatus')
+    if (backgroundAudioManager.paused) {
+      this.data.parseLyric.togglePlay()
+    }
+    backgroundAudioManager.onPlay(this.onPlay) // 监听背景音频播放事件
+    backgroundAudioManager.onPause(this.onPause) // 监听背景音频暂停事件
+    backgroundAudioManager.onTimeUpdate(this.onTimeUpdate) // 监听背景音频播放进度更新事件
+    backgroundAudioManager.onEnded(this.onEnded) // 监听背景音频自然播放结束事件
+    wx.setNavigationBarTitle({
+      title: item.name
+    })
   },
-  onUnload() {
-    
+  handleLyric({lineNum, txt}) { // 歌词回调
+    console.log(lineNum, txt, 'txt')
+    this.setData({
+      lineLyric: txt
+    })
+  },
+  onPlay() {
+    const backgroundAudioManager = wx.getBackgroundAudioManager()
+    console.log('onPlay')
+    console.log(backgroundAudioManager.duration, 'backgroundAudioManager.duration')
+    this.setData({
+      playStatus: true
+    })
+    this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000)
+    this.toRotate()
+  },
+  onPause() {
+    clearInterval(this.data.timee)
+    this.data.parseLyric.stop()
+    console.log('onPause')
+    this.setData({
+      playStatus: false
+    })
+  },
+  switch() { // 切换歌曲播放状态
+    if (this.data.playStatus) { // 切换为暂停状态
+      const backgroundAudioManager = wx.getBackgroundAudioManager()
+      backgroundAudioManager.pause()
+    } else { // 切换为播放状态
+      const backgroundAudioManager = wx.getBackgroundAudioManager()
+      backgroundAudioManager.play()
+    }
+  },
+  onTimeUpdate() {
+    const backgroundAudioManager = wx.getBackgroundAudioManager()
+    let sliderValue = backgroundAudioManager.currentTime / backgroundAudioManager.duration * 100
+    this.setData({
+      currentPosition: this.stotime(backgroundAudioManager.currentTime),
+      sliderValue: sliderValue,
+      duration: this.stotime(backgroundAudioManager.duration)
+    })
+    // this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000)
+  },
+  toRotate() {
+    this.data.timee && clearInterval(this.data.timee)
+    this.data.timee = setInterval(() => {
+      app.globalData.imgRotate  = app.globalData.imgRotate + .3
+      this.setData({
+        imgRotate: app.globalData.imgRotate
+      })
+    })
+  },
+  onEnded() {
+    console.log('onEnded')
+    this.setData({
+      playStatus: false,
+      duration: 0
+    })
+    this.cutNext()
+  },
+  slideChange(e) { // 拖动滑块
+    let value = e.detail.value
+    this.setData({
+      sliderValue: value
+    })
+    const backgroundAudioManager = wx.getBackgroundAudioManager()
+    let currentTime = (value / 100) * backgroundAudioManager.duration
+    backgroundAudioManager.seek(currentTime)
+    this.data.parseLyric.seek(currentTime*1000)
+  },
+  cutPrev() { // 上一首
+    this.delSongChange('prev')
+  },
+  cutNext() { // 下一首
+    this.delSongChange('next')
+  },
+  delSongChange(type) { // 切换歌曲
+    if (this.data.duration !== 0) {
+      clearInterval(this.data.timee)
+      this.data.duration = 0
+      this.data.parseLyric.stop()
+      if (type == 'prev') {
+        if (app.globalData.playIndex > 0) {
+          app.globalData.playIndex --
+        } else {
+          app.globalData.playIndex = app.globalData.playList.length - 1
+        }
+      } else {
+        if (app.globalData.playIndex < app.globalData.playList.length - 1) {
+          app.globalData.playIndex ++
+        } else {
+          app.globalData.playIndex = 0
+        }
+      }
+      let item = app.globalData.playList[app.globalData.playIndex]
+      wx.setNavigationBarTitle({
+        title: item.name
+      })
+      const backgroundAudioManager = wx.getBackgroundAudioManager()
+      backgroundAudioManager.title = item.name
+      backgroundAudioManager.singer = item.author
+      // 设置了 src 之后会自动播放
+      backgroundAudioManager.src = item.src
+      let lyric = Base64.decode(item.lyric)
+      this.setData({
+        item: item,
+        playStatus: !backgroundAudioManager.paused,
+        parseLyric: new Lyric(lyric, this.handleLyric)
+      })
+      this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000)
+      console.log(this.data.playStatus, 'playStatus')
+      if (backgroundAudioManager.paused) {
+        this.data.parseLyric.togglePlay()
+      }
+    }
+  },
+  // 改变播放模式
+  changeMode() {
+    if (this.data.mode == 'multiple') {
+      this.setData({
+        mode: 'single'
+      })
+      app.globalData.mode = 'single'
+    } else {
+      this.setData({
+        mode: 'multiple'
+      })
+      app.globalData.mode = 'multiple'
+    }
   },
   // 时间格式转换
   stotime(s) {
@@ -35,5 +201,13 @@ Page({
       t += sec
     }
     return t
+  },
+  onUnload() { // 页面卸载
+    const backgroundAudioManager = wx.getBackgroundAudioManager()
+    backgroundAudioManager.onTimeUpdate()
+    backgroundAudioManager.onPlay()
+    backgroundAudioManager.onPause()
+    this.data.parseLyric.stop()
+    clearInterval(this.data.timee)
   },
 })

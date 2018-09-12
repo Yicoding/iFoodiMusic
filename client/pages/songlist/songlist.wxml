@@ -1,6 +1,6 @@
 <view>
   <view class="cover-container">
-    <image src="{{coverImg}}" class="cover"/>
+    <image src="{{album.poster}}" class="cover"/>
   </view>
   <view class="container">
     <view

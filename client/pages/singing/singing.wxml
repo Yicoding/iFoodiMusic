@@ -23,5 +23,5 @@
     <text bindtap="cutNext" class="next icon-next {{duration === 0 ? 'dis-color' : 'false'}}"></text>
     <text class="next icon-not-favorite"></text>
   </view>
-  <view class="lyric">{{currentLyric}}</view>
+  <view class="lyric">{{lineLyric}}</view>
 </view>

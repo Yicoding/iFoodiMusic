@@ -5,16 +5,16 @@ const app = getApp()
 
 Page({
   data: {
-    coverImg: '',
+    album: {},
     songList: [],
   },
-  onLoad(options) {
-    let item = JSON.parse(options.item)
+  onLoad() {
+    let item = app.globalData.album
+    this.setData({
+      album: item
+    })
     wx.setNavigationBarTitle({
       title: item.name
-    })
-    this.setData({
-      coverImg: item.poster
     })
     this.getSongList(item.id)
   },
@@ -27,7 +27,6 @@ Page({
       },
       success:({ data }) => {
         console.log(data)
-        app.globalData.playList = data.data
         this.setData({
           songList: data.data
         })
@@ -36,10 +35,10 @@ Page({
   },
   // 播放歌曲
   play(e) {
-    app.globalData.coverImg = this.data.coverImg
-    app.globalData.playIndex = e.currentTarget.dataset.index
-    console.log(app.globalData.playIndex, 'app.globalData.playIndex')
-    let url = '../player/player'
+    app.globalData.playList = this.data.songList
+    let index = e.currentTarget.dataset.index
+    app.globalData.playIndex = index
+    let url = '../singing/singing'
     wx.navigateTo({
       url: url
     })
