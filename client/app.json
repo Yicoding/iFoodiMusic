@@ -1,12 +1,11 @@
 {
   "pages":[
+    "pages/index/index",
     "pages/music/music",
     "pages/times/times",
-    "pages/index/index",
     "pages/wall/wall",
     "pages/songlist/songlist",
-    "pages/player/player",
-    "pages/singing/singing"
+    "pages/player/player"
   ],
   "window":{
     "backgroundTextStyle": "light",

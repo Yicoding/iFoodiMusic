@@ -38,7 +38,7 @@ Page({
     app.globalData.playList = this.data.songList
     let index = e.currentTarget.dataset.index
     app.globalData.playIndex = index
-    let url = '../singing/singing'
+    let url = '../player/player'
     wx.navigateTo({
       url: url
     })

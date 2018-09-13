@@ -6,22 +6,24 @@ page{
     height: 100%;
 }
 .cover-img{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 255rpx;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cover-img image{
     width: 600rpx;
     height: 600rpx;
     overflow: hidden;
     border: 20rpx solid #ccebef;
-    border-radius: 50%;
-    position: fixed;
-    top: 100rpx;
-    left: 50%;
-    margin-left: -300rpx;
-}
-.cover-img image{
-    width: 100%;
-    height: 100%;
+    border-radius: 600rpx;
 }
 .slider-container{
-    position: fixed;
+    position: absolute;
     bottom: 150rpx;
     width: 100%;
     display: flex;
@@ -32,7 +34,7 @@ page{
     text-align: center;
 }
 .control{
-    position: fixed;
+    position: absolute;
     bottom: 0;
     width: 90%;
     left: 5%;
@@ -62,7 +64,7 @@ page{
 }
 
 .lyric{
-    position: fixed;
+    position: absolute;
     bottom: 230rpx;
     width: 100%;
     text-align: center;

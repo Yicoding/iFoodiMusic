@@ -23,6 +23,9 @@ Page({
         this.setData({
           albumList: data.data
         })
+      },
+      fail: (err) => {
+        console.log(err, 'failed request')
       }
     })
   },
