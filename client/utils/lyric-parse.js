@@ -15,7 +15,7 @@ const tagRegMap = {
 function noop() {
 }
 
-export default class Lyric {
+class Lyric {
   constructor(lrc, hanlder = noop) {
     this.lrc = lrc
     this.tags = {}
@@ -132,3 +132,4 @@ export default class Lyric {
     this.play(offset)
   }
 }
+module.exports = Lyric

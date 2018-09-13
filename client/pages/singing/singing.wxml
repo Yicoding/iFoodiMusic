@@ -1,6 +1,6 @@
 <view class="container">
-  <view class="cover-img" style="transform: rotate({{imgRotate}}deg)">
-    <image src="{{coverImg}}" />
+  <view class="cover-img">
+    <image style="transform: rotate({{imgRotate}}deg)" src="{{coverImg}}" />
   </view>
   <view class="slider-container">
     <text class="current">{{currentPosition === 0 ? '' : currentPosition}}</text>
@@ -18,9 +18,9 @@
   </view>
   <view class="control">
     <text bindtap="changeMode" class="prev {{mode == 'multiple' ? 'icon-sequence' : 'icon-loop'}}"></text>
-    <text bindtap="cutPrev" class="prev icon-prev {{duration === 0 ? 'dis-color' : 'false'}}"></text>
-    <text bindtap="switch" class="play {{playStatus ? 'icon-pause' : 'icon-play'}} {{duration === 0 ? 'dis-color' : 'false'}}"></text>
-    <text bindtap="cutNext" class="next icon-next {{duration === 0 ? 'dis-color' : 'false'}}"></text>
+    <text bindtap="cutPrev" class="prev icon-prev {{(duration === 0 || isDel) ? 'dis-color' : ''}}"></text>
+    <text bindtap="switch" class="play {{playStatus ? 'icon-pause' : 'icon-play'}} {{duration === 0 ? 'dis-color' : ''}}"></text>
+    <text bindtap="cutNext" class="next icon-next {{(duration === 0 || isDel) ? 'dis-color' : ''}}"></text>
     <text class="next icon-not-favorite"></text>
   </view>
   <view class="lyric">{{lineLyric}}</view>

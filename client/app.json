@@ -1,8 +1,8 @@
 {
   "pages":[
+    "pages/music/music",
     "pages/times/times",
     "pages/index/index",
-    "pages/music/music",
     "pages/wall/wall",
     "pages/songlist/songlist",
     "pages/player/player",
@@ -43,7 +43,7 @@
       }
     ],
     "color": "#c2c4d0",
-    "selectedColor": "#ffcd32",
+    "selectedColor": "#3483e9",
     "backgroundColor": "#252934"
   }
 }

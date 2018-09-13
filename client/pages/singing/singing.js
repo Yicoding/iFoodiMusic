@@ -2,8 +2,7 @@
 //获取应用实例
 const app = getApp();
 var Base64 = require('../../utils/base64.js').Base64
-var Lyric = require('../../utils/lyric-parse.js').default
-var stop = null
+var Lyric = require('../../utils/lyric-parse.js')
 Page({
   data: {
     item: {}, // 当前歌曲信息
@@ -17,6 +16,7 @@ Page({
     playStatus: 0, // 播放状态
     timee: 0, // 定时器 根据歌曲进度改变slider进度
     coverImg: '', // 封面图片
+    isDel: false, // 当前列表是否只有一首歌曲
   },
   onLoad() {
     let item = app.globalData.playList[app.globalData.playIndex]
@@ -41,7 +41,8 @@ Page({
       item: item,
       coverImg: album.poster,
       playStatus: !backgroundAudioManager.paused,
-      // duration: this.stotime(backgroundAudioManager.duration),
+      duration: this.stotime(backgroundAudioManager.duration),
+      currentPosition: this.stotime(backgroundAudioManager.currentTime),
       parseLyric: new Lyric(lyric, this.handleLyric),
       mode: app.globalData.mode,
       imgRotate: app.globalData.imgRotate
@@ -50,6 +51,8 @@ Page({
     console.log(this.data.playStatus, 'playStatus')
     if (backgroundAudioManager.paused) {
       this.data.parseLyric.togglePlay()
+    } else if (!this.data.timee) {
+      this.toRotate()
     }
     backgroundAudioManager.onPlay(this.onPlay) // 监听背景音频播放事件
     backgroundAudioManager.onPause(this.onPause) // 监听背景音频暂停事件
@@ -58,6 +61,12 @@ Page({
     wx.setNavigationBarTitle({
       title: item.name
     })
+    console.log(app.globalData.playList.length, 'app.globalData.playList.length')
+    if (app.globalData.playList.length == 1) {
+      this.setData({
+        isDel: true
+      })
+    }
   },
   handleLyric({lineNum, txt}) { // 歌词回调
     console.log(lineNum, txt, 'txt')
@@ -105,19 +114,24 @@ Page({
   toRotate() {
     this.data.timee && clearInterval(this.data.timee)
     this.data.timee = setInterval(() => {
-      app.globalData.imgRotate  = app.globalData.imgRotate + .3
+      app.globalData.imgRotate  = app.globalData.imgRotate + 0.8
       this.setData({
         imgRotate: app.globalData.imgRotate
       })
-    })
+    }, 35)
   },
   onEnded() {
     console.log('onEnded')
     this.setData({
-      playStatus: false,
-      duration: 0
+      playStatus: false
     })
-    this.cutNext()
+    if (this.data.mode == 'multiple') {
+      this.cutNext()
+    } else {
+      const backgroundAudioManager = wx.getBackgroundAudioManager()
+      // 设置了 src 之后会自动播放
+      backgroundAudioManager.src = this.data.item.src
+    }
   },
   slideChange(e) { // 拖动滑块
     let value = e.detail.value
@@ -136,8 +150,10 @@ Page({
     this.delSongChange('next')
   },
   delSongChange(type) { // 切换歌曲
-    if (this.data.duration !== 0) {
-      clearInterval(this.data.timee)
+    if (this.data.duration !== 0 && !this.data.isDel) {
+      if (app.globalData.playList.length > 1) {
+        clearInterval(this.data.timee)
+      }
       this.data.duration = 0
       this.data.parseLyric.stop()
       if (type == 'prev') {
@@ -181,13 +197,12 @@ Page({
       this.setData({
         mode: 'single'
       })
-      app.globalData.mode = 'single'
     } else {
       this.setData({
         mode: 'multiple'
       })
-      app.globalData.mode = 'multiple'
     }
+    app.globalData.mode = this.data.mode
   },
   // 时间格式转换
   stotime(s) {
