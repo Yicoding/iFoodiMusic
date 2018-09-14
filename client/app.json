@@ -5,7 +5,8 @@
     "pages/times/times",
     "pages/wall/wall",
     "pages/songlist/songlist",
-    "pages/player/player"
+    "pages/player/player",
+    "pages/present/present"
   ],
   "window":{
     "backgroundTextStyle": "light",

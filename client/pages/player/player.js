@@ -68,6 +68,15 @@ Page({
       })
     }
   },
+  onShow() {
+    const backgroundAudioManager = wx.getBackgroundAudioManager()
+    if (!backgroundAudioManager.paused) {
+      this.toRotate()
+    }
+  },
+  onHide() {
+    clearInterval(this.data.timee)
+  },
   handleLyric({lineNum, txt}) { // 歌词回调
     console.log(lineNum, txt, 'txt')
     this.setData({
