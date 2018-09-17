@@ -47,7 +47,7 @@ Page({
       mode: app.globalData.mode,
       imgRotate: app.globalData.imgRotate
     })
-    this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000)
+    this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000 + this.data.item.bias)
     console.log(this.data.playStatus, 'playStatus')
     if (backgroundAudioManager.paused) {
       this.data.parseLyric.togglePlay()
@@ -90,7 +90,7 @@ Page({
     this.setData({
       playStatus: true
     })
-    this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000)
+    this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000 + this.data.item.bias)
     this.toRotate()
   },
   onPause() {
@@ -150,7 +150,7 @@ Page({
     const backgroundAudioManager = wx.getBackgroundAudioManager()
     let currentTime = (value / 100) * backgroundAudioManager.duration
     backgroundAudioManager.seek(currentTime)
-    this.data.parseLyric.seek(currentTime*1000)
+    this.data.parseLyric.seek(currentTime*1000 + this.data.item.bias)
   },
   cutPrev() { // 上一首
     this.delSongChange('prev')
@@ -193,7 +193,7 @@ Page({
         playStatus: !backgroundAudioManager.paused,
         parseLyric: new Lyric(lyric, this.handleLyric)
       })
-      this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000)
+      this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000 + this.data.item.bias)
       console.log(this.data.playStatus, 'playStatus')
       if (backgroundAudioManager.paused) {
         this.data.parseLyric.togglePlay()

@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "艾音乐"
+  "navigationBarTitleText": "艾音乐",
+  "usingComponents": {
+    "navigator": "/components/navigator/navigator"
+  }
 }

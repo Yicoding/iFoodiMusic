@@ -1,0 +1,25 @@
+.navigator{
+    position: fixed;
+    bottom: 190rpx;
+    right: 30rpx;
+}
+.bg{
+    height: 70rpx;
+    background: #aaa;
+    border-radius: 70rpx;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.container{
+    width: 70rpx;
+    height: 70rpx;
+}
+.song{
+    margin: 0 15rpx 0 20rpx;
+}
+image{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}

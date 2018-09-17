@@ -28,4 +28,5 @@
       <text>{{item.info}}</text>
     </view>
   </view>
+  <navigator />
 </view>

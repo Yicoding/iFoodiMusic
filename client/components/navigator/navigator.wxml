@@ -1,0 +1,8 @@
+<view class="navigator">
+  <view class="bg">
+    <text class="song" hidden="{{!isExpend}}">{{name}}</text>
+    <view class="container">
+      <image bindtap="switch" src="../../images/avatar.png"/>
+    </view>
+  </view>
+</view>
