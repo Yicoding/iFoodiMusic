@@ -35,7 +35,7 @@ const CONF = {
         fileBucket: 'qcloudtest',
         // fileBucket: 'lg-km606yvg',
         // 文件夹
-        uploadFolder: ''
+        uploadFolder: 'present'
     },
 
     // 微信登录态有效期

@@ -133,3 +133,12 @@ textarea{
 .emoji-list:nth-child(7n){
     padding: 18rpx 25rpx 0 32rpx;
 }
+.content{
+    padding: 10rpx;
+    color: #282828;
+}
+.emoji{
+    width: 40rpx;
+    height: 40rpx;
+    margin: 0 5rpx;
+}

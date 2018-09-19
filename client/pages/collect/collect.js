@@ -6,7 +6,7 @@ var playIcon = '../../images/icon/play.png'
 var pauseIcon = '../../images/icon/pause.png'
 Page({
   data: {
-    poster: '',
+    poster: '../../images/avatar.png',
     songList: [],
     songInfo: {},
     showNavigator: false,
@@ -140,8 +140,8 @@ Page({
   // 取随机整数
   getRandom() {
     var min = 0,
-    max = app.globalData.playList.length
-    var num = parseInt(Math.random() * (max - min + 1) + min, 10)
+    max = app.globalData.playList.length - 1
+    var num = parseInt(Math.random() * (max - min + 1) + min)
     return num
   },
   // 随机播放
@@ -155,6 +155,7 @@ Page({
       }
       app.globalData.playList = this.data.songList
       let index = this.getRandom()
+      console.log(index, '随机数')
       app.globalData.playIndex = index
       let url = '../player/player'
       wx.navigateTo({
@@ -162,7 +163,7 @@ Page({
       })
     } else {
       wx.showModal({
-        title: '提示',
+        title: '温馨提示',
         content: '还没有收藏过歌曲呦，快去收藏一波吧O(∩_∩)O~~',
         showCancel: false
       })

@@ -18,7 +18,8 @@ Page({
     ],
     songInfo: {},
     showNavigator: false,
-    stateIcon: playIcon
+    stateIcon: playIcon,
+    poster: '../../images/avatar.png',
   },
   onLoad: function () {
     wx.request({
@@ -33,6 +34,30 @@ Page({
         console.log(err, 'failed request')
       }
     })
+    if (app.globalData.userInfo) {
+      this.setData({
+        poster: app.globalData.userInfo.avatarUrl
+      })
+    } else if (this.data.canIUse){
+      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+      // 所以此处加入 callback 以防止这种情况
+      app.userInfoReadyCallback = res => {
+        console.log(res.userInfo, 'app.userInfoReadyCallback')
+        this.setData({
+          poster: res.userInfo.avatarUrl
+        })
+      }
+    } else {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          this.setData({
+            poster: res.userInfo.avatarUrl
+          })
+        }
+      })
+    }
   },
   onShow() {
     console.log('onShow')
@@ -101,5 +126,11 @@ Page({
       showNavigator: false
     })
     app.globalData.playList = []
+  },
+  // 跳转到我的收藏列表
+  goCollectList() {
+    wx.navigateTo({
+      url: '../collect/collect'
+    })
   }
 })

@@ -36,3 +36,6 @@
 .list view:last-of-type{
     color: hsla(0,0%,100%,.3);
 }
+.empty{
+    text-align: center;
+}

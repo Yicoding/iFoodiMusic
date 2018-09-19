@@ -1,9 +1,9 @@
 <view>
   <view class="header">
-    <image class="avatar" src="{{poster}}"/>
+    <image class="avatar" src="{{poster}}" />
     <view class="btn-play" bindtap="randomPlay">
       <text class="icon-play"></text>
-      <text class="info">随心所动一首歌</text>
+      <text class="info">随心所动--MyLuck</text>
     </view>
   </view>
   <view class="container">
@@ -13,12 +13,12 @@
       class="list"
       bindtap="play"
       data-type="{{item}}"
-      data-index="{{index}}"
-    >
+      data-index="{{index}}">
       <view>{{item.name}}</view>
       <view>{{item.author}}</view>
     </view>
   </view>
+  <view wx:if="{{!songList.length}}" class="empty">空空如也~~~快去收藏歌曲吧</view>
   <navigator 
     wx:if="{{showNavigator}}" 
     bind:pauseSwitch="pauseSwitch" 

@@ -1,28 +1,69 @@
 <!--pages/gubaPost/gubaPost.wxml-->
 <view class="page">
-    <textarea placeholder="{{placeholder}}" show-confirm-bar="{{true}}" maxlength="-1" placeholder-class="adjust-text" bindfocus="handleFocus" bindblur="outFocus" auto-focus focus="{{focus}}" bindinput="valChange" value="{{textVal}}"/>
+    <textarea 
+        placeholder="{{placeholder}}" 
+        show-confirm-bar="{{false}}" 
+        maxlength="-1" 
+        placeholder-class="adjust-text" 
+        bindfocus="handleFocus" 
+        bindblur="outFocus" 
+        auto-focus 
+        focus="{{focus}}"
+        bindinput="valChange" 
+        value="{{textVal}}" />
+    <rich-text class="content" nodes="{{html}}"></rich-text>
     <view class="container" style="padding-bottom: {{barHeight}}px;">
         <view wx:for="{{tempFilePaths}}" wx:key="{{item}}" class="image-item">
-            <image mode="aspectFill" class="image" src="{{item}}" bindtap="viewImage" data-src="{{item}}"></image>
-            <image class="icon-close" src="/images/icon-close.png" data-index="{{index}}" catchtap="remove"></image>
+            <image 
+                mode="aspectFill" 
+                class="image" 
+                src="{{item}}" 
+                bindtap="viewImage" 
+                data-src="{{item}}" />
+            <image 
+                class="icon-close" 
+                src="/images/icon-close.png" 
+                data-index="{{index}}" 
+                catchtap="remove" />
         </view>
         <view class="plus" bindtap="loadImg" wx:if="{{tempFilePaths.length > 0 && tempFilePaths.length < 9}}"></view>
     </view>
     <view class="foot-bar" style="bottom: {{keyHeight}}px;">
         <view class="toolbar">
             <view class="leftp">
-              <image wx:if="{{picAllowed}}" class="upload" src="/images/upload.png" bindtap="loadImg"></image>
-              <image class="face" src="/images/face.png" bindtap="openPhiz"></image>
+              <image 
+                wx:if="{{picAllowed}}" 
+                class="upload" 
+                src="/images/upload.png" 
+                bindtap="loadImg" />
+              <image 
+                class="face" 
+                src="/images/face.png" 
+                bindtap="openPhiz" />
             </view>
             <view class="btn" bindtap="publish">发布</view>
         </view>
         <view class="face-container" hidden="{{isShow}}" style="height: 200px;">
             <swiper indicator-dots class="swiper-contaner">
                 <swiper-item>
-                    <image class="emoji-list" wx:for="{{emojiArr}}" wx:key="{{item.k}}" src="/images/emoji/{{item.src}}" wx:if="{{index < 28}}" data-k="{{item.k}}" bindtap="addEmoji"></image>
+                    <image 
+                        class="emoji-list" 
+                        wx:for="{{emojiArr}}" 
+                        wx:key="{{item.k}}" 
+                        src="/images/emoji/{{item.src}}" 
+                        wx:if="{{index < 28}}" 
+                        data-k="{{item.k}}" 
+                        bindtap="addEmoji" />
                 </swiper-item>
                 <swiper-item>
-                    <image class="emoji-list" wx:for="{{emojiArr}}" wx:key="{{item.k}}" src="/images/emoji/{{item.src}}" wx:if="{{index > 27}}" data-k="{{item.k}}" bindtap="addEmoji"></image>
+                    <image 
+                        class="emoji-list" 
+                        wx:for="{{emojiArr}}" 
+                        wx:key="{{item.k}}" 
+                        src="/images/emoji/{{item.src}}" 
+                        wx:if="{{index > 27}}" 
+                        data-k="{{item.k}}" 
+                        bindtap="addEmoji" />
                 </swiper-item>
             </swiper>
         </view>

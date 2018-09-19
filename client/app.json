@@ -1,13 +1,13 @@
 {
   "pages":[
+    "pages/present/present",
     "pages/music/music",
     "pages/collect/collect",
     "pages/index/index",
     "pages/times/times",
     "pages/wall/wall",
     "pages/songlist/songlist",
-    "pages/player/player",
-    "pages/present/present"
+    "pages/player/player"
   ],
   "window":{
     "backgroundTextStyle": "light",

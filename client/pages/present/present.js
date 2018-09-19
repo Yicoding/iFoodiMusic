@@ -1,5 +1,6 @@
 // pages/gubaPost/gubaPost.js
-var { emojiMap } = require('../../utils/emoji.js')
+var { emojiMap, parseEmoji } = require('../../utils/emoji.js')
+var { uploadFile } = require('../../utils/upload.js')
 Page({
 
   /**
@@ -16,15 +17,18 @@ Page({
     textVal: '',
     emojiArr: [],
     cursor: 0,
-    picAllowed: true
+    picAllowed: true,
+    html: '',
+    pic: [],
   },
   // 键盘输入时
   valChange: function(e) {
-    if (e.detail.value.trim()) {
-      this.setData({textVal: e.detail.value})
-    } else {
-      this.setData({textVal: e.detail.value})
-    }
+    this.setData({
+      textVal: e.detail.value,
+      // html: this.regChange(e.detail.value)
+      html: parseEmoji(e.detail.value)
+    })
+    // console.log(this.regChange(e.detail.value))
   },
   // 输入框聚焦时
   handleFocus: function(e) {
@@ -37,16 +41,39 @@ Page({
   // 上传图片
   loadImg: function() {
     this.setData({ isShow: true, barHeight: 0})
-    var that = this
     wx.chooseImage({
       count: this.data.num, // 默认9
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-      success: function (res) {
+      success: (res) => {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        var tempFilePaths = [...that.data.tempFilePaths,...res.tempFilePaths]
-        that.setData({tempFilePaths: tempFilePaths})
-        that.data.num -= res.tempFilePaths.length
+        // var tempFilePaths = [...this.data.tempFilePaths,...res.tempFilePaths]
+        // this.setData({tempFilePaths: tempFilePaths})
+        // this.data.num -= res.tempFilePaths.length
+        // console.log(tempFilePaths)
+        wx.showLoading({
+          title: '上传中',
+          duration: 100000
+        })
+        var promises = []
+        promises = res.tempFilePaths.map(item => {
+          return uploadFile(item)
+        })
+        Promise.all(promises).then((args) => {
+          var tempFilePaths = [...this.data.tempFilePaths, ...res.tempFilePaths]
+          this.setData({
+            tempFilePaths: tempFilePaths,
+            pic: [...this.data.pic, ...args]
+          })
+          this.data.num -= res.tempFilePaths.length
+          wx.hideLoading()
+        }).catch(err => {
+          wx.hideLoading()
+          wx.showToast({
+            title: '上传失败，请重试',
+            icon: 'none'
+          })
+        })
       }
     })
   },
@@ -60,7 +87,11 @@ Page({
   // 移除照片
   remove: function(e) {
     this.data.tempFilePaths.splice(e.target.dataset.index, 1)
-    this.setData({tempFilePaths: this.data.tempFilePaths})  
+    this.data.pic.splice(e.target.dataset.index, 1)
+    this.setData({
+      tempFilePaths: this.data.tempFilePaths,
+      pic: this.data.pic
+    })  
     this.data.num ++
   },
   // 展开表情列表
@@ -83,12 +114,16 @@ Page({
     var preVal = this.data.textVal.slice(0, this.data.cursor)
     var nextVal = this.data.textVal.slice(this.data.cursor)
     var textVal = preVal + e.target.dataset.k + nextVal
-    this.setData({textVal: textVal})
+    this.setData({
+      textVal: textVal,
+      // html: this.regChange(textVal)
+      html: parseEmoji(textVal)
+    })
     this.data.cursor += e.target.dataset.k.length
   },
   // 发布
   publish() {
-
+    console.log(this.data.pic)
   },
   /**
    * 生命周期函数--监听页面加载

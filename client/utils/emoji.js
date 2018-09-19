@@ -48,7 +48,7 @@ var emojiMap = {
 
 function parseEmoji(text) {
   return text.replace(/\[[\u4e00-\u9fa5]+?\]/g, function ($) {
-    return '<img class="emoji" src="http://gbres.dfcfw.com/face/emot/' + emojiMap[$] + '" alt="' + $ + '">'
+    return '<img class="emoji" src="	https://qcloudtest-1257454171.cos.ap-guangzhou.myqcloud.com/img/emoji/' + emojiMap[$] + '" alt="' + $ + '">'
   })
 }
 
