@@ -21,7 +21,7 @@
     <text bindtap="cutPrev" class="prev icon-prev {{(duration === 0 || isDel) ? 'dis-color' : ''}}"></text>
     <text bindtap="switch" class="play {{playStatus ? 'icon-pause' : 'icon-play'}} {{duration === 0 ? 'dis-color' : ''}}"></text>
     <text bindtap="cutNext" class="next icon-next {{(duration === 0 || isDel) ? 'dis-color' : ''}}"></text>
-    <text class="next icon-not-favorite"></text>
+    <text bindtap="switchCollect" class="next {{isCollect ? 'icon-favorite' : 'icon-not-favorite'}}"></text>
   </view>
   <view class="lyric">{{lineLyric}}</view>
 </view>

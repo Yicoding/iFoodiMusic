@@ -1,5 +1,6 @@
 //index.js
 //获取应用实例
+var config = require('../../config')
 const app = getApp();
 var Base64 = require('../../utils/base64.js').Base64
 var Lyric = require('../../utils/lyric-parse.js')
@@ -17,6 +18,7 @@ Page({
     timee: 0, // 定时器 根据歌曲进度改变slider进度
     coverImg: '', // 封面图片
     isDel: false, // 当前列表是否只有一首歌曲
+    isCollect: false,
   },
   onLoad() {
     let item = app.globalData.playList[app.globalData.playIndex]
@@ -58,6 +60,8 @@ Page({
     backgroundAudioManager.onPause(this.onPause) // 监听背景音频暂停事件
     backgroundAudioManager.onTimeUpdate(this.onTimeUpdate) // 监听背景音频播放进度更新事件
     backgroundAudioManager.onEnded(this.onEnded) // 监听背景音频自然播放结束事件
+    backgroundAudioManager.onPrev(this.cutPrev) // 监听用户在系统音乐播放面板点击上一曲事件（仅iOS）
+    backgroundAudioManager.onNext(this.cutNext) // 监听用户在系统音乐播放面板点击下一曲事件（仅iOS）
     wx.setNavigationBarTitle({
       title: item.name
     })
@@ -67,6 +71,7 @@ Page({
         isDel: true
       })
     }
+    this.judgeCollect()
   },
   onShow() {
     const backgroundAudioManager = wx.getBackgroundAudioManager()
@@ -76,6 +81,60 @@ Page({
   },
   onHide() {
     clearInterval(this.data.timee)
+  },
+  // 判断是否收藏过该歌曲
+  judgeCollect() {
+    wx.request({
+      url: config.service.collectFindBySongId,
+      data: {
+        id: app.globalData.playList[app.globalData.playIndex].id,
+        openid: app.globalData.openid
+      },
+      success:({ data }) => {
+        console.log(data)
+        this.setData({
+          isCollect: data.data
+        })
+      }
+    })
+  },
+  // 切换收藏
+  switchCollect() {
+    if (this.data.isCollect) { // 取消收藏
+      this.removeCollect()
+    } else { // 添加收藏
+      this.addCollect()
+    }
+  },
+  // 添加收藏
+  addCollect() {
+    wx.request({
+      url: config.service.addCollect,
+      data: {
+        id: app.globalData.playList[app.globalData.playIndex].id,
+        openid: app.globalData.openid
+      },
+      success:({ data }) => {
+        this.setData({
+          isCollect: true
+        })
+      }
+    })
+  },
+  // 取消收藏
+  removeCollect() {
+    wx.request({
+      url: config.service.removeCollect,
+      data: {
+        id: app.globalData.playList[app.globalData.playIndex].id,
+        openid: app.globalData.openid
+      },
+      success:({ data }) => {
+        this.setData({
+          isCollect: false
+        })
+      }
+    })
   },
   handleLyric({lineNum, txt}) { // 歌词回调
     console.log(lineNum, txt, 'txt')
@@ -198,6 +257,7 @@ Page({
       if (backgroundAudioManager.paused) {
         this.data.parseLyric.togglePlay()
       }
+      this.judgeCollect()
     }
   },
   // 改变播放模式

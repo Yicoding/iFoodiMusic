@@ -1,6 +1,10 @@
 <view>
-  <view class="cover-container">
-    <image src="{{album.poster}}" class="cover"/>
+  <view class="header">
+    <image class="avatar" src="{{poster}}"/>
+    <view class="btn-play" bindtap="randomPlay">
+      <text class="icon-play"></text>
+      <text class="info">随心所动一首歌</text>
+    </view>
   </view>
   <view class="container">
     <view

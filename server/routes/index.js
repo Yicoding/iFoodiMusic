@@ -34,4 +34,11 @@ router.post('/message', controllers.message.post)
 router.get('/album', controllers.album)
 router.get('/getSongList', controllers.song.getSongList)
 
+// 歌曲收藏
+router.get('/collectFindByOpenId', controllers.collect.collectFindByOpenId)
+router.get('/collectFindBySongId', controllers.collect.collectFindBySongId)
+router.get('/addCollect', controllers.collect.addCollect)
+router.get('/removeCollect', controllers.collect.removeCollect)
+
+
 module.exports = router

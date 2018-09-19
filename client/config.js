@@ -24,6 +24,10 @@ var config = {
         uploadUrl: `${host}/weapp/upload`,
         album: `${host}/weapp/album`,
         getSongList: `${host}/weapp/getSongList`,
+        collectFindByOpenId: `${host}/weapp/collectFindByOpenId`,
+        collectFindBySongId: `${host}/weapp/collectFindBySongId`,
+        addCollect: `${host}/weapp/addCollect`,
+        removeCollect: `${host}/weapp/removeCollect`,
     }
 };
 

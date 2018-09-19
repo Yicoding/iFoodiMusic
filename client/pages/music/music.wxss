@@ -10,6 +10,10 @@ swiper{
     font-size: 28rpx;
     padding: 40rpx 0;
     text-align: center;
+    position: relative;
+}
+.arrow-right{
+    
 }
 .scroll-list{
     display: flex;

@@ -14,7 +14,10 @@
       </swiper-item>
     </block>
   </swiper>
-  <view class="title">歌单列表</view>
+  <view class="title">
+    歌单列表
+    <text class="arrow-right"></text>
+  </view>
   <view 
     wx:for="{{albumList}}" 
     wx:key="{{item.id}}" 
@@ -28,5 +31,10 @@
       <text>{{item.info}}</text>
     </view>
   </view>
-  <navigator />
+  <navigator 
+    wx:if="{{showNavigator}}" 
+    bind:pauseSwitch="pauseSwitch" 
+    bind:myevent="stopMusic" 
+    songInfo="{{songInfo}}" 
+    stateIcon="{{stateIcon}}" />
 </view>
