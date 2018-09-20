@@ -1,4 +1,5 @@
 const { mysql } = require('../qcloud')
+const Promise = require('../es6-promise.min.js')
 // 查找专辑列表
 async function groupTest(ctx, next) {
     await mysql('album').
@@ -18,60 +19,50 @@ async function groupTest(ctx, next) {
     })
 }
 // 新增好时光
-function addTimes(ctx, next) {
-    return new Promise((resolve, reject) => {
-        mysql('times').insert({
-            content: ctx.request.body.content,
-            openid: ctx.request.body.openid,
-            nickName: ctx.request.body.nickName,
-            province: ctx.request.body.province,
-            city: ctx.request.body.city,
-            avatarUrl: ctx.request.body.avatarUrl,
-            present_time: ctx.request.body.time
-        }).then(res => {
-            resolve({
-                code: 0,
-                data: res[0]
-            })
-        }).catch(err => {
-            reject({
-                code: -1,
-                err: err
-            })
+async function addTimes(ctx, next) {
+    mysql('times').insert({
+        content: ctx.request.body.content,
+        openid: ctx.request.body.openid,
+        nickName: ctx.request.body.nickName,
+        province: ctx.request.body.province,
+        city: ctx.request.body.city,
+        avatarUrl: ctx.request.body.avatarUrl,
+        present_time: ctx.request.body.time
+    }).then(res => {
+        if (ctx.request.body.pic.length) {
+            addTimesPic(res[0], ctx.request.body.pic)
+        } else {
+            ctx.state.code = 0
+            ctx.state.data = res
+        }
+        resolve({
+            code: 0,
+            data: res[0]
         })
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
     })
 }
 // 新增好时光图片
-async function addTimesPic(ctx, next) {
-    let config = await addTimes(ctx, next)
-    if (config.code == 0) {
-        if (ctx.request.body.pic.length) {
-            let id = config.data
-            let pic = ctx.request.body.pic.map(item => {
-                return {
-                    src: item,
-                    times_id: id
-                }
-            })
-            await mysql('timespic').insert(pic).then(res => {
-                ctx.state.code = 0
-                ctx.state.data = res
-            }).catch(err => {
-                ctx.state.code = -1
-                throw new Error(err)
-            })
-        } else {
-            ctx.state.code = 0
-            ctx.state.data = 'ok'
+async function addTimesPic(id, picArr) {
+    let pic = picArr.map(item => {
+        return {
+            src: item,
+            times_id: id
         }
-    } else {
+    })
+    await mysql('timespic').insert(pic).then(res => {
+        ctx.state.code = 0
+        ctx.state.data = res
+    }).catch(err => {
         ctx.state.code = -1
-        throw new Error(config.err)
-    }
+        throw new Error(err)
+    })
 }
 
 
 module.exports = {
     groupTest,
-    addTimesPic
+    addTimes
 }

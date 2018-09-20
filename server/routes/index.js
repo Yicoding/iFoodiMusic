@@ -40,7 +40,7 @@ router.get('/collectFindBySongId', controllers.collect.collectFindBySongId)
 router.get('/addCollect', controllers.collect.addCollect)
 router.get('/removeCollect', controllers.collect.removeCollect)
 router.get('/groupTest', controllers.present.groupTest)
-router.post('/addTimesPic', controllers.present.addTimesPic)
+router.post('/addTimes', controllers.present.addTimes)
 
 
 module.exports = router

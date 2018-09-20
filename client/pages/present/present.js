@@ -141,24 +141,31 @@ Page({
     }
     wx.request({
       method: 'POST',
-      url: config.service.addTimesPic,
+      url: config.service.addTimes,
       data: data,
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: (res) => {
-        console.log(res, 'res')
-        wx.showToast({
-          title: '发表成功呦O(∩_∩)O~~',
-          icon: 'none'
-        })
-        timee = setTimeout(() => {
-          wx.navigateBack({
-            delta: 1
+      success: ({ data }) => {
+        console.log(data, 'dataInfo')
+        if (data.code == 0) {
+          wx.showToast({
+            title: '发表成功呦O(∩_∩)O~~',
+            icon: 'none'
           })
-        }, 1800)
+          timee = setTimeout(() => {
+            wx.navigateBack({
+              delta: 1
+            })
+          }, 1800)
+        } else {
+          wx.showToast({
+            title: '发表失败，请重新发送',
+            icon: 'none'
+          })
+        }
       },
-      fail: (err) => {
+      fail: err => {
         console.log(err, 'err')
         wx.showToast({
           title: '发表失败，请重新发送',
@@ -199,7 +206,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+    clearTimeout(timee)
   },
 
   /**
