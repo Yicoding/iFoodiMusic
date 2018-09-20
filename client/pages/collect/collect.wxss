@@ -11,11 +11,11 @@
     border-radius: 50%;
 }
 .btn-play{
-    color: hsla(0,0%,100%,.5);
+    color: #ffcd32;
     font-size: 30rpx;
     margin-left: 15rpx;
     padding: 10rpx 25rpx;
-    border: 1rpx solid hsla(0,0%,100%,.5);
+    border: 1rpx solid #ffcd32;
     border-radius: 40rpx;
     display: flex;
     justify-content: center;

@@ -1,0 +1,20 @@
+.title{
+    color: #ffcd32;
+    font-size: 28rpx;
+    height: 110rpx;
+    line-height: 110rpx;
+    text-align: center;
+    position: relative;
+}
+.present{
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+    position: absolute;
+    right: 30rpx;
+    top: 50%;
+    margin-top: -30rpx;
+}
+.list{
+    border-bottom: 1rpx solid #333;
+}

@@ -1,6 +1,10 @@
 // pages/gubaPost/gubaPost.js
 var { emojiMap, parseEmoji } = require('../../utils/emoji.js')
 var { uploadFile } = require('../../utils/upload.js')
+var config = require('../../config')
+var { formatTime } = require('../../utils/util.js')
+const app = getApp()
+var timee = 0
 Page({
 
   /**
@@ -53,7 +57,8 @@ Page({
         // console.log(tempFilePaths)
         wx.showLoading({
           title: '上传中',
-          duration: 100000
+          duration: 100000,
+          mask: true
         })
         var promises = []
         promises = res.tempFilePaths.map(item => {
@@ -123,7 +128,44 @@ Page({
   },
   // 发布
   publish() {
-    console.log(this.data.pic)
+    console.log(this.data.textVal)
+    var data = {
+      content: this.data.textVal,
+      openid: app.globalData.openid,
+      nickName: app.globalData.userInfo.nickName,
+      province: app.globalData.userInfo.province,
+      city: app.globalData.userInfo.city,
+      avatarUrl: app.globalData.userInfo.avatarUrl,
+      pic: this.data.pic,
+      time: formatTime(new Date())
+    }
+    wx.request({
+      method: 'POST',
+      url: config.service.addTimesPic,
+      data: data,
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: (res) => {
+        console.log(res, 'res')
+        wx.showToast({
+          title: '发表成功呦O(∩_∩)O~~',
+          icon: 'none'
+        })
+        timee = setTimeout(() => {
+          wx.navigateBack({
+            delta: 1
+          })
+        }, 1800)
+      },
+      fail: (err) => {
+        console.log(err, 'err')
+        wx.showToast({
+          title: '发表失败，请重新发送',
+          icon: 'none'
+        })
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载

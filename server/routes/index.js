@@ -39,6 +39,8 @@ router.get('/collectFindByOpenId', controllers.collect.collectFindByOpenId)
 router.get('/collectFindBySongId', controllers.collect.collectFindBySongId)
 router.get('/addCollect', controllers.collect.addCollect)
 router.get('/removeCollect', controllers.collect.removeCollect)
+router.get('/groupTest', controllers.present.groupTest)
+router.post('/addTimesPic', controllers.present.addTimesPic)
 
 
 module.exports = router

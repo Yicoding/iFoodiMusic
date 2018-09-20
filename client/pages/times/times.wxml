@@ -1,3 +1,28 @@
 <view>
-  好时光
+  <scroll-view scroll-y>
+    <view
+      class="title"
+      bindscrolltolower="bindscrolltolower">
+      <text>定不负好时光</text>
+      <image
+        class="present"
+        src="../../images/icon/present.png"
+        bindtap="toPresent" />
+    </view>
+    <view class="list">1
+      <view class="nick"></view>
+      <view class="container">
+        <rich-text class="content" nodes="{{html}}"></rich-text>
+        <view class="img-list">
+          <view wx:for="{{tempFilePaths}}" wx:key="{{item}}" class="image-item">
+            <image 
+              mode="aspectFill"
+              src="{{item}}" 
+              bindtap="viewImage" 
+              data-src="{{item}}" />
+          </view>
+      </view>
+      </view>
+    </view>
+  </scroll-view>
 </view>

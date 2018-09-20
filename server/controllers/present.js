@@ -1,63 +1,77 @@
 const { mysql } = require('../qcloud')
-// 按照openid查找收藏列表
-async function collectFindByOpenId(ctx, next) {
-    // await mysql('songlist').join('collect', 'songlist.id', '=', 'collect.songid').select('*').where('collect.openid', ctx.query.openid).then(res => {
-    await mysql('songlist').join('collect', 'songlist.id', '=', 'collect.songid').select('*').where({
-        openid: ctx.query.openid
-    }).then(res => {
+// 查找专辑列表
+async function groupTest(ctx, next) {
+    await mysql('album').
+    innerJoin('songlist', 'album.id', '=', 'songlist.album_id').
+    select('album.id', 'album.name', mysql.raw('group_concat(songlist.name) as list')).
+    groupBy('album.id').
+    then(res => {
         ctx.state.code = 0
-        ctx.state.data = res
-    }).catch(err => {
-        ctx.state.code = -1
-        throw new Error(err)
-    })
-}
-// 按照歌曲id查找是否收藏过该歌曲
-async function collectFindBySongId(ctx, next) {
-    await mysql('collect').select('*').where({
-        openid: ctx.query.openid,
-        songid: ctx.query.id
-    }).then(res => {
-        ctx.state.code = 0
-        if (res.length) {
-            ctx.state.data = true
-        } else {
-            ctx.state.data = false
+        for (let i = 0; i < res.length - 1; i ++) {
+            let item = res[i]
+            item.list = item.list.split(',')
         }
-    }).catch(err => {
-        ctx.state.code = -1
-        throw new Error(err)
-    })
-}
-// 添加收藏
-async function addCollect(ctx, next) {
-    await mysql('collect').insert({
-        openid: ctx.query.openid,
-        songid: ctx.query.id
-    }).then(res => {
-        ctx.state.code = 0
         ctx.state.data = res
     }).catch(err => {
         ctx.state.code = -1
         throw new Error(err)
     })
 }
-// 取消收藏
-async function removeCollect(ctx, next) {
-    await mysql('collect').where({
-        openid: ctx.query.openid,
-        songid: ctx.query.id
-    }).del().then(res => {
-        ctx.state.code = 0
-        ctx.state.data = res
-    }).catch(err => {
-        ctx.state.code = -1
-        throw new Error(err)
+// 新增好时光
+function addTimes(ctx, next) {
+    return new Promise((resolve, reject) => {
+        mysql('times').insert({
+            content: ctx.request.body.content,
+            openid: ctx.request.body.openid,
+            nickName: ctx.request.body.nickName,
+            province: ctx.request.body.province,
+            city: ctx.request.body.city,
+            avatarUrl: ctx.request.body.avatarUrl,
+            present_time: ctx.request.body.time
+        }).then(res => {
+            resolve({
+                code: 0,
+                data: res[0]
+            })
+        }).catch(err => {
+            reject({
+                code: -1,
+                err: err
+            })
+        })
     })
 }
+// 新增好时光图片
+async function addTimesPic(ctx, next) {
+    let config = await addTimes(ctx, next)
+    if (config.code == 0) {
+        if (ctx.request.body.pic.length) {
+            let id = config.data
+            let pic = ctx.request.body.pic.map(item => {
+                return {
+                    src: item,
+                    times_id: id
+                }
+            })
+            await mysql('timespic').insert(pic).then(res => {
+                ctx.state.code = 0
+                ctx.state.data = res
+            }).catch(err => {
+                ctx.state.code = -1
+                throw new Error(err)
+            })
+        } else {
+            ctx.state.code = 0
+            ctx.state.data = 'ok'
+        }
+    } else {
+        ctx.state.code = -1
+        throw new Error(config.err)
+    }
+}
+
+
 module.exports = {
-    collectFindByOpenId,
-    collectFindBySongId,
-    addCollect,
-    removeCollect
+    groupTest,
+    addTimesPic
 }

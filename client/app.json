@@ -1,10 +1,10 @@
 {
   "pages":[
-    "pages/present/present",
-    "pages/music/music",
-    "pages/collect/collect",
-    "pages/index/index",
     "pages/times/times",
+    "pages/index/index",
+    "pages/music/music",
+    "pages/present/present",
+    "pages/collect/collect",
     "pages/wall/wall",
     "pages/songlist/songlist",
     "pages/player/player"

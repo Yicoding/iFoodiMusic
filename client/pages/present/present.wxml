@@ -11,7 +11,7 @@
         focus="{{focus}}"
         bindinput="valChange" 
         value="{{textVal}}" />
-    <rich-text class="content" nodes="{{html}}"></rich-text>
+    <!--<rich-text class="content" nodes="{{html}}"></rich-text>-->
     <view class="container" style="padding-bottom: {{barHeight}}px;">
         <view wx:for="{{tempFilePaths}}" wx:key="{{item}}" class="image-item">
             <image 

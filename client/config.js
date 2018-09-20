@@ -28,6 +28,8 @@ var config = {
         collectFindBySongId: `${host}/weapp/collectFindBySongId`,
         addCollect: `${host}/weapp/addCollect`,
         removeCollect: `${host}/weapp/removeCollect`,
+        groupTest: `${host}/weapp/groupTest`,
+        addTimesPic: `${host}/weapp/addTimesPic`,
     }
 };
 
