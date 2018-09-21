@@ -1,28 +1,46 @@
 <view>
-  <scroll-view scroll-y>
-    <view
-      class="title"
-      bindscrolltolower="bindscrolltolower">
-      <text>定不负好时光</text>
+  <view
+    class="title">
+    <image
+      class="mine"
+      src="../../images/icon/mine4.png"
+      bindtap="goUserCenter" />
+    <text>定不负好时光</text>
+    <image
+      class="present"
+      src="../../images/icon/present.png"
+      bindtap="toPresent" />
+  </view>
+  <input type="text" />
+  <view class="list" wx:for="{{timesList}}" wx:key="item.id">
+    <view class="nick">
+      <image src="{{item.avatarUrl}}" />
+      <view class="user-info">
+        <text>{{item.nickName}}</text>
+        <text>发表于{{item.present_time}}</text>
+      </view>
+    </view>
+    <view class="container">
+      <rich-text class="content" nodes="{{item.content}}"></rich-text>
+      <view class="pic" wx:if="{{item.pic}}">
+        <image 
+          class="image-item"
+          wx:for="{{item.pic}}"
+          wx:for-item="img"
+          wx:key="{{img}}"
+          mode="aspectFill"
+          src="{{img}}" 
+          bindtap="viewImage" 
+          data-src="{{img}}"
+          data-urls="{{item.pic}}" />
+      </view>
+    </view>
+    <view class="rate">
       <image
-        class="present"
-        src="../../images/icon/present.png"
-        bindtap="toPresent" />
+        src="../../images/icon/rate2.png"
+        bindtap="goDetail"
+        data-id="{{item.id}}" />
     </view>
-    <view class="list">1
-      <view class="nick"></view>
-      <view class="container">
-        <rich-text class="content" nodes="{{html}}"></rich-text>
-        <view class="img-list">
-          <view wx:for="{{tempFilePaths}}" wx:key="{{item}}" class="image-item">
-            <image 
-              mode="aspectFill"
-              src="{{item}}" 
-              bindtap="viewImage" 
-              data-src="{{item}}" />
-          </view>
-      </view>
-      </view>
-    </view>
-  </scroll-view>
+  </view>
+  <view class="info">{{info}}</view>
 </view>

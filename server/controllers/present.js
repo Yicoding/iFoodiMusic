@@ -1,5 +1,4 @@
 const { mysql } = require('../qcloud')
-const Promise = require('../es6-promise.min.js')
 // 查找专辑列表
 async function groupTest(ctx, next) {
     await mysql('album').
@@ -18,9 +17,31 @@ async function groupTest(ctx, next) {
         throw new Error(err)
     })
 }
+// 查看好时光列表
+async function findAllTimes(ctx, next) {
+    await mysql('times').
+    leftJoin('timespic', 'times.id', '=', 'timespic.times_id').
+    select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic')).
+    groupBy('times.id').
+    orderBy('times.present_time', 'desc').
+    limit(ctx.query.pageSize).
+    offset(ctx.query.pageIndex*ctx.query.pageSize).
+    then(res => {
+        ctx.state.code = 0
+        res.forEach(item => {
+            if (!!item.pic) {
+                item.pic = item.pic.split(',')
+            }
+        })
+        ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
 // 新增好时光
 async function addTimes(ctx, next) {
-    mysql('times').insert({
+    await mysql('times').insert({
         content: ctx.request.body.content,
         openid: ctx.request.body.openid,
         nickName: ctx.request.body.nickName,
@@ -35,10 +56,8 @@ async function addTimes(ctx, next) {
             ctx.state.code = 0
             ctx.state.data = res
         }
-        resolve({
-            code: 0,
-            data: res[0]
-        })
+        // ctx.state.code = 0
+        // ctx.state.data = res
     }).catch(err => {
         ctx.state.code = -1
         throw new Error(err)
@@ -64,5 +83,6 @@ async function addTimesPic(id, picArr) {
 
 module.exports = {
     groupTest,
-    addTimes
+    addTimes,
+    findAllTimes
 }

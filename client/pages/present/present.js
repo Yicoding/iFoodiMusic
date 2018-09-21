@@ -1,5 +1,5 @@
 // pages/gubaPost/gubaPost.js
-var { emojiMap, parseEmoji } = require('../../utils/emoji.js')
+var { emojiMap } = require('../../utils/emoji.js')
 var { uploadFile } = require('../../utils/upload.js')
 var config = require('../../config')
 var { formatTime } = require('../../utils/util.js')
@@ -22,17 +22,13 @@ Page({
     emojiArr: [],
     cursor: 0,
     picAllowed: true,
-    html: '',
     pic: [],
   },
   // 键盘输入时
   valChange: function(e) {
     this.setData({
-      textVal: e.detail.value,
-      // html: this.regChange(e.detail.value)
-      html: parseEmoji(e.detail.value)
+      textVal: e.detail.value
     })
-    // console.log(this.regChange(e.detail.value))
   },
   // 输入框聚焦时
   handleFocus: function(e) {
@@ -51,10 +47,6 @@ Page({
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: (res) => {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        // var tempFilePaths = [...this.data.tempFilePaths,...res.tempFilePaths]
-        // this.setData({tempFilePaths: tempFilePaths})
-        // this.data.num -= res.tempFilePaths.length
-        // console.log(tempFilePaths)
         wx.showLoading({
           title: '上传中',
           duration: 100000,
@@ -85,7 +77,7 @@ Page({
   // 预览照片
   viewImage: function(e) {
     wx.previewImage({
-      current: e.target.dataset.src, // 当前显示图片的http链接
+      current: e.currentTarget.dataset.src, // 当前显示图片的http链接
       urls: this.data.tempFilePaths // 需要预览的图片http链接列表
     })
   },
@@ -120,59 +112,71 @@ Page({
     var nextVal = this.data.textVal.slice(this.data.cursor)
     var textVal = preVal + e.target.dataset.k + nextVal
     this.setData({
-      textVal: textVal,
-      // html: this.regChange(textVal)
-      html: parseEmoji(textVal)
+      textVal: textVal
     })
     this.data.cursor += e.target.dataset.k.length
   },
   // 发布
   publish() {
     console.log(this.data.textVal)
-    var data = {
-      content: this.data.textVal,
-      openid: app.globalData.openid,
-      nickName: app.globalData.userInfo.nickName,
-      province: app.globalData.userInfo.province,
-      city: app.globalData.userInfo.city,
-      avatarUrl: app.globalData.userInfo.avatarUrl,
-      pic: this.data.pic,
-      time: formatTime(new Date())
-    }
-    wx.request({
-      method: 'POST',
-      url: config.service.addTimes,
-      data: data,
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: ({ data }) => {
-        console.log(data, 'dataInfo')
-        if (data.code == 0) {
-          wx.showToast({
-            title: '发表成功呦O(∩_∩)O~~',
-            icon: 'none'
-          })
-          timee = setTimeout(() => {
-            wx.navigateBack({
-              delta: 1
+    if (this.data.textVal.trim()) {
+      var data = {
+        content: this.data.textVal,
+        openid: app.globalData.openid,
+        nickName: app.globalData.userInfo.nickName,
+        province: app.globalData.userInfo.province,
+        city: app.globalData.userInfo.city,
+        avatarUrl: app.globalData.userInfo.avatarUrl,
+        pic: this.data.pic,
+        time: formatTime(new Date())
+      }
+      wx.request({
+        method: 'POST',
+        url: config.service.addTimes,
+        data: data,
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: ({ data }) => {
+          console.log(data, 'dataInfo')
+          if (data.code == 0) {
+            wx.showToast({
+              title: '发表成功呦O(∩_∩)O~~',
+              icon: 'none'
             })
-          }, 1800)
-        } else {
+            app.globalData.timesRefresh = true
+            timee = setTimeout(() => {
+              wx.navigateBack({
+                delta: 1
+              })
+            }, 1800)
+          } else {
+            wx.showToast({
+              title: '发表失败，请重新发送',
+              icon: 'none'
+            })
+          }
+        },
+        fail: err => {
+          console.log(err, 'err')
           wx.showToast({
             title: '发表失败，请重新发送',
             icon: 'none'
           })
         }
-      },
-      fail: err => {
-        console.log(err, 'err')
-        wx.showToast({
-          title: '发表失败，请重新发送',
-          icon: 'none'
-        })
-      }
-    })
+      })
+    } else {
+      wx.showModal({
+        title: '温馨提示',
+        content: '还没有输入内容呦，快去展示你的文采吧O(∩_∩)O~~',
+        showCancel: false,
+        success: () => {
+          this.setData({
+            textVal: ''
+          })
+        }
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面加载

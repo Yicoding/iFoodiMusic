@@ -41,6 +41,7 @@ router.get('/addCollect', controllers.collect.addCollect)
 router.get('/removeCollect', controllers.collect.removeCollect)
 router.get('/groupTest', controllers.present.groupTest)
 router.post('/addTimes', controllers.present.addTimes)
+router.get('/findAllTimes', controllers.present.findAllTimes)
 
 
 module.exports = router

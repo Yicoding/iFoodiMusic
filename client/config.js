@@ -30,6 +30,7 @@ var config = {
         removeCollect: `${host}/weapp/removeCollect`,
         groupTest: `${host}/weapp/groupTest`,
         addTimes: `${host}/weapp/addTimes`,
+        findAllTimes: `${host}/weapp/findAllTimes`,
     }
 };
 

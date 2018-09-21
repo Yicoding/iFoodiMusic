@@ -1,20 +1,78 @@
+page{
+    background: #14161B;
+}
 .title{
     color: #ffcd32;
     font-size: 28rpx;
     height: 110rpx;
-    line-height: 110rpx;
-    text-align: center;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30rpx;
+}
+.mine{
+    width: 50rpx;
+    height: 50rpx;
 }
 .present{
     width: 60rpx;
     height: 60rpx;
     border-radius: 50%;
-    position: absolute;
-    right: 30rpx;
-    top: 50%;
-    margin-top: -30rpx;
 }
 .list{
-    border-bottom: 1rpx solid #333;
+    padding: 30rpx;
+    margin-bottom: 10rpx;
+    background: #1E1E26;
+}
+.nick{
+    display: flex;
+}
+.nick>image{
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 5rpx;
+    margin-right: 20rpx;
+}
+.user-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.user-info text:last-of-type{
+    font-size: 20rpx;
+    color: #8e8e93;
+}
+.container{
+    margin: 20rpx 0;
+}
+.content{
+    text-indent: 50rpx;
+}
+.emoji{
+    width: 40rpx;
+    height: 40rpx;
+    margin: 0 5rpx;
+}
+.pic{
+    margin-top: 20rpx;
+}
+.image-item{
+    display: inline-block;
+    width: 220rpx;
+    height: 220rpx;
+    margin-right: 10rpx;
+    box-sizing: border-box;
+}
+.info{
+    text-align: center;
+    height: 40rpx;
+    line-height: 40rpx;
+    padding-bottom: 20rpx;
+}
+.rate{
+    text-align: right;
+}
+.rate image{
+    width: 48rpx;
+    height: 40rpx;
 }

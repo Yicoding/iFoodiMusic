@@ -75,5 +75,6 @@ App({
     playIndex: 0, // 当前播放歌曲index
     mode: 'multiple', // 循环模式 multiple: 循环播放, single: 单曲循环
     imgRotate: 0, // 封面旋转角度
+    timesRefresh: false, // 好时光页面是否要刷新
   }
 })

@@ -1,4 +1,5 @@
 {
   "enablePullDownRefresh": true,
+  "onReachBottomDistance": true,
   "navigationBarTitleText": "好时光"
 }
