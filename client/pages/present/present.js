@@ -160,7 +160,7 @@ Page({
         fail: err => {
           console.log(err, 'err')
           wx.showToast({
-            title: '发表失败，请重新发送',
+            title: '服务器异常',
             icon: 'none'
           })
         }

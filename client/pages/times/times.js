@@ -64,7 +64,7 @@ Page({
         })
         console.log(data)
         data.data.forEach(item => {
-          item.present_time = item.present_time.slice(5, 16)
+          item.present_time = item.present_time.slice(5)
           item.content = parseEmoji(item.content)
         })
         if (this.data.pageIndex == 0) {
@@ -105,16 +105,32 @@ Page({
     })
   },
   // 去个人中心
-  goUserCenter() {
-    wx.navigateTo({
-      url: '../user/user'
-    })
+  goUserCenter(e) {
+    let item = e.currentTarget.dataset
+    if (item.type == 'mine') {
+      if (!!app.globalData.openid) {
+        wx.navigateTo({
+          url: `../user/user?&openid=${app.globalData.openid}`
+        })
+      } else {
+        wx.showModal({
+          title: '温馨提示',
+          content: '你还没有登录呦╮(╯▽╰)╭',
+          showCancel: false
+        })
+      }
+    } else {
+      wx.navigateTo({
+        url: `../user/user?&openid=${item.openid}`
+      })
+    }
   },
   // 查看详情
   goDetail(e) {
     console.log(e)
+    let id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: '../text/text'
+      url: `../text/text?&id=${id}`
     })
   }
 })

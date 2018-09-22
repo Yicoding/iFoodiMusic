@@ -28,9 +28,12 @@ var config = {
         collectFindBySongId: `${host}/weapp/collectFindBySongId`,
         addCollect: `${host}/weapp/addCollect`,
         removeCollect: `${host}/weapp/removeCollect`,
-        groupTest: `${host}/weapp/groupTest`,
         addTimes: `${host}/weapp/addTimes`,
         findAllTimes: `${host}/weapp/findAllTimes`,
+        timesDetail: `${host}/weapp/timesDetail`,
+        getRateList: `${host}/weapp/getRateList`,
+        addTimesRate: `${host}/weapp/addTimesRate`,
+        removeRate: `${host}/weapp/removeRate`,
     }
 };
 

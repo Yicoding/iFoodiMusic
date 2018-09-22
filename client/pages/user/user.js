@@ -6,7 +6,7 @@ Page({
   data: {
     
   },
-  onLoad: function () {
-    
+  onLoad: function (options) {
+    console.log(options)
   },
 })

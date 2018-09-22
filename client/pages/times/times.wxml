@@ -4,17 +4,26 @@
     <image
       class="mine"
       src="../../images/icon/mine4.png"
-      bindtap="goUserCenter" />
+      bindtap="goUserCenter"
+      data-type="mine" />
     <text>定不负好时光</text>
     <image
       class="present"
       src="../../images/icon/present.png"
       bindtap="toPresent" />
   </view>
-  <input type="text" />
-  <view class="list" wx:for="{{timesList}}" wx:key="item.id">
+  <view
+    class="list"
+    wx:for="{{timesList}}"
+    wx:key="{{item.id}}"
+    bindtap="goDetail"
+    data-id="{{item.id}}">
     <view class="nick">
-      <image src="{{item.avatarUrl}}" />
+      <image
+        src="{{item.avatarUrl}}"
+        catchtap="goUserCenter"
+        data-type="user"
+        data-openid="{{item.openid}}" />
       <view class="user-info">
         <text>{{item.nickName}}</text>
         <text>发表于{{item.present_time}}</text>
@@ -30,16 +39,13 @@
           wx:key="{{img}}"
           mode="aspectFill"
           src="{{img}}" 
-          bindtap="viewImage" 
+          catchtap="viewImage"
           data-src="{{img}}"
           data-urls="{{item.pic}}" />
       </view>
     </view>
     <view class="rate">
-      <image
-        src="../../images/icon/rate2.png"
-        bindtap="goDetail"
-        data-id="{{item.id}}" />
+      <image src="../../images/icon/rate.png" />
     </view>
   </view>
   <view class="info">{{info}}</view>

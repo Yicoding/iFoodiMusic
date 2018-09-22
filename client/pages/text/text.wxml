@@ -1,3 +1,67 @@
 <view>
-  文章
+  <view class="text">
+    <view class="nick">
+      <image
+        src="{{article.avatarUrl}}"
+        bindtap="goUserCenter"
+        data-type="user"
+        data-openid="{{article.openid}}" />
+      <view class="user-info">
+        <text>{{article.nickName}}</text>
+        <text>发表于{{article.present_time}}</text>
+      </view>
+    </view>
+    <view class="container">
+      <rich-text class="content" nodes="{{article.content}}"></rich-text>
+      <view class="pic" wx:if="{{article.pic}}">
+        <image 
+          class="image-item"
+          wx:for="{{article.pic}}"
+          wx:for-item="img"
+          wx:key="{{img}}"
+          mode="aspectFill"
+          src="{{img}}" 
+          catchtap="viewImage"
+          data-src="{{img}}"
+          data-urls="{{article.pic}}" />
+      </view>
+    </view>
+  </view>
+  <view class="split"></view>
+  <view class="rate-container">
+    <view class="title">全部评论<text>({{rateList.length}})</text></view>
+    <block wx:if="{{rateList.length}}">
+      <view
+        class="list"
+        wx:for="{{rateList}}"
+        wx:key="{{item.id}}">
+          <view class="list-nick">
+            <image class="avatar" src="{{item.avatarUrl}}" />
+            <text>{{item.nickName}}</text>
+            <image
+              wx:if="{{item.isMine}}"
+              class="icon-delete"
+              src="../../images/icon/delete.png"
+              bindtap="removeRate"
+              data-id="{{item.id}}" />
+          </view>
+          <view class="list-content">{{item.content}}</view>
+          <view class="list-time">{{item.present_time}}</view>
+      </view>
+    </block>
+    <view wx:else class="empty">还没有人评论呦，快来抢沙发吧(*^▽^*)</view>
+  </view>
+  <view class="rate-input" style="bottom: {{keyHeight}}px">
+    <input
+      class="input"
+      type="text"
+      value="{{text}}"
+      placeholder="我也来凑凑热闹(*^▽^*)"
+      adjust-position="{{false}}"
+      confirm-type="send"
+      bindinput="textChange"
+      bindfocus="keyFocus"
+      bindblur="keyBlur"
+      bindconfirm="send" />
+  </view>
 </view>
