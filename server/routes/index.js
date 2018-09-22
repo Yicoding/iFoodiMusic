@@ -38,13 +38,13 @@ router.get('/getSongList', controllers.song.getSongList)
 router.get('/collectFindByOpenId', controllers.collect.collectFindByOpenId)
 router.get('/collectFindBySongId', controllers.collect.collectFindBySongId)
 router.get('/addCollect', controllers.collect.addCollect)
-router.get('/removeCollect', controllers.collect.removeCollect)
+router.delete('/removeCollect', controllers.collect.removeCollect)
 router.post('/addTimes', controllers.present.addTimes)
 router.get('/findAllTimes', controllers.present.findAllTimes)
 router.get('/timesDetail', controllers.present.timesDetail)
 router.get('/getRateList', controllers.present.getRateList)
 router.post('/addTimesRate', controllers.present.addTimesRate)
-router.get('/removeRate', controllers.present.removeRate)
+router.delete('/removeRate', controllers.present.removeRate)
 
 
 module.exports = router

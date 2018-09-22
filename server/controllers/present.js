@@ -114,7 +114,7 @@ async function addTimesRate(ctx, next) {
 // 删除评论
 async function removeRate(ctx, next) {
     await mysql('times_rate').where({
-        id: ctx.query.id
+        id: ctx.request.body.id
     }).del().then(res => {
         ctx.state.code = 0
         ctx.state.data = res

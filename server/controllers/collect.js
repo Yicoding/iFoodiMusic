@@ -45,8 +45,8 @@ async function addCollect(ctx, next) {
 // 取消收藏
 async function removeCollect(ctx, next) {
     await mysql('collect').where({
-        openid: ctx.query.openid,
-        songid: ctx.query.id
+        openid: ctx.request.body.openid,
+        songid: ctx.request.body.id
     }).del().then(res => {
         ctx.state.code = 0
         ctx.state.data = res

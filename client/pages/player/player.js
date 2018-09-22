@@ -84,10 +84,11 @@ Page({
   },
   // 判断是否收藏过该歌曲
   judgeCollect() {
+    let id = app.globalData.playList[app.globalData.playIndex].songid? app.globalData.playList[app.globalData.playIndex].songid : app.globalData.playList[app.globalData.playIndex].id
     wx.request({
       url: config.service.collectFindBySongId,
       data: {
-        id: app.globalData.playList[app.globalData.playIndex].id,
+        id: id,
         openid: app.globalData.openid
       },
       success:({ data }) => {
@@ -124,6 +125,7 @@ Page({
   // 取消收藏
   removeCollect() {
     wx.request({
+      method: 'DELETE',
       url: config.service.removeCollect,
       data: {
         id: app.globalData.playList[app.globalData.playIndex].id,
