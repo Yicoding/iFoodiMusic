@@ -1,14 +1,15 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/wall/wall",
     "pages/times/times",
     "pages/music/music",
     "pages/present/present",
     "pages/collect/collect",
-    "pages/wall/wall",
     "pages/songlist/songlist",
     "pages/user/user",
     "pages/text/text",
+    "pages/article/article",
     "pages/player/player"
   ],
   "window":{

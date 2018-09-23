@@ -1,0 +1,35 @@
+page{
+    height: 100%;
+}
+.list{
+    padding: 30rpx;
+    background: #1E1E26;
+    margin-bottom: 10rpx;
+    box-sizing: border-box;
+    display: flex;
+}
+.cover{
+    width: 150rpx;
+    height: 150rpx;
+}
+.container{
+    flex: 1;
+    margin-left: 30rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.title{
+    font-size: 36rpx;
+    color: #ffcd32;
+}
+.time{
+    color: #8e8e93;
+    font-size: 22rpx;
+}
+.info{
+    text-align: center;
+    height: 40rpx;
+    line-height: 40rpx;
+    padding-bottom: 20rpx;
+}

@@ -1,51 +1,31 @@
 page{
-    background: #1E1E26;
     padding-bottom: 100rpx;
 }
-.text{
-    padding: 30rpx;
+.header{
+    font-size: 40rpx;
+    color: #ffcd32;
     box-sizing: border-box;
+    padding: 30rpx;
 }
-.nick{
-    display: flex;
-}
-.nick>image{
-    width: 100rpx;
-    height: 100rpx;
-    border-radius: 5rpx;
-    margin-right: 20rpx;
-}
-.user-info{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-.user-info text:last-of-type{
-    font-size: 20rpx;
+.time{
+    font-size: 22rpx;
     color: #8e8e93;
+    margin-bottom: 30rpx;
+    padding-left: 30rpx;
 }
-.container{
-    margin: 20rpx 0;
+.rich{
+    padding: 30rpx;
 }
 .content{
+    text-align: justify;
+}
+.line{
     text-indent: 50rpx;
-}
-.emoji{
-    width: 40rpx;
-    height: 40rpx;
-    margin: 0 5rpx;
-}
-.pic{
-    margin-top: 20rpx;
-}
-.image-item{
-    display: inline-block;
-    width: 220rpx;
-    height: 220rpx;
-    margin-right: 10rpx;
-    box-sizing: border-box;
+    margin-bottom: 15rpx;
+    line-height: 42rpx;
 }
 .split{
+    margin-top: 50rpx;
     height: 20rpx;
     background: #14161B;
 }

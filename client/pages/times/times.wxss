@@ -70,7 +70,12 @@ page{
     padding-bottom: 20rpx;
 }
 .rate{
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.rate text{
+    margin-left: 20rpx;
 }
 .rate image{
     width: 48rpx;

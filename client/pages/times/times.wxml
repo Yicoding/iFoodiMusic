@@ -23,7 +23,9 @@
         src="{{item.avatarUrl}}"
         catchtap="goUserCenter"
         data-type="user"
-        data-openid="{{item.openid}}" />
+        data-openid="{{item.openid}}"
+        data-nickname="{{item.nickName}}"
+        data-avatarurl="{{item.avatarUrl}}" />
       <view class="user-info">
         <text>{{item.nickName}}</text>
         <text>发表于{{item.present_time}}</text>
@@ -46,6 +48,7 @@
     </view>
     <view class="rate">
       <image src="../../images/icon/rate.png" />
+      <text>{{item.num}}</text>
     </view>
   </view>
   <view class="info">{{info}}</view>

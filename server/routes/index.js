@@ -45,6 +45,14 @@ router.get('/timesDetail', controllers.present.timesDetail)
 router.get('/getRateList', controllers.present.getRateList)
 router.post('/addTimesRate', controllers.present.addTimesRate)
 router.delete('/removeRate', controllers.present.removeRate)
+router.get('/findTimesByOpenid', controllers.present.findTimesByOpenid)
+router.get('/findTimesNumByOpenid', controllers.present.findTimesNumByOpenid)
+router.delete('/removeTimes', controllers.present.removeTimes)
+router.get('/getWallList', controllers.wall.getWallList)
+router.get('/articleDetail', controllers.wall.articleDetail)
+router.get('/getArticleRateList', controllers.wall.getArticleRateList)
+router.post('/addArticleRate', controllers.wall.addArticleRate)
+router.delete('/removeArticleRate', controllers.wall.removeArticleRate)
 
 
 module.exports = router

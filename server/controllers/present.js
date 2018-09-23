@@ -3,6 +3,8 @@ const { mysql } = require('../qcloud')
 async function findAllTimes(ctx, next) {
     await mysql('times').
     leftJoin('timespic', 'times.id', '=', 'timespic.times_id').
+    // leftJoin('times_rate', 'times.id', '=', 'times_rate.times_id').
+    // select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic'), mysql.raw('count(times_rate.id) as num')).
     select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic')).
     groupBy('times.id').
     orderBy('times.present_time', 'desc').
@@ -16,6 +18,46 @@ async function findAllTimes(ctx, next) {
             }
         })
         ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
+// 按照openid查找好时光列表
+async function findTimesByOpenid(ctx, next) {
+    await mysql('times').
+    leftJoin('timespic', 'times.id', '=', 'timespic.times_id').
+    // leftJoin('times_rate', 'times.id', '=', 'times_rate.times_id').
+    // select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic'), mysql.raw('count(times_rate.id) as num')).
+    select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic')).
+    groupBy('times.id').
+    orderBy('times.present_time', 'desc').
+    limit(ctx.query.pageSize).
+    offset(ctx.query.pageIndex*ctx.query.pageSize).
+    where('times.openid', ctx.query.openid).
+    then(res => {
+        ctx.state.code = 0
+        res.forEach(item => {
+            if (!!item.pic) {
+                item.pic = item.pic.split(',')
+            }
+        })
+        ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
+// 按照openid查找好时光数目
+async function findTimesNumByOpenid(ctx, next) {
+    await mysql('times').
+    select(mysql.raw('count(*) as total')).
+    where({
+        openid: ctx.query.openid
+    }).
+    then(res => {
+        ctx.state.code = 0
+        ctx.state.data = res[0]
     }).catch(err => {
         ctx.state.code = -1
         throw new Error(err)
@@ -111,6 +153,18 @@ async function addTimesRate(ctx, next) {
         throw new Error(err)
     })
 }
+// 删除单条times
+async function removeTimes(ctx, next) {
+    await mysql('times').where({
+        id: ctx.request.body.id
+    }).del().then(res => {
+        ctx.state.code = 0
+        ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
 // 删除评论
 async function removeRate(ctx, next) {
     await mysql('times_rate').where({
@@ -129,5 +183,8 @@ module.exports = {
     timesDetail,
     getRateList,
     addTimesRate,
-    removeRate
+    removeRate,
+    findTimesByOpenid,
+    findTimesNumByOpenid,
+    removeTimes
 }

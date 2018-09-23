@@ -34,6 +34,14 @@ var config = {
         getRateList: `${host}/weapp/getRateList`,
         addTimesRate: `${host}/weapp/addTimesRate`,
         removeRate: `${host}/weapp/removeRate`,
+        findTimesByOpenid: `${host}/weapp/findTimesByOpenid`,
+        findTimesNumByOpenid: `${host}/weapp/findTimesNumByOpenid`,
+        removeTimes: `${host}/weapp/removeTimes`,
+        getWallList: `${host}/weapp/getWallList`,
+        articleDetail: `${host}/weapp/articleDetail`,
+        getArticleRateList: `${host}/weapp/getArticleRateList`,
+        addArticleRate: `${host}/weapp/addArticleRate`,
+        removeArticleRate: `${host}/weapp/removeArticleRate`,
     }
 };
 

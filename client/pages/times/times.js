@@ -5,13 +5,12 @@ var config = require('../../config')
 var { parseEmoji } = require('../../utils/emoji.js')
 Page({
   data: {
-    html: '',
     pageIndex: 0,
     pageSize: 10,
     timesList: [],
     hasMore: false,
     loaded: true,
-    info: '',
+    info: '数据加载中...',
   },
   onLoad: function () {
     console.log('onLoad')
@@ -109,8 +108,18 @@ Page({
     let item = e.currentTarget.dataset
     if (item.type == 'mine') {
       if (!!app.globalData.openid) {
-        wx.navigateTo({
-          url: `../user/user?&openid=${app.globalData.openid}`
+        wx.setStorage({
+          key: 'userInfo',
+          data: {
+            openid: app.globalData.openid,
+            nickname: app.globalData.userInfo.nickName,
+            avatarurl: app.globalData.userInfo.avatarUrl
+          },
+          success: () => {
+            wx.navigateTo({
+              url: '../user/user'
+            })
+          }
         })
       } else {
         wx.showModal({
@@ -120,8 +129,18 @@ Page({
         })
       }
     } else {
-      wx.navigateTo({
-        url: `../user/user?&openid=${item.openid}`
+      wx.setStorage({
+        key: 'userInfo',
+        data: {
+          openid: item.openid,
+          nickname: item.nickname,
+          avatarurl: item.avatarurl
+        },
+        success: () => {
+          wx.navigateTo({
+            url: '../user/user'
+          })
+        }
       })
     }
   },

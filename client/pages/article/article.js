@@ -2,7 +2,6 @@
 //获取应用实例
 const app = getApp()
 var config = require('../../config')
-var { parseEmoji } = require('../../utils/emoji.js')
 var { formatTime } = require('../../utils/util.js')
 var timee = 0
 Page({
@@ -26,13 +25,13 @@ Page({
       wx.showLoading()
     }, 500)
     wx.request({
-      url: config.service.timesDetail,
+      url: config.service.articleDetail,
       data: {
         id: this.data.id
       },
       success: ({ data }) => {
         console.log(data)
-        data.data.content = parseEmoji(data.data.content)
+        data.data.presentTime = data.data.presentTime.slice(5)
         this.setData({
           article: data.data
         })
@@ -50,7 +49,7 @@ Page({
   // 获取评论列表
   getRateList() {
     wx.request({
-      url: config.service.getRateList,
+      url: config.service.getArticleRateList,
       data: {
         id: this.data.id
       },
@@ -58,9 +57,9 @@ Page({
         console.log(data, 'rateList')
         if (data.data.length) {
           data.data.forEach(item => {
-            item.present_time = item.present_time.slice(5)
+            item.presentTime = item.presentTime.slice(5)
             item.isMine = false
-            if (this.data.article.openid == app.globalData.openid || item.openid == app.globalData.openid) {
+            if (item.openid == app.globalData.openid) {
               item.isMine = true
             }
           });
@@ -104,14 +103,14 @@ Page({
       console.log('ok')
       wx.request({
         method: 'POST',
-        url: config.service.addTimesRate,
+        url: config.service.addArticleRate,
         data: {
           content: this.data.text,
-          times_id: this.data.id,
+          wall_id: this.data.id,
           openid: app.globalData.openid,
           nickName: app.globalData.userInfo.nickName,
           avatarUrl: app.globalData.userInfo.avatarUrl,
-          present_time: formatTime(new Date())
+          presentTime: formatTime(new Date())
         },
         success: ({ data }) => {
           console.log(data)
@@ -158,7 +157,7 @@ Page({
           let id = e.currentTarget.dataset.id
           wx.request({
             method: 'DELETE',
-            url: config.service.removeRate,
+            url: config.service.removeArticleRate,
             data: {
               id: id
             },
@@ -168,27 +167,9 @@ Page({
                 title: '江湖再见，慢走不送...',
                 icon: 'none'
               })
-              app.globalData.timesRefresh = true
             }
           })
         }
-      }
-    })
-  },
-  // 去个人中心
-  goUserCenter(e) {
-    let item = e.currentTarget.dataset
-    wx.setStorage({
-      key: 'userInfo',
-      data: {
-        openid: item.openid,
-        nickname: item.nickname,
-        avatarurl: item.avatarurl
-      },
-      success: () => {
-        wx.navigateTo({
-          url: '../user/user'
-        })
       }
     })
   },
