@@ -57,6 +57,10 @@ Component({
             const backgroundAudioManager = wx.getBackgroundAudioManager()
             backgroundAudioManager.stop()
             this.triggerEvent('myevent')
+            backgroundAudioManager.title = ''
+            backgroundAudioManager.epname = ''
+            backgroundAudioManager.singer = ''
+            backgroundAudioManager.coverImgUrl = ''
         },
     },
 })

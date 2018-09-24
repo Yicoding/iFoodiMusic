@@ -134,8 +134,8 @@ Page({
   // 删除
   remove(e) {
     wx.showModal({
-      title: '温馨提示',
-      content: '确定要抛弃我吗￣へ￣',
+      title: '主人',
+      content: '您要抛弃小乖吗￣へ￣，我会不开心的',
       success: (res) => {
         console.log(res)
         if (res.confirm) {

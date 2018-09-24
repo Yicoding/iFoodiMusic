@@ -80,5 +80,15 @@ Page({
     wx.navigateTo({
       url: `../article/article?&id=${id}`
     })
-  }
+  },
+  // 预览照片
+  viewImage(e) {
+    console.log(e)
+    let urls = []
+    urls.push(e.currentTarget.dataset.urls)
+    wx.previewImage({
+      current: e.currentTarget.dataset.src, // 当前显示图片的http链接
+      urls: urls // 需要预览的图片http链接列表
+    })
+  },
 })

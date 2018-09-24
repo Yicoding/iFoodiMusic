@@ -97,6 +97,23 @@ Page({
       keyHeight: 0
     })
   },
+  // 去个人中心
+  goUserCenter(e) {
+    let item = e.currentTarget.dataset
+    wx.setStorage({
+      key: 'userInfo',
+      data: {
+        openid: item.openid,
+        nickname: item.nickname,
+        avatarurl: item.avatarurl
+      },
+      success: () => {
+        wx.navigateTo({
+          url: '../user/user'
+        })
+      }
+    })
+  },
   // 发表评论
   send() {
     if (this.data.text) {
@@ -133,15 +150,15 @@ Page({
         fail: err => {
           console.log(err)
           wx.showToast({
-            title: '服务器异常',
+            title: '服务器抛出个错误并砸向你',
             icon: 'none'
           })
         }
       })
     } else {
       wx.showModal({
-        title: '温馨提示',
-        content: '你还没有填写呦╮(╯▽╰)╭',
+        title: '主人',
+        content: '别闹，您什么都没写呢╮(╯▽╰)╭',
         showCancel: false
       })
     }
@@ -149,8 +166,8 @@ Page({
   // 删除评论
   removeRate(e) {
     wx.showModal({
-      title: '温馨提示',
-      content: '确定要抛弃我吗￣へ￣',
+      title: '主人',
+      content: '您要抛弃小乖吗￣へ￣，我会不开心的',
       success: (res) => {
         console.log(res)
         if (res.confirm) {

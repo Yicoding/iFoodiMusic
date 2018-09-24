@@ -160,15 +160,14 @@ Page({
         fail: err => {
           console.log(err, 'err')
           wx.showToast({
-            title: '服务器异常',
+            title: '服务器抛出个错误并砸向你',
             icon: 'none'
           })
         }
       })
     } else {
       wx.showModal({
-        title: '温馨提示',
-        content: '还没有输入内容呦，快去展示你的文采吧O(∩_∩)O~~',
+        title: '别闹，您什么都没写呢O(∩_∩)O~~',
         showCancel: false,
         success: () => {
           this.setData({

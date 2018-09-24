@@ -1,9 +1,9 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/wall/wall",
-    "pages/times/times",
     "pages/music/music",
+    "pages/times/times",
+    "pages/wall/wall",
     "pages/present/present",
     "pages/collect/collect",
     "pages/songlist/songlist",
@@ -49,5 +49,6 @@
     "color": "#c2c4d0",
     "selectedColor": "#3483e9",
     "backgroundColor": "#252934"
-  }
+  },
+  "requiredBackgroundModes": ["audio"]
 }

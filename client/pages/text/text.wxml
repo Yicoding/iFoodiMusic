@@ -5,7 +5,9 @@
         src="{{article.avatarUrl}}"
         bindtap="goUserCenter"
         data-type="user"
-        data-openid="{{article.openid}}" />
+        data-openid="{{article.openid}}"
+        data-nickname="{{article.nickName}}"
+        data-avatarurl="{{article.avatarUrl}}" />
       <view class="user-info">
         <text>{{article.nickName}}</text>
         <text>发表于{{article.present_time}}</text>

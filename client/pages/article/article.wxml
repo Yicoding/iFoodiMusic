@@ -13,7 +13,13 @@
         wx:for="{{rateList}}"
         wx:key="{{item.id}}">
           <view class="list-nick">
-            <image class="avatar" src="{{item.avatarUrl}}" />
+            <image
+              class="avatar"
+              src="{{item.avatarUrl}}"
+              bindtap="goUserCenter"
+              data-openid="{{item.openid}}"
+              data-nickname="{{item.nickName}}"
+              data-avatarurl="{{item.avatarUrl}}" />
             <text>{{item.nickName}}</text>
             <image
               wx:if="{{item.isMine}}"

@@ -59,6 +59,18 @@ Page({
       stateIcon: pauseIcon
     })
   },
+  // 监听用户下拉动作
+  onPullDownRefresh() {
+    console.log('ok')
+    let item = app.globalData.album.poster,
+    urls = []
+    urls.push(item)
+    wx.previewImage({
+      current: item, // 当前显示图片的http链接
+      urls: urls // 需要预览的图片http链接列表
+    })
+    wx.stopPullDownRefresh()
+  },
   // 根据歌单id获取歌曲列表
   getSongList(id) {
     wx.request({

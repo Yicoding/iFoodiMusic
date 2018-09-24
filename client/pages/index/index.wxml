@@ -1,4 +1,5 @@
 <!--index.wxml-->
 <view class="container">
-    
+    <!--<web-view src="https://sh.meituan.com/"></web-view>-->
+    <image src="../../images/index.jpg" class="index" />
 </view>

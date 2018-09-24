@@ -134,15 +134,15 @@ Page({
         fail: err => {
           console.log(err)
           wx.showToast({
-            title: '服务器异常',
+            title: '服务器抛出个错误并砸向你',
             icon: 'none'
           })
         }
       })
     } else {
       wx.showModal({
-        title: '温馨提示',
-        content: '你还没有填写呦╮(╯▽╰)╭',
+        title: '主人',
+        content: '别闹，您什么都没写呢╮(╯▽╰)╭',
         showCancel: false
       })
     }
@@ -150,8 +150,8 @@ Page({
   // 删除评论
   removeRate(e) {
     wx.showModal({
-      title: '温馨提示',
-      content: '确定要抛弃我吗￣へ￣',
+      title: '主人',
+      content: '您要抛弃小乖吗￣へ￣，我会不开心的',
       success: (res) => {
         console.log(res)
         if (res.confirm) {
@@ -173,6 +173,14 @@ Page({
           })
         }
       }
+    })
+  },
+  // 预览照片
+  viewImage(e) {
+    console.log(e)
+    wx.previewImage({
+      current: e.currentTarget.dataset.src, // 当前显示图片的http链接
+      urls: e.currentTarget.dataset.urls // 需要预览的图片http链接列表
     })
   },
   // 去个人中心

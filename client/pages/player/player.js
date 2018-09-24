@@ -14,7 +14,7 @@ Page({
     sliderValue: 0, // 进度条的值
     duration: 0, // 音频的长度（单位：s）
     currentPosition: 0, // 音频的播放位置（单位：s）
-    playStatus: 0, // 播放状态
+    playStatus: false, // 播放状态
     timee: 0, // 定时器 根据歌曲进度改变slider进度
     coverImg: '', // 封面图片
     isDel: false, // 当前列表是否只有一首歌曲
@@ -29,7 +29,7 @@ Page({
     if (backgroundAudioManager.src == item.src) { // 继续听歌
       console.log('继续听歌')
     } else { // 播放新歌
-      app.globalData.imgRotate = 0
+      // app.globalData.imgRotate = 0
       console.log('播放新歌')
       backgroundAudioManager.title = item.name
       backgroundAudioManager.epname = album.name
@@ -47,14 +47,14 @@ Page({
       currentPosition: this.stotime(backgroundAudioManager.currentTime),
       parseLyric: new Lyric(lyric, this.handleLyric),
       mode: app.globalData.mode,
-      imgRotate: app.globalData.imgRotate
+      // imgRotate: app.globalData.imgRotate
     })
     this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000 + this.data.item.bias)
     console.log(this.data.playStatus, 'playStatus')
     if (backgroundAudioManager.paused) {
       this.data.parseLyric.togglePlay()
     } else if (!this.data.timee) {
-      this.toRotate()
+      // this.toRotate()
     }
     backgroundAudioManager.onPlay(this.onPlay) // 监听背景音频播放事件
     backgroundAudioManager.onPause(this.onPause) // 监听背景音频暂停事件
@@ -76,7 +76,7 @@ Page({
   onShow() {
     const backgroundAudioManager = wx.getBackgroundAudioManager()
     if (!backgroundAudioManager.paused) {
-      this.toRotate()
+      // this.toRotate()
     }
   },
   onHide() {
@@ -152,7 +152,7 @@ Page({
       playStatus: true
     })
     this.data.parseLyric.seek(backgroundAudioManager.currentTime*1000 + this.data.item.bias)
-    this.toRotate()
+    // this.toRotate()
   },
   onPause() {
     clearInterval(this.data.timee)
@@ -160,6 +160,14 @@ Page({
     console.log('onPause')
     this.setData({
       playStatus: false
+    })
+    const backgroundAudioManager = wx.getBackgroundAudioManager()
+    console.log(backgroundAudioManager.currentTime, 'currentTimecurrentTimecurrentTimecurrentTimecurrentTimecurrentTime')
+    let seconds = backgroundAudioManager.currentTime % 20
+    console.log(seconds, 'seconds')
+    let imgRotate = seconds / 20 * 360
+    this.setData({
+      imgRotate: imgRotate
     })
   },
   switch() { // 切换歌曲播放状态
@@ -184,9 +192,9 @@ Page({
   toRotate() {
     this.data.timee && clearInterval(this.data.timee)
     this.data.timee = setInterval(() => {
-      app.globalData.imgRotate  = app.globalData.imgRotate + 0.8
+      // app.globalData.imgRotate  = app.globalData.imgRotate + 0.8
       this.setData({
-        imgRotate: app.globalData.imgRotate
+        // imgRotate: app.globalData.imgRotate
       })
     }, 35)
   },

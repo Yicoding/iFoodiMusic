@@ -1,6 +1,6 @@
 <view class="container">
-  <view class="cover-img">
-    <image style="transform: rotate({{imgRotate}}deg)" src="{{coverImg}}" />
+  <view class="cover-img" style="transform: rotate({{imgRotate}}deg)">
+    <image class="{{playStatus? 'ani-rotate' : ''}}" src="{{coverImg}}" />
   </view>
   <view class="slider-container">
     <text class="current">{{currentPosition === 0 ? '' : currentPosition}}</text>

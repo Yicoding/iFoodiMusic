@@ -14,7 +14,9 @@ Page({
     imgUrls: [
       'https://qcloudtest-1257454171.cos.ap-guangzhou.myqcloud.com/img/swiper-1.jpg',
       'https://qcloudtest-1257454171.cos.ap-guangzhou.myqcloud.com/img/swiper-2.jpg',
-      'https://qcloudtest-1257454171.cos.ap-guangzhou.myqcloud.com/img/swiper-3.jpg'
+      'https://qcloudtest-1257454171.cos.ap-guangzhou.myqcloud.com/img/swiper-3.jpg',
+      'https://qcloudtest-1257454171.cos.ap-guangzhou.myqcloud.com/img/swiper-4.jpg',
+      'https://qcloudtest-1257454171.cos.ap-guangzhou.myqcloud.com/img/swiper-5.jpg',
     ],
     songInfo: {},
     showNavigator: false,
