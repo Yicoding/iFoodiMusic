@@ -3,7 +3,7 @@ page{
 }
 .list{
     padding: 30rpx;
-    background: #1E1E26;
+    background: #2a2a2a;
     margin-bottom: 10rpx;
     box-sizing: border-box;
     display: flex;

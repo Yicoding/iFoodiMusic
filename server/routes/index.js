@@ -53,6 +53,7 @@ router.get('/articleDetail', controllers.wall.articleDetail)
 router.get('/getArticleRateList', controllers.wall.getArticleRateList)
 router.post('/addArticleRate', controllers.wall.addArticleRate)
 router.delete('/removeArticleRate', controllers.wall.removeArticleRate)
+router.get('/getFoodList', controllers.food.getFoodList)
 
 
 module.exports = router

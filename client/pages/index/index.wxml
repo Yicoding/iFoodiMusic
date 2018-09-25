@@ -1,5 +1,57 @@
 <!--index.wxml-->
-<view class="container">
-    <!--<web-view src="https://sh.meituan.com/"></web-view>-->
-    <image src="../../images/index.jpg" class="index" />
+<view class="container {{isFixed ? 'container-padding' : ''}}">
+    <search
+        id="search"
+        avatar="{{userInfo.avatarUrl}}"
+        class="search"
+        bind:callback="search">
+    </search>
+    <view class="ul">
+        <view
+            class="li {{type == item.type ? 'active' : ''}}"
+            wx:for="{{typeArrOne}}"
+            wx:key="{{item.type}}"
+            bindtap="checkType"
+            data-type="{{item.type}}">
+            <image src="{{item.src}}" />
+            <view>{{item.text}}</view>
+        </view>
+    </view>
+    <view class="{{isFixed ? 'order-fixed' : ''}}">
+        <view class="order">
+            <view class="order-li">
+                <text
+                    class="order-text {{order == 'time' ? 'active' : ''}}"
+                    bindtap="checkOrder"
+                    data-order="time">上架时间</text>
+                <text
+                    class="order-text {{order == 'num' ? 'active' : ''}}"
+                    bindtap="checkOrder"
+                    data-order="num">评论数</text>
+            </view>
+            <image
+                class="order-status"
+                src="{{status ? iconDown : iconUp}}"
+                bindtap="switchStatus" />
+        </view>
+    </view>
+    <view>
+        <view
+            class="list"
+            wx:for="{{foodList}}"
+            wx:key="{{item.id}}">
+            <image class="cover" src="{{item.cover}}" />
+            <view class="content">
+                <view class="title">{{item.title}}</view>
+                <view class="descipt">{{item.descript}}</view>
+                <view class="time">
+                    <text class="text-time">{{item.time}}</text>
+                    <image class="icon-rate" src="../../images/icon/rate.png" />
+                    <text class="text-num">{{item.num}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view wx:if="{{foodList.length}}" class="info">{{info}}</view>
+    <view wx:else class="empty">没有找到你要的食物哦，快呼叫Ecode补充吧O(∩_∩)O~~</view>
 </view>

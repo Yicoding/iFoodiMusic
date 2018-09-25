@@ -42,6 +42,7 @@ var config = {
         getArticleRateList: `${host}/weapp/getArticleRateList`,
         addArticleRate: `${host}/weapp/addArticleRate`,
         removeArticleRate: `${host}/weapp/removeArticleRate`,
+        getFoodList: `${host}/weapp/getFoodList`,
     }
 };
 
