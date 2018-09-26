@@ -2,65 +2,91 @@
 //获取应用实例
 const app = getApp()
 var config = require('../../config')
-var { parseEmoji } = require('../../utils/emoji.js')
 var { formatTime } = require('../../utils/util.js')
-var timee = 0
 Page({
   data: {
     id: null,
-    article: {},
+    food: {},
+    imgList: [],
     rateList: [],
     keyHeight: 0,
-    text: null,
+    text: '',
   },
   onLoad: function (options) {
-    console.log(options)
     this.setData({
       id: options.id
     })
-    this.getDetail()
+    console.log(options)
+    this.getFoodDetail()
+    this.getFoodImg()
+    this.getFoodRate()
   },
-  // 获取文章内容
-  getDetail() {
-    timee = setTimeout(() => {
-      wx.showLoading()
-    }, 500)
+  // 监听用户下拉动作
+  onPullDownRefresh() {
+    let item = this.data.food.cover
+    let urls = [item]
+    wx.previewImage({
+      current: item, // 当前显示图片的http链接
+      urls: urls // 需要预览的图片http链接列表
+    })
+    wx.stopPullDownRefresh()
+  },
+  // 监听用户上拉触底事件
+  onReachBottom(e) {
+    console.log('到底了')
+  },
+  // 获取食物信息
+  getFoodDetail() {
     wx.request({
-      url: config.service.timesDetail,
+      url: config.service.getFoodDetail,
       data: {
         id: this.data.id
       },
       success: ({ data }) => {
         console.log(data)
-        data.data.content = parseEmoji(data.data.content)
         this.setData({
-          article: data.data
+          food: data.data
         })
-        this.getRateList()
       },
-      fail: err => {
-        console.log(err)
-      },
-      complete: () => {
-        timee && clearTimeout(timee)
-        wx.hideLoading()
+      fail: (err) => {
+        console.log(err, 'err')
       }
     })
   },
-  // 获取评论列表
-  getRateList() {
+  // 获取图片列表
+  getFoodImg() {
     wx.request({
-      url: config.service.getRateList,
+      url: config.service.getFoodImg,
       data: {
         id: this.data.id
       },
       success: ({ data }) => {
-        console.log(data, 'rateList')
+        console.log(data)
+        if (data.data.length) {
+          this.setData({
+            imgList: data.data
+          })
+        }
+      },
+      fail: (err) => {
+        console.log(err, 'err')
+      }
+    })
+  },
+  // 获取食物评价
+  getFoodRate(id) {
+    wx.request({
+      url: config.service.getFoodRate,
+      data: {
+        id: this.data.id
+      },
+      success: ({ data }) => {
+        console.log(data)
         if (data.data.length) {
           data.data.forEach(item => {
-            item.present_time = item.present_time.slice(5)
+            item.presentTime = item.presentTime.slice(5)
             item.isMine = false
-            if (this.data.article.openid == app.globalData.openid || item.openid == app.globalData.openid) {
+            if (item.openid == app.globalData.openid) {
               item.isMine = true
             }
           });
@@ -73,8 +99,8 @@ Page({
           })
         }
       },
-      fail: err => {
-        console.log(err)
+      fail: (err) => {
+        console.log(err, 'err')
       }
     })
   },
@@ -104,16 +130,14 @@ Page({
       console.log('ok')
       wx.request({
         method: 'POST',
-        url: config.service.addTimesRate,
+        url: config.service.addFoodRate,
         data: {
           content: this.data.text,
-          times_id: this.data.id,
+          food_id: this.data.id,
           openid: app.globalData.openid,
           nickName: app.globalData.userInfo.nickName,
           avatarUrl: app.globalData.userInfo.avatarUrl,
-          present_time: formatTime(new Date()),
-          isRead: this.data.article.openid == app.globalData.openid ? 1 : 'false',
-          ownId: this.data.article.openid
+          presentTime: formatTime(new Date())
         },
         success: ({ data }) => {
           console.log(data)
@@ -125,7 +149,7 @@ Page({
             this.setData({
               text: null
             })
-            this.getRateList()
+            this.getFoodRate()
             app.globalData.timesRefresh = true
           } else {
             wx.showToast({
@@ -161,12 +185,12 @@ Page({
           let id = e.currentTarget.dataset.id
           wx.request({
             method: 'DELETE',
-            url: config.service.removeRate,
+            url: config.service.removeFoodRate,
             data: {
               id: id
             },
             success: () => {
-              this.getRateList()
+              this.getFoodRate()
               wx.showToast({
                 title: '江湖再见，慢走不送...',
                 icon: 'none'
@@ -176,14 +200,6 @@ Page({
           })
         }
       }
-    })
-  },
-  // 预览照片
-  viewImage(e) {
-    console.log(e)
-    wx.previewImage({
-      current: e.currentTarget.dataset.src, // 当前显示图片的http链接
-      urls: e.currentTarget.dataset.urls // 需要预览的图片http链接列表
     })
   },
   // 去个人中心
@@ -201,6 +217,15 @@ Page({
           url: '../user/user'
         })
       }
+    })
+  },
+  // 预览照片
+  viewImage(e) {
+    let current = e.currentTarget.dataset.current
+    let urls = this.data.imgList.map(item => item.src)
+    wx.previewImage({
+      current: current, // 当前显示图片的http链接
+      urls: urls // 需要预览的图片http链接列表
     })
   },
 })

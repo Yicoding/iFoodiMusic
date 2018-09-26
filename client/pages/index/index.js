@@ -75,6 +75,15 @@ Page({
     }
     this.getFoodList()
   },
+  onShow() {
+    if (app.globalData.timesRefresh) {
+      this.setData({
+        pageIndex: 0
+      })
+      this.getFoodList()
+      app.globalData.timesRefresh = false
+    }
+  },
   // 监听用户滑动页面事件
   onPageScroll(e) {
     let scrollTop = e.scrollTop
@@ -173,5 +182,21 @@ Page({
       status: !this.data.status
     })
     this.getFoodList()
+  },
+  // 预览照片
+  viewImage(e) {
+    console.log(e)
+    let urls = [e.currentTarget.dataset.urls]
+    wx.previewImage({
+      current: e.currentTarget.dataset.src, // 当前显示图片的http链接
+      urls: urls // 需要预览的图片http链接列表
+    })
+  },
+  // 进入食物详情
+  goDetail(e) {
+    let id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: `../food/food?id=${id}`
+    })
   }
 })

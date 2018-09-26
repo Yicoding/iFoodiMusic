@@ -1,0 +1,5 @@
+{
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": true,
+  "navigationBarTitleText": "消息中心"
+}

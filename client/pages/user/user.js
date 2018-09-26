@@ -89,9 +89,18 @@ Page({
         openid: this.data.userInfo.openid
       },
       success:({ data }) => {
-        this.setData({
-          loaded: true
-        })
+        if (this.data.pageIndex == 0) {
+          setTimeout(() => {
+            wx.hideLoading()
+            this.setData({
+              loaded: true
+            })
+          }, 800)
+        } else {
+          this.setData({
+            loaded: true
+          })
+        }
         console.log(data)
         data.data.forEach(item => {
           item.present_time = item.present_time.slice(5)
@@ -106,9 +115,6 @@ Page({
             timesList: [...this.data.timesList, ...data.data]
           })
         }
-        setTimeout(() => {
-          wx.hideLoading()
-        }, 800)
         wx.stopPullDownRefresh()
         if (data.data.length == 10) {
           this.setData({

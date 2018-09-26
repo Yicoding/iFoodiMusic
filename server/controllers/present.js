@@ -153,7 +153,9 @@ async function addTimesRate(ctx, next) {
         openid: item.openid,
         nickName: item.nickName,
         avatarUrl: item.avatarUrl,
-        present_time: item.present_time
+        present_time: item.present_time,
+        isRead: item.isRead,
+        ownId: item.ownId
     }).then(res => {
         ctx.state.code = 0
         ctx.state.data = res

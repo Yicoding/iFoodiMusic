@@ -6,13 +6,19 @@ Page({
   data: {
     pageIndex: 0,
     pageSize: 10,
-    wallList: [],
+    msgList: [],
     hasMore: false,
     loaded: true,
     info: '数据加载中...',
+    num: 0
   },
   onLoad: function () {
-    this.getWallList()
+    this.getMsgList()
+    this.getReadNum()
+  },
+  onShow() {
+    this.getMsgList()
+    this.getReadNum()
   },
   // 监听用户下拉动作
   onPullDownRefresh() {
@@ -20,7 +26,8 @@ Page({
     this.setData({
       pageIndex: 0
     })
-    this.getWallList()
+    this.getMsgList()
+    this.getReadNum()
   },
   // 监听用户上拉触底事件
   onReachBottom(e) {
@@ -31,33 +38,46 @@ Page({
         loaded: false,
         info: '数据加载中...'
       })
-      this.getWallList()
+      this.getMsgList()
       console.log(this.data.pageIndex)
     }
   },
-  // 获取文章列表
-  getWallList() {
+  // 获取未读消息条数
+  getReadNum() {
     wx.request({
-      url: config.service.getWallList,
+      url: config.service.getReadNum,
+      data: {
+        openid: app.globalData.openid
+      },
+      success: ({ data }) => {
+        console.log(data, 'getReadNum')
+        this.setData({
+          num: data.data
+        })
+      }
+    })
+  },
+  // 获取消息列表
+  getMsgList() {
+    wx.request({
+      url: config.service.getMsgList,
       data: {
         pageIndex: this.data.pageIndex,
-        pageSize: this.data.pageSize
+        pageSize: this.data.pageSize,
+        openid: app.globalData.openid
       },
       success: ({ data }) => {
         console.log(data)
         this.setData({
           loaded: true
         })
-        data.data.forEach(item => {
-          item.presentTime = item.presentTime.slice(5)
-        })
         if (this.data.pageIndex == 0) {
           this.setData({
-            wallList: data.data,
+            msgList: data.data,
           })
         } else {
           this.setData({
-            wallList: [...this.data.wallList, ...data.data]
+            msgList: [...this.data.msgList, ...data.data]
           })
         }
         wx.stopPullDownRefresh()
@@ -74,20 +94,19 @@ Page({
       }
     })
   },
-  // 跳转到详情页
-  goWallDetail(e) {
-    let id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: `../article/article?&id=${id}`
-    })
-  },
-  // 预览照片
-  viewImage(e) {
+  // 查看详情
+  goDetail(e) {
     console.log(e)
-    let urls = [e.currentTarget.dataset.urls]
-    wx.previewImage({
-      current: e.currentTarget.dataset.src, // 当前显示图片的http链接
-      urls: urls // 需要预览的图片http链接列表
+    let id = e.currentTarget.dataset.id
+    wx.request({
+      method: 'PUT',
+      url: config.service.alterMsg,
+      data: {
+        id: id
+      }
+    })
+    wx.navigateTo({
+      url: `../text/text?&id=${e.currentTarget.dataset.timesid}`
     })
   },
 })

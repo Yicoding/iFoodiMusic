@@ -9,10 +9,19 @@ page{
     justify-content: space-between;
     align-items: center;
     padding: 0 30rpx;
+    position: relative;
 }
 .mine{
     width: 50rpx;
     height: 50rpx;
+}
+.msg{
+    width: 45rpx;
+    height: 45rpx;
+    position: absolute;
+    top: 50%;
+    left: 100rpx;
+    margin-top: -22.5rpx;
 }
 .present{
     width: 60rpx;
@@ -80,4 +89,9 @@ page{
 .rate image{
     width: 48rpx;
     height: 40rpx;
+}
+.rate image.icon-delete{
+    width: 50rpx;
+    height: 50rpx;
+    margin-left: 30rpx;
 }

@@ -54,6 +54,17 @@ router.get('/getArticleRateList', controllers.wall.getArticleRateList)
 router.post('/addArticleRate', controllers.wall.addArticleRate)
 router.delete('/removeArticleRate', controllers.wall.removeArticleRate)
 router.get('/getFoodList', controllers.food.getFoodList)
-
+router.get('/getFoodDetail', controllers.food.getFoodDetail)
+router.get('/getFoodRate', controllers.food.getFoodRate)
+router.post('/addFoodRate', controllers.food.addFoodRate)
+router.delete('/removeFoodRate', controllers.food.removeFoodRate)
+router.get('/getFoodImg', controllers.food.getFoodImg)
+router.get('/collectFoodByOpenId', controllers.collect.collectFoodByOpenId)
+router.get('/collectFoodByFoodId', controllers.collect.collectFoodByFoodId)
+router.get('/addFoodCollect', controllers.collect.addFoodCollect)
+router.delete('/removeFoodCollect', controllers.collect.removeFoodCollect)
+router.get('/getReadNum', controllers.msg.getReadNum)
+router.get('/getMsgList', controllers.msg.getMsgList)
+router.put('/alterMsg', controllers.msg.alterMsg)
 
 module.exports = router

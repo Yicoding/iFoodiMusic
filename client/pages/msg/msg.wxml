@@ -1,0 +1,33 @@
+<view>
+  <view class="title">未读消息<text>({{num}})</text></view>
+  <view class="container" wx:if="{{msgList.length}}">
+    <view
+      class="list"
+      wx:for="{{msgList}}"
+      wx:key="{{item.id}}"
+      bindtap="goDetail"
+      data-id="{{item.id}}"
+      data-timesid="{{item.times_id}}">
+        <view class="list-nick">
+          <image
+            class="avatar"
+            src="{{item.avatarUrl}}"
+            bindtap="goUserCenter"
+            data-openid="{{item.openid}}"
+            data-nickname="{{item.nickName}}"
+            data-avatarurl="{{item.avatarUrl}}" />
+          <text>{{item.nickName}}</text>
+          <image
+            wx:if="{{item.isMine}}"
+            class="icon-delete"
+            src="../../images/icon/delete.png"
+            bindtap="removeRate"
+            data-id="{{item.id}}" />
+        </view>
+        <view class="list-content">{{item.content}}</view>
+        <view class="list-time">{{item.present_time}}</view>
+    </view>
+  </view>
+  <view wx:else class="empty">暂无未读消息</view>
+  <view wx:if="{{msgList.length}}" class="info">{{info}}</view>
+</view>

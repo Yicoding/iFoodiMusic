@@ -6,6 +6,11 @@
       src="../../images/icon/mine4.png"
       bindtap="goUserCenter"
       data-type="mine" />
+    <image
+      wx:if="{{hasMsg}}"
+      class="msg"
+      src="../../images/icon/msg.png"
+      bindtap="goMsg" />
     <text>定不负好时光</text>
     <image
       class="present"
@@ -49,6 +54,12 @@
     <view class="rate">
       <image src="../../images/icon/rate.png" />
       <text>{{item.num}}</text>
+      <image
+        class="icon-delete"
+        src="../../images/icon/delete.png"
+        wx:if="{{item.isDelete}}"
+        catchtap="remove"
+        data-id="{{item.id}}" />
     </view>
   </view>
   <view class="info">{{info}}</view>

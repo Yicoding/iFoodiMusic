@@ -43,6 +43,14 @@ var config = {
         addArticleRate: `${host}/weapp/addArticleRate`,
         removeArticleRate: `${host}/weapp/removeArticleRate`,
         getFoodList: `${host}/weapp/getFoodList`,
+        getFoodDetail: `${host}/weapp/getFoodDetail`,
+        getFoodRate: `${host}/weapp/getFoodRate`,
+        addFoodRate: `${host}/weapp/addFoodRate`,
+        removeFoodRate: `${host}/weapp/removeFoodRate`,
+        getFoodImg: `${host}/weapp/getFoodImg`,
+        getReadNum: `${host}/weapp/getReadNum`,
+        getMsgList: `${host}/weapp/getMsgList`,
+        alterMsg: `${host}/weapp/alterMsg`,
     }
 };
 

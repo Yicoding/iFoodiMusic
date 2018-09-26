@@ -1,8 +1,8 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/music/music",
     "pages/times/times",
+    "pages/music/music",
     "pages/wall/wall",
     "pages/present/present",
     "pages/collect/collect",
@@ -10,6 +10,8 @@
     "pages/user/user",
     "pages/text/text",
     "pages/article/article",
+    "pages/food/food",
+    "pages/msg/msg",
     "pages/player/player"
   ],
   "window":{

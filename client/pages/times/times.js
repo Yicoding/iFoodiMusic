@@ -11,12 +11,14 @@ Page({
     hasMore: false,
     loaded: true,
     info: '数据加载中...',
+    hasMsg: false,
   },
   onLoad: function () {
     console.log('onLoad')
     this.findAllTimes()
   },
   onShow() {
+    this.getReadNum()
     console.log('onShow')
     if (app.globalData.timesRefresh) {
       console.log(this.data.pageIndex)
@@ -49,6 +51,21 @@ Page({
       console.log(this.data.pageIndex)
     }
   },
+  // 是否有未读消息
+  getReadNum() {
+    wx.request({
+      url: config.service.getReadNum,
+      data: {
+        openid: app.globalData.openid
+      },
+      success: ({ data }) => {
+        console.log(data, 'getReadNum')
+        this.setData({
+          hasMsg: data.data
+        })
+      }
+    })
+  },
   // 获取列表
   findAllTimes() {
     wx.request({
@@ -65,6 +82,9 @@ Page({
         data.data.forEach(item => {
           item.present_time = item.present_time.slice(5)
           item.content = parseEmoji(item.content)
+          if (item.openid == app.globalData.openid) {
+            item.isDelete = true
+          }
         })
         if (this.data.pageIndex == 0) {
           this.setData({
@@ -151,5 +171,41 @@ Page({
     wx.navigateTo({
       url: `../text/text?&id=${id}`
     })
-  }
+  },
+  // 删除
+  remove(e) {
+    wx.showModal({
+      title: '主人',
+      content: '您要抛弃小乖吗￣へ￣，我会不开心的',
+      success: (res) => {
+        console.log(res)
+        if (res.confirm) {
+          let id = e.currentTarget.dataset.id
+          wx.request({
+            method: 'DELETE',
+            url: config.service.removeTimes,
+            data: {
+              id: id
+            },
+            success: () => {
+              wx.showToast({
+                title: '江湖再见，慢走不送...',
+                icon: 'none'
+              })
+              this.setData({
+                pageIndex: 0
+              })
+              this.findAllTimes()
+            }
+          })
+        }
+      }
+    })
+  },
+  // 前往消息中心
+  goMsg() {
+    wx.navigateTo({
+      url: '../msg/msg'
+    })
+  },
 })
