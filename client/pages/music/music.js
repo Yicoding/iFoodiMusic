@@ -101,7 +101,7 @@ Page({
   },
   gotoSongList(e) {
     let item = e.currentTarget.dataset.type
-    app.globalData.album = item // 将专辑信息存入globalData
+    wx.setStorageSync('album', item) // 将专辑信息存入缓存中
     wx.navigateTo({
       url: '../songlist/songlist'
     })

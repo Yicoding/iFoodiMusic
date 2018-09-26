@@ -14,7 +14,7 @@ Page({
     stateIcon: playIcon
   },
   onLoad() {
-    let item = app.globalData.album
+    let item = wx.getStorageSync('album')
     this.setData({
       album: item
     })
@@ -62,9 +62,8 @@ Page({
   // 监听用户下拉动作
   onPullDownRefresh() {
     console.log('ok')
-    let item = app.globalData.album.poster,
-    urls = []
-    urls.push(item)
+    let item = this.data.album.poster,
+    urls = [item]
     wx.previewImage({
       current: item, // 当前显示图片的http链接
       urls: urls // 需要预览的图片http链接列表
@@ -88,6 +87,7 @@ Page({
   },
   // 播放歌曲
   play(e) {
+    app.globalData.album = this.data.album
     app.globalData.playList = this.data.songList
     let index = e.currentTarget.dataset.index
     app.globalData.playIndex = index

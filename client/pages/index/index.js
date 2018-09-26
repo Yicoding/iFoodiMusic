@@ -14,27 +14,27 @@ Page({
     iconDown: '../../images/icon/arrow-down.png',
     typeArrOne: [
       {
-        src: '../../images/icon/unburden.png',
+        src: '../../images/icon/food-3.png',
         type: 'all',
         text: '全部'
       },
       {
-        src: '../../images/icon/unburden.png',
+        src: '../../images/icon/food-4.png',
         type: 'chuancai',
         text: '川菜'
       },
       {
-        src: '../../images/icon/unburden.png',
+        src: '../../images/icon/food-7.png',
         type: 'yuecai',
         text: '粤菜'
       },
       {
-        src: '../../images/icon/unburden.png',
+        src: '../../images/icon/food-11.png',
         type: 'xiangcai',
         text: '湘菜'
       },
       {
-        src: '../../images/icon/unburden.png',
+        src: '../../images/icon/food-8.png',
         type: 'zhushi',
         text: '主食'
       },
