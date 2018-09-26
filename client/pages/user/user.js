@@ -10,7 +10,7 @@ Page({
     pageSize: 10,
     timesList: [],
     hasMore: false,
-    loaded: true,
+    loaded: false,
     info: '数据加载中...',
     isDelete: false,
     total: 0,
@@ -76,6 +76,11 @@ Page({
   },
   // 获取列表
   findTimesByOpenid() {
+    if (this.data.pageIndex == 0) {
+      wx.showLoading({
+        title: '加载中'
+      })
+    }
     wx.request({
       url: config.service.findTimesByOpenid,
       data: {
@@ -101,6 +106,9 @@ Page({
             timesList: [...this.data.timesList, ...data.data]
           })
         }
+        setTimeout(() => {
+          wx.hideLoading()
+        }, 800)
         wx.stopPullDownRefresh()
         if (data.data.length == 10) {
           this.setData({

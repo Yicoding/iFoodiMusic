@@ -2,10 +2,10 @@ const { mysql } = require('../qcloud')
 // 查看好时光列表
 async function findAllTimes(ctx, next) {
     await mysql('times').
+    // select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic'), 'a.num').
+    select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic'), mysql.raw('group_concat(a.num) as num')).
     leftJoin('timespic', 'times.id', '=', 'timespic.times_id').
-    // leftJoin('times_rate', 'times.id', '=', 'times_rate.times_id').
-    // select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic'), mysql.raw('count(times_rate.id) as num')).
-    select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic')).
+    leftJoin(mysql.raw('(select MAX(times_id) times_id,count(1) num from times_rate GROUP by times_id) as a'), 'times.id', '=', 'a.times_id').
     groupBy('times.id').
     orderBy('times.present_time', 'desc').
     limit(ctx.query.pageSize).
@@ -15,6 +15,11 @@ async function findAllTimes(ctx, next) {
         res.forEach(item => {
             if (!!item.pic) {
                 item.pic = item.pic.split(',')
+            }
+            if (!!item.num) {
+                item.num = Number(item.num[0])
+            } else {
+                item.num = 0
             }
         })
         ctx.state.data = res
@@ -26,10 +31,9 @@ async function findAllTimes(ctx, next) {
 // 按照openid查找好时光列表
 async function findTimesByOpenid(ctx, next) {
     await mysql('times').
+    select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic'), mysql.raw('group_concat(a.num) as num')).
     leftJoin('timespic', 'times.id', '=', 'timespic.times_id').
-    // leftJoin('times_rate', 'times.id', '=', 'times_rate.times_id').
-    // select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic'), mysql.raw('count(times_rate.id) as num')).
-    select('times.id', 'times.content', 'times.nickName', 'times.openid', 'times.avatarUrl', 'times.present_time', mysql.raw('group_concat(timespic.src) as pic')).
+    leftJoin(mysql.raw('(select MAX(times_id) times_id,count(1) num from times_rate GROUP by times_id) as a'), 'times.id', '=', 'a.times_id').
     groupBy('times.id').
     orderBy('times.present_time', 'desc').
     limit(ctx.query.pageSize).
@@ -40,6 +44,11 @@ async function findTimesByOpenid(ctx, next) {
         res.forEach(item => {
             if (!!item.pic) {
                 item.pic = item.pic.split(',')
+            }
+            if (!!item.num) {
+                item.num = Number(item.num[0])
+            } else {
+                item.num = 0
             }
         })
         ctx.state.data = res

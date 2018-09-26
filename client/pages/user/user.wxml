@@ -39,7 +39,7 @@
           </view>
       </view>
     </block>
-    <view wx:else class="empty">还没有发表说说呦，快去露露脸吧(*^▽^*)</view>
+    <view wx:if="{{!timesList.length && loaded}}" class="empty">还没有发表说说呦，快去露露脸吧(*^▽^*)</view>
     <view wx:if="{{timesList.length}}" class="info">{{info}}</view>
   </view>
 </view>

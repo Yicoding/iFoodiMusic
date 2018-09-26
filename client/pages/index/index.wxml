@@ -29,10 +29,11 @@
                     bindtap="checkOrder"
                     data-order="num">评论数</text>
             </view>
-            <image
-                class="order-status"
-                src="{{status ? iconDown : iconUp}}"
-                bindtap="switchStatus" />
+            <view class="order-img" bindtap="switchStatus">
+                <image
+                    class="order-status"
+                    src="{{status ? iconDown : iconUp}}" />
+            </view>
         </view>
     </view>
     <view>
