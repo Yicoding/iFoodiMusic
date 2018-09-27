@@ -17,13 +17,12 @@ App({
           success: ({ data }) => {
             console.log(data, '小程序的openid')
             this.globalData.openid = data.openid
-            // this.getSetting()
+            this.getSetting()
           }
         })
       }
     })
-    this.getSetting()
-    // 打开调试
+    // 打开调试11
     wx.setEnableDebug({
       enableDebug: true
     })

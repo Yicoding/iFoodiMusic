@@ -4,6 +4,32 @@
 .container.container-padding{
     padding-top: 180rpx;
 }
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.3);
+}
+.modal-container{
+    width: 80%;
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    color: #2a2a2a;
+    border-radius: 10rpx;
+    padding: 30rpx;
+    text-align: center;
+}
+.modal-confirm{
+    font-size: 32rpx;
+    margin-bottom: 20rpx;
+}
 .search{
     position: fixed;
     top: 0;

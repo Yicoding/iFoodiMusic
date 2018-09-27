@@ -32,7 +32,7 @@ async function getMsgList(ctx, next) {
         throw new Error(err)
     })
 }
-// 设为已读
+// 设为已读11
 async function alterMsg(ctx, next) {
     await mysql('times_rate').
     where({

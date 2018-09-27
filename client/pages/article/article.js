@@ -55,6 +55,7 @@ Page({
       },
       success: ({ data }) => {
         console.log(data, 'rateList')
+        console.log(data, 'rateList')
         if (data.data.length) {
           data.data.forEach(item => {
             item.presentTime = item.presentTime.slice(5)

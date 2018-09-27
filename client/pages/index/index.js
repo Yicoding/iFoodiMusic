@@ -110,6 +110,34 @@ Page({
       console.log(this.data.pageIndex)
     }
   },
+  getuserInfo(e) {
+    let userInfo = e.detail.userInfo
+    console.log(userInfo)
+    this.setData({
+      userInfo: userInfo
+    })
+    app.globalData.userInfo = userInfo
+    // 登录
+    wx.login({
+      success: ({ code }) => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        console.log(code, 'res.code')
+        wx.request({
+          url: 'https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code',
+          data: {
+            appid: 'wxa951826c9c76290b',
+            secret: '3ad8c27bb84a60a4fb71714b7741713c',
+            js_code: code,
+            grant_type: 'authorization_code'
+          },
+          success: ({ data }) => {
+            console.log(data, '小程序的openid')
+            app.globalData.openid = data.openid
+          }
+        })
+      }
+    })
+  },
   // 获取列表
   getFoodList(type=null) {
     wx.request({
