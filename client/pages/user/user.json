@@ -1,5 +1,4 @@
 {
   "enablePullDownRefresh": true,
-  "onReachBottomDistance": true,
   "navigationBarTitleText": "个人中心"
 }
