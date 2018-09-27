@@ -39,7 +39,7 @@
           </view>
       </view>
     </block>
-    <view wx:if="{{!timesList.length && loaded}}" class="empty">还没有发表说说呦，快去露露脸吧(*^▽^*)</view>
+    <view wx:if="{{!timesList.length && loaded}}" class="empty">{{isDelete ? '还没有发表说说呦，快去露露脸吧(*^▽^*)' : '该用户太懒，还没有发过动态'}}</view>
     <view wx:if="{{timesList.length}}" class="info">{{info}}</view>
   </view>
 </view>

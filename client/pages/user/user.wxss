@@ -84,3 +84,8 @@
     line-height: 40rpx;
     padding-top: 20rpx;
 }
+.empty{
+    text-align: center;
+    height: 80rpx;
+    line-height: 80rpx;
+}
