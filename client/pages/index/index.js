@@ -25,8 +25,8 @@ Page({
       },
       {
         src: '../../images/icon/food-7.png',
-        type: 'yuecai',
-        text: '粤菜'
+        type: 'jiachangcai',
+        text: '家常菜'
       },
       {
         src: '../../images/icon/food-11.png',
@@ -45,9 +45,15 @@ Page({
     hasMore: false,
     loaded: true,
     info: '数据加载中...',
-    title: ''
+    title: '',
+    isShow: false
   },
   onLoad: function () {
+    setTimeout(() => {
+      this.setData({
+        isShow: true
+      })
+    }, 500)
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo
@@ -182,7 +188,8 @@ Page({
   search(val) {
     console.log(val.detail, 'val')
     this.setData({
-      title: val.detail
+      title: val.detail,
+      pageIndex: 0
     })
     let type = val.detail ? 'all' : ''
     this.getFoodList(type)
@@ -191,7 +198,8 @@ Page({
   checkType(e) {
     let type = e.currentTarget.dataset.type
     this.setData({
-      type: type
+      type: type,
+      pageIndex: 0
     })
     this.selectComponent("#search").empty()
     this.getFoodList()
@@ -200,14 +208,16 @@ Page({
   checkOrder(e) {
     let order = e.currentTarget.dataset.order
     this.setData({
-      order: order
+      order: order,
+      pageIndex: 0
     })
     this.getFoodList()
   },
   // 切换顺序
   switchStatus() {
     this.setData({
-      status: !this.data.status
+      status: !this.data.status,
+      pageIndex: 0
     })
     this.getFoodList()
   },

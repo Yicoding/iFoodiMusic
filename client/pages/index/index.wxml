@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container {{isFixed ? 'container-padding' : ''}}">
-    <view class="modal" wx:if="{{!userInfo}}">
+    <view class="modal" wx:if="{{!userInfo && isShow}}">
         <view class="modal-container">
             <view class="modal-confirm">需要你的个人信息才能发表呦O(∩_∩)O~~</view>
             <button
