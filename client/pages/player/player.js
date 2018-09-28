@@ -110,6 +110,7 @@ Page({
   // 添加收藏
   addCollect() {
     wx.request({
+      method: 'POST',
       url: config.service.addCollect,
       data: {
         id: app.globalData.playList[app.globalData.playIndex].id,

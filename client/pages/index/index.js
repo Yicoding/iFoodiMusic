@@ -49,14 +49,13 @@ Page({
     isShow: false
   },
   onLoad: function () {
-    setTimeout(() => {
-      this.setData({
-        isShow: true
-      })
-    }, 500)
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo
+      },() => {
+        this.setData({
+          isShow: true
+        })
       })
     } else if (this.data.canIUse){
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
@@ -65,6 +64,10 @@ Page({
         console.log(res.userInfo, 'app.userInfoReadyCallback')
         this.setData({
           userInfo: res.userInfo
+        },() => {
+          this.setData({
+            isShow: true
+          })
         })
       }
     } else {
@@ -75,6 +78,10 @@ Page({
           app.globalData.userInfo = res.userInfo
           this.setData({
             userInfo: res.userInfo
+          },() => {
+            this.setData({
+              isShow: true
+            })
           })
         }
       })
@@ -161,6 +168,9 @@ Page({
           loaded: true
         })
         console.log(data)
+        data.data.forEach(item => {
+          item.time = item.time.slice(0, 10)
+        })
         if (this.data.pageIndex == 0) {
           this.setData({
             foodList: data.data,

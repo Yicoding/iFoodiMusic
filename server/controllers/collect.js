@@ -31,8 +31,8 @@ async function collectFindBySongId(ctx, next) {
 // 添加收藏
 async function addCollect(ctx, next) {
     await mysql('collect').insert({
-        openid: ctx.query.openid,
-        songid: ctx.query.id
+        openid: ctx.request.body.openid,
+        songid: ctx.request.body.id
     }).then(res => {
         ctx.state.code = 0
         ctx.state.data = res
@@ -86,8 +86,8 @@ async function collectFoodByFoodId(ctx, next) {
 // 添加收藏
 async function addFoodCollect(ctx, next) {
     await mysql('food_collect').insert({
-        openid: ctx.query.openid,
-        food_id: ctx.query.id
+        openid: ctx.request.body.openid,
+        food_id: ctx.request.body.id
     }).then(res => {
         ctx.state.code = 0
         ctx.state.data = res
