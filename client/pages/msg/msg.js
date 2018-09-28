@@ -29,7 +29,7 @@ Page({
     this.getMsgList()
     this.getReadNum()
   },
-  // 监听用户上拉触底事件
+  // 监听用户上拉触底事件11
   onReachBottom(e) {
     console.log('到底了')
     if (this.data.hasMore) {
