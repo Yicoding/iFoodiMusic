@@ -33,7 +33,7 @@ Page({
         })
       },
       fail: (err) => {
-        console.log(err, 'failed request')
+        console.log(err, 'failed 11 request')
       }
     })
     if (app.globalData.userInfo) {
