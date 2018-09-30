@@ -19,6 +19,7 @@ Page({
     coverImg: '', // 封面图片
     isDel: false, // 当前列表是否只有一首歌曲
     isCollect: false,
+    switchLoad: true,
   },
   onLoad() {
     let item = app.globalData.playList[app.globalData.playIndex]
@@ -101,40 +102,49 @@ Page({
   },
   // 切换收藏
   switchCollect() {
-    if (this.data.isCollect) { // 取消收藏
-      this.removeCollect()
-    } else { // 添加收藏
-      this.addCollect()
+    if (this.data.switchLoad) {
+      this.setData({
+        switchLoad: false
+      })
+      let id = app.globalData.playList[app.globalData.playIndex].songid ? app.globalData.playList[app.globalData.playIndex].songid : app.globalData.playList[app.globalData.playIndex].id
+      if (this.data.isCollect) { // 取消收藏
+        this.removeCollect(id)
+      } else { // 添加收藏
+        this.addCollect(id)
+      }
     }
   },
   // 添加收藏
-  addCollect() {
+  addCollect(id) {
+    console.log(app.globalData.playList)
     wx.request({
       method: 'POST',
       url: config.service.addCollect,
       data: {
-        id: app.globalData.playList[app.globalData.playIndex].id,
+        id: id,
         openid: app.globalData.openid
       },
       success:({ data }) => {
         this.setData({
-          isCollect: true
+          isCollect: true,
+          switchLoad: true
         })
       }
     })
   },
   // 取消收藏
-  removeCollect() {
+  removeCollect(id) {
     wx.request({
       method: 'DELETE',
       url: config.service.removeCollect,
       data: {
-        id: app.globalData.playList[app.globalData.playIndex].id,
+        id: id,
         openid: app.globalData.openid
       },
       success:({ data }) => {
         this.setData({
-          isCollect: false
+          isCollect: false,
+          switchLoad: true
         })
       }
     })

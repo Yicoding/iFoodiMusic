@@ -89,7 +89,7 @@ Page({
     this.getFoodList()
   },
   onShow() {
-    if (app.globalData.timesRefresh) {
+    if (app.globalData.timesRefresh) { 
       this.setData({
         pageIndex: 0
       })

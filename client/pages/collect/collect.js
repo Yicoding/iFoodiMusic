@@ -89,7 +89,7 @@ Page({
   // 根据歌单id获取歌曲列表
   getSongList() {
     if (app.globalData.openid) {
-      console.log('getSongListgetSongListgetSongList')
+      console.log('getSongList')
       wx.request({
         url: config.service.collectFindByOpenId,
         data: {
@@ -181,6 +181,7 @@ Page({
     let index = e.currentTarget.dataset.index
     app.globalData.playIndex = index
     let url = '../player/player'
+    console.log(app.globalData.playList, app.globalData.playIndex, '1111111111111')
     wx.navigateTo({
       url: url
     })
