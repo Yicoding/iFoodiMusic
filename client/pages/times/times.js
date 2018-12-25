@@ -79,20 +79,20 @@ Page({
           loaded: true
         })
         console.log(data)
-        data.data.forEach(item => {
+        let timesList = data.data.map(item => {
           item.present_time = item.present_time.slice(5)
           item.content = parseEmoji(item.content)
-          if (item.openid == app.globalData.openid) {
-            item.isDelete = true
-          }
+          item.isDelete = item.openid == app.globalData.openid
+          item.nickName = item.openid == 'owaeP4rfixLOekUNAzFyW71rc9rY' ? '狗子' : item.nickName
+          return item
         })
         if (this.data.pageIndex == 0) {
           this.setData({
-            timesList: data.data,
+            timesList: timesList
           })
         } else {
           this.setData({
-            timesList: [...this.data.timesList, ...data.data]
+            timesList: [...this.data.timesList, ...timesList]
           })
         }
         wx.stopPullDownRefresh()

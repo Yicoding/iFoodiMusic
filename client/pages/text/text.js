@@ -33,6 +33,7 @@ Page({
       success: ({ data }) => {
         console.log(data)
         data.data.content = parseEmoji(data.data.content)
+        data.data.nickName = data.data.openid == 'owaeP4rfixLOekUNAzFyW71rc9rY' ? '狗子' : data.data.nickName
         this.setData({
           article: data.data
         })
@@ -57,15 +58,17 @@ Page({
       success: ({ data }) => {
         console.log(data, 'rateList')
         if (data.data.length) {
-          data.data.forEach(item => {
+          let rateList = data.data.map(item => {
             item.present_time = item.present_time.slice(5)
             item.isMine = false
             if (this.data.article.openid == app.globalData.openid || item.openid == app.globalData.openid) {
               item.isMine = true
             }
-          });
+            item.nickName = item.openid == 'owaeP4rfixLOekUNAzFyW71rc9rY' ? '狗子' : item.nickName
+            return item
+          })
           this.setData({
-            rateList: data.data
+            rateList: rateList
           })
         } else {
           this.setData({
