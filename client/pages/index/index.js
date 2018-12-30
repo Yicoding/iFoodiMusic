@@ -49,25 +49,33 @@ Page({
     isShow: false
   },
   onLoad: function () {
-    setTimeout(() => {
-      this.setData({
-        isShow: true
-      })
-    }, 500)
+    console.log('index: onLoad')
     if (app.globalData.userInfo) {
+      console.log(app.globalData.userInfo, 'index：存在全局用户信息')
       this.setData({
         userInfo: app.globalData.userInfo
+      },() => {
+        this.setData({
+          isShow: true
+        })
       })
     } else if (this.data.canIUse){
+      console.log('执行this.data.canIUse')
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
       app.userInfoReadyCallback = res => {
         console.log(res.userInfo, 'app.userInfoReadyCallback')
+        app.globalData.userInfo = res.userInfo
         this.setData({
           userInfo: res.userInfo
+        },() => {
+          this.setData({
+            isShow: true
+          })
         })
       }
     } else {
+      console.log('index: 最后情况')
       // 在没有 open-type=getUserInfo 版本的兼容处理
       wx.getUserInfo({
         success: res => {
@@ -75,6 +83,10 @@ Page({
           app.globalData.userInfo = res.userInfo
           this.setData({
             userInfo: res.userInfo
+          },() => {
+            this.setData({
+              isShow: true
+            })
           })
         }
       })
@@ -82,7 +94,7 @@ Page({
     this.getFoodList()
   },
   onShow() {
-    if (app.globalData.timesRefresh) {
+    if (app.globalData.timesRefresh) { 
       this.setData({
         pageIndex: 0
       })
@@ -161,6 +173,9 @@ Page({
           loaded: true
         })
         console.log(data)
+        data.data.forEach(item => {
+          item.time = item.time.slice(0, 10)
+        })
         if (this.data.pageIndex == 0) {
           this.setData({
             foodList: data.data,

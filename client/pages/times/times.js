@@ -78,7 +78,8 @@ Page({
         this.setData({
           loaded: true
         })
-        let newArr = data.data.map(item => {
+        console.log(data)
+        let timesList = data.data.map(item => {
           item.present_time = item.present_time.slice(5)
           item.content = parseEmoji(item.content)
           item.isDelete = item.openid == app.globalData.openid
@@ -88,11 +89,11 @@ Page({
         console.log(data.data, 'hi')
         if (this.data.pageIndex == 0) {
           this.setData({
-            timesList: newArr,
+            timesList: timesList
           })
         } else {
           this.setData({
-            timesList: [...this.data.timesList, ...data.data]
+            timesList: [...this.data.timesList, ...timesList]
           })
         }
         wx.stopPullDownRefresh()
