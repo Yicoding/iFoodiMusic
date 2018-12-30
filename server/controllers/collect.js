@@ -31,9 +31,9 @@ async function collectFindBySongId(ctx, next) {
 // 添加收藏
 async function addCollect(ctx, next) {
     await mysql('collect').insert({
-        openid: ctx.query.openid,
-        songid: ctx.query.id,
-        userName: ctx.query.userName
+        openid: ctx.request.body.openid,
+        songid: ctx.request.body.id,
+        userName: ctx.request.body.userName
     }).then(res => {
         ctx.state.code = 0
         ctx.state.data = res
