@@ -57,15 +57,14 @@ Page({
         console.log(data, 'rateList')
         console.log(data, 'rateList')
         if (data.data.length) {
-          data.data.forEach(item => {
+          let rateList = data.data.map(item => {
             item.presentTime = item.presentTime.slice(5)
-            item.isMine = false
-            if (item.openid == app.globalData.openid) {
-              item.isMine = true
-            }
-          });
+            item.isMine = item.openid == app.globalData.openid
+            item.nickName = item.openid == 'owaeP4rfixLOekUNAzFyW71rc9rY' ? '狗子' : item.nickName
+            return item
+          })
           this.setData({
-            rateList: data.data
+            rateList: rateList
           })
         } else {
           this.setData({
