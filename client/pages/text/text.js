@@ -57,15 +57,17 @@ Page({
       success: ({ data }) => {
         console.log(data, 'rateList')
         if (data.data.length) {
-          data.data.forEach(item => {
+          let newList = data.data.map(item => {
             item.present_time = item.present_time.slice(5)
             item.isMine = false
             if (this.data.article.openid == app.globalData.openid || item.openid == app.globalData.openid) {
               item.isMine = true
             }
-          });
+            item.nickName = item.openid == 'owaeP4rfixLOekUNAzFyW71rc9rY' ? '狗子' : item.nickName
+            return item
+          })
           this.setData({
-            rateList: data.data
+            rateList: newList
           })
         } else {
           this.setData({

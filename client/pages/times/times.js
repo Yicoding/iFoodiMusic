@@ -78,17 +78,17 @@ Page({
         this.setData({
           loaded: true
         })
-        console.log(data)
-        data.data.forEach(item => {
+        let newArr = data.data.map(item => {
           item.present_time = item.present_time.slice(5)
           item.content = parseEmoji(item.content)
-          if (item.openid == app.globalData.openid) {
-            item.isDelete = true
-          }
+          item.isDelete = item.openid == app.globalData.openid
+          item.nickName = item.openid == 'owaeP4rfixLOekUNAzFyW71rc9rY' ? '狗子' : item.nickName
+          return item
         })
+        console.log(data.data, 'hi')
         if (this.data.pageIndex == 0) {
           this.setData({
-            timesList: data.data,
+            timesList: newArr,
           })
         } else {
           this.setData({

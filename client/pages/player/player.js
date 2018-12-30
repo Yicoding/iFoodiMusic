@@ -113,7 +113,8 @@ Page({
       url: config.service.addCollect,
       data: {
         id: app.globalData.playList[app.globalData.playIndex].id,
-        openid: app.globalData.openid
+        openid: app.globalData.openid,
+        userName: app.globalData.userInfo.nickName
       },
       success:({ data }) => {
         this.setData({

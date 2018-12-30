@@ -1,5 +1,5 @@
 const { mysql } = require('../qcloud')
-
+// 查找专辑列表
 module.exports = async (ctx, next) => {
     await mysql('album').select('*').then(res => {
         ctx.state.code = 0

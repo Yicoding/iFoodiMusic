@@ -32,7 +32,8 @@ async function collectFindBySongId(ctx, next) {
 async function addCollect(ctx, next) {
     await mysql('collect').insert({
         openid: ctx.query.openid,
-        songid: ctx.query.id
+        songid: ctx.query.id,
+        userName: ctx.query.userName
     }).then(res => {
         ctx.state.code = 0
         ctx.state.data = res
