@@ -127,3 +127,10 @@ page{
     color: rgba(0, 0, 0, 0.6);
     border-radius: 8rpx;
 }
+/*iphonex*/
+.foodX{
+  padding-bottom: 170rpx;
+}
+.footX{
+  padding-bottom: 70rpx;
+}

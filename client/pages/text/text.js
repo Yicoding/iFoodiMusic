@@ -12,6 +12,7 @@ Page({
     rateList: [],
     keyHeight: 0,
     text: null,
+    isIpx: app.globalData.isIpx
   },
   onLoad: function (options) {
     console.log(options)

@@ -11,6 +11,7 @@ Page({
     rateList: [],
     keyHeight: 0,
     text: '',
+    isIpx: app.globalData.isIpx
   },
   onLoad: function (options) {
     this.setData({
@@ -20,6 +21,7 @@ Page({
     this.getFoodDetail()
     this.getFoodImg()
     this.getFoodRate()
+    console.log(app.globalData.isIpx)
   },
   // 监听用户下拉动作
   onPullDownRefresh() {

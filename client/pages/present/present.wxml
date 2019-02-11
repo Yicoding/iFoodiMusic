@@ -1,5 +1,5 @@
 <!--pages/gubaPost/gubaPost.wxml-->
-<view class="page">
+<view class="page {{isIpx ? 'foodX' : ''}}">
     <textarea 
         placeholder="{{placeholder}}" 
         show-confirm-bar="{{false}}" 
@@ -28,7 +28,7 @@
         </view>
         <view class="plus" bindtap="loadImg" wx:if="{{tempFilePaths.length > 0 && tempFilePaths.length < 9}}"></view>
     </view>
-    <view class="foot-bar" style="bottom: {{keyHeight}}px;">
+    <view class="foot-bar {{isIpx && keyHeight == 0 ? 'footX' : ''}}" style="bottom: {{keyHeight}}px;">
         <view class="toolbar">
             <view class="leftp">
               <image 

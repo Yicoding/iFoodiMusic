@@ -23,6 +23,7 @@ Page({
     cursor: 0,
     picAllowed: true,
     pic: [],
+    isIpx: app.globalData.isIpx
   },
   // 键盘输入时
   valChange: function(e) {

@@ -1,4 +1,4 @@
-<view>
+<view class="{{isIpx ? 'foodX' : ''}}">
   <view class="header">{{article.title}}</view>
   <view class="time">{{article.presentTime}}</view>
   <view class="rich">
@@ -34,7 +34,7 @@
     </block>
     <view wx:else class="empty">还没有人评论呦，快来抢沙发吧(*^▽^*)</view>
   </view>
-  <view class="rate-input" style="bottom: {{keyHeight}}px">
+  <view class="rate-input {{isIpx && keyHeight == 0 ? 'footX' : ''}}" style="bottom: {{keyHeight}}px">
     <input
       class="input"
       type="text"
