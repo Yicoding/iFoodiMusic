@@ -84,9 +84,11 @@ Page({
           this.setData({
             userInfo: res.userInfo
           },() => {
-            this.setData({
-              isShow: true
-            })
+            setTimeout(() => {
+              this.setData({
+                isShow: true
+              })
+            }, 500)
           })
         }
       })
