@@ -113,3 +113,22 @@
 - [Wafer2 服务端 SDK API 文档](https://github.com/tencentyun/wafer2-node-sdk/blob/master/API.md)
 - [Wafer2 客户端 SDK 使用文档](https://github.com/tencentyun/wafer2-client-sdk/blob/master/README.md)
 
+
+# 效果图
+
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/1.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/2.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/3.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/4.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/5.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/6.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/7.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/8.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/9.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/10.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/11.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/12.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/13.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/14.png)
+![image](https://github.com/Yicoding/Ecode-blog/raw/final/img/15.png)
+
