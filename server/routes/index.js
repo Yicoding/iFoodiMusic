@@ -66,5 +66,10 @@ router.delete('/removeFoodCollect', controllers.collect.removeFoodCollect)
 router.get('/getReadNum', controllers.msg.getReadNum)
 router.get('/getMsgList', controllers.msg.getMsgList)
 router.put('/alterMsg', controllers.msg.alterMsg)
+router.get('/getPlantList', controllers.plant.getPlantList)
+router.get('/plantDetail', controllers.plant.plantDetail)
+router.get('/getPlantRateList', controllers.plant.getPlantRateList)
+router.post('/addPlantRate', controllers.plant.addPlantRate)
+router.delete('/removePlantRate', controllers.plant.removePlantRate)
 
 module.exports = router

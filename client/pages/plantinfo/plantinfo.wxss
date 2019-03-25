@@ -1,0 +1,120 @@
+page{
+    padding-bottom: 100rpx;
+}
+.header{
+    font-size: 40rpx;
+    color: #ffcd32;
+    box-sizing: border-box;
+    padding: 30rpx;
+}
+.time{
+    font-size: 22rpx;
+    color: #8e8e93;
+    margin-bottom: 30rpx;
+    padding-left: 30rpx;
+}
+.rich{
+    padding: 30rpx;
+}
+.content{
+    text-align: justify;
+}
+.line{
+    text-indent: 50rpx;
+    margin-bottom: 15rpx;
+    line-height: 42rpx;
+}
+.img-item{
+    width: 100%;
+}
+.split{
+    margin-top: 50rpx;
+    height: 20rpx;
+    background: #14161B;
+}
+.rate-container{
+    padding: 30rpx;
+    box-sizing: border-box;
+}
+.title{
+    color: #ffcd32;
+    font-size: 36rpx;
+    text-align: center;
+    padding: 10rpx 0;
+}
+.title text{
+    font-size: 28rpx;
+}
+.list{
+    padding: 20rpx 0;
+    border-bottom: 1rpx solid #14161B;
+}
+.list-nick{
+    display: flex;
+    align-items: center;
+}
+.list-nick text{
+    flex: 1;
+}
+.avatar{
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+}
+.icon-delete{
+    width: 50rpx;
+    height: 50rpx;
+}
+.list-content{
+    text-indent: 80rpx;
+    padding-bottom: 20rpx;
+    color: #ffcd32;
+}
+.list-time{
+    text-align: right;
+    padding-right: 20rpx;
+    font-size: 22rpx;
+    color: #8e8e93;
+}
+.empty{
+    color: #b4b4b3;
+    text-align: center;
+    padding-top: 30rpx;
+}
+.rate-input{
+    background: #14161B;
+    padding: 10rpx 20rpx;
+    box-sizing: border-box;
+    position: fixed;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.input{
+    background: #fff;
+    border-radius: 5rpx;
+    padding: 0 20rpx;
+    height: 70rpx;
+    position: relative;
+    z-index: 9;
+    color: #333;
+    flex: 1;
+}
+.send{
+    height: 70rpx;
+    line-height: 70rpx;
+    margin-left: 10rpx;
+    padding: 0 40rpx;
+    background: #DEDEDE;
+    color: rgba(0, 0, 0, 0.6);
+    border-radius: 8rpx;
+}
+/*iphonex*/
+.foodX{
+  padding-bottom: 170rpx;
+}
+
+.footX{
+  padding-bottom: 70rpx;
+}

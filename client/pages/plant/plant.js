@@ -12,7 +12,7 @@ Page({
     info: '数据加载中...',
   },
   onLoad: function () {
-    this.getWallList()
+    this.getPlantList()
   },
   // 监听用户下拉动作
   onPullDownRefresh() {
@@ -20,7 +20,7 @@ Page({
     this.setData({
       pageIndex: 0
     })
-    this.getWallList()
+    this.getPlantList()
   },
   // 监听用户上拉触底事件
   onReachBottom(e) {
@@ -31,14 +31,14 @@ Page({
         loaded: false,
         info: '数据加载中...'
       })
-      this.getWallList()
+      this.getPlantList()
       console.log(this.data.pageIndex)
     }
   },
   // 获取文章列表
-  getWallList() {
+  getPlantList() {
     wx.request({
-      url: config.service.getWallList,
+      url: config.service.getPlantList,
       data: {
         pageIndex: this.data.pageIndex,
         pageSize: this.data.pageSize
@@ -49,7 +49,7 @@ Page({
           loaded: true
         })
         data.data.forEach(item => {
-          item.presentTime = item.presentTime.slice(5)
+          item.createTime = item.createTime.slice(5)
         })
         if (this.data.pageIndex == 0) {
           this.setData({
@@ -78,7 +78,7 @@ Page({
   goWallDetail(e) {
     let id = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: `../article/article?id=${id}`
+      url: `../plantinfo/plantinfo?id=${id}`
     })
   },
   // 预览照片

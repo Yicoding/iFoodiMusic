@@ -52,6 +52,11 @@ var config = {
         getReadNum: `${host}/weapp/getReadNum`,
         getMsgList: `${host}/weapp/getMsgList`,
         alterMsg: `${host}/weapp/alterMsg`,
+        getPlantList: `${host}/weapp/getPlantList`,
+        plantDetail: `${host}/weapp/plantDetail`,
+        getPlantRateList: `${host}/weapp/getPlantRateList`,
+        addPlantRate: `${host}/weapp/addPlantRate`,
+        removePlantRate: `${host}/weapp/removePlantRate`,
     }
 };
 
