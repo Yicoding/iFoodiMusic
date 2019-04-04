@@ -6,11 +6,21 @@ function uploadFile(filePath) {
             url: config.service.uploadUrl,
             filePath: filePath,
             name: 'file',
-            success: function(res){
-                res = JSON.parse(res.data)
-                resolve(res.data.imgUrl)
+            header: {
+                'Content-Type': 'multipart/form-data'
             },
-            fail: function(e) {
+            formData: {
+                uploadfile: filePath
+            },
+            success: function (res) {
+                res = JSON.parse(res.data)
+                if(data.result == 1) {
+                    resolve(res.data.imgUrl)
+                } else {
+                    reject('else：上传失败')
+                }
+            },
+            fail: function (e) {
                 reject('上传失败')
             }
         })

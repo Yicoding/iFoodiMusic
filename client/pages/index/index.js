@@ -146,7 +146,7 @@ Page({
           url: 'https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code',
           data: {
             appid: 'wxa951826c9c76290b',
-            secret: '3ad8c27bb84a60a4fb71714b7741713c',
+            secret: '67957573d25420da690f4c6798e0e8a8',
             js_code: code,
             grant_type: 'authorization_code'
           },
