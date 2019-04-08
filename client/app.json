@@ -1,5 +1,5 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/times/times",
     "pages/music/music",
@@ -16,7 +16,7 @@
     "pages/plant/plant",
     "pages/plantinfo/plantinfo"
   ],
-  "window":{
+  "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#262834",
     "navigationBarTitleText": "iFoodiMusic",
@@ -30,7 +30,7 @@
         "text": "艾美食",
         "iconPath": "images/icon/food.png",
         "selectedIconPath": "images/icon/food.png"
-      }, 
+      },
       {
         "pagePath": "pages/music/music",
         "text": "艾音乐",
@@ -54,5 +54,8 @@
     "selectedColor": "#3483e9",
     "backgroundColor": "#252934"
   },
-  "requiredBackgroundModes": ["audio"]
+  "requiredBackgroundModes": [
+    "audio"
+  ],
+  "sitemapLocation": "sitemap.json"
 }
