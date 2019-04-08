@@ -18,6 +18,7 @@ App({
             console.log(data, '小程序的openid')
             this.globalData.openid = data.openid
             this.getSetting()
+            this.globalData.isAdmin = this.globalData.adminCount.includes(data.openid)
           }
         })
       }
@@ -99,5 +100,8 @@ App({
     imgRotate: 0, // 封面旋转角度
     timesRefresh: false, // 好时光页面是否要刷新
     isIpx: false, // 是否为iPhone X
+    adminCount: ['owaeP4tIVLu3Q7IwWjlAV6stfkpo', 'owaeP4rfixLOekUNAzFyW71rc9rY'], // 管理员账号
+    specialName: 'owaeP4rfixLOekUNAzFyW71rc9rY',
+    isAdmin: false, // 是否为管理员
   }
 })

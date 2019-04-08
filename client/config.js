@@ -57,6 +57,12 @@ var config = {
         getPlantRateList: `${host}/weapp/getPlantRateList`,
         addPlantRate: `${host}/weapp/addPlantRate`,
         removePlantRate: `${host}/weapp/removePlantRate`,
+        //美食
+        addFood: `${host}/weapp/addFood`,
+        updateFood: `${host}/weapp/updateFood`,
+        removeFood: `${host}/weapp/removeFood`,
+        addFoodImg: `${host}/weapp/addFoodImg`,
+        removeFoodImg: `${host}/weapp/removeFoodImg`,
     }
 };
 

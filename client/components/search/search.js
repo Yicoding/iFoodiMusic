@@ -36,6 +36,10 @@ Component({
             this.setData({
                 text: ''
             })
+        },
+        // 切换编辑
+        switchEdit() {
+            this.triggerEvent('switchEdit')
         }
     },
 })

@@ -60,7 +60,7 @@ Page({
           let rateList = data.data.map(item => {
             item.presentTime = item.presentTime.slice(5)
             item.isMine = item.openid == app.globalData.openid
-            item.nickName = item.openid == 'owaeP4rfixLOekUNAzFyW71rc9rY' ? '狗子' : item.nickName
+            item.nickName = item.openid == app.globalData.specialName ? '狗子' : item.nickName
             return item
           })
           this.setData({

@@ -34,7 +34,7 @@ Page({
       success: ({ data }) => {
         console.log(data)
         data.data.content = parseEmoji(data.data.content)
-        data.data.nickName = data.data.openid == 'owaeP4rfixLOekUNAzFyW71rc9rY' ? '狗子' : data.data.nickName
+        data.data.nickName = data.data.openid == app.globalData.specialName ? '狗子' : data.data.nickName
         this.setData({
           article: data.data
         })

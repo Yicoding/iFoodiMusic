@@ -83,7 +83,7 @@ Page({
           item.present_time = item.present_time.slice(5)
           item.content = parseEmoji(item.content)
           item.isDelete = item.openid == app.globalData.openid
-          item.nickName = item.openid == 'owaeP4rfixLOekUNAzFyW71rc9rY' ? '狗子' : item.nickName
+          item.nickName = item.openid == app.globalData.specialName ? '狗子' : item.nickName
           return item
         })
         console.log(data.data, 'hi')

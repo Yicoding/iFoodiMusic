@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/foodedit/foodedit",
     "pages/times/times",
     "pages/music/music",
     "pages/wall/wall",

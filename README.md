@@ -132,3 +132,6 @@
 ![image](https://github.com/Yicoding/iFoodiMusic/raw/dev/img/14.png)
 ![image](https://github.com/Yicoding/iFoodiMusic/raw/dev/img/15.png)
 
+
+图片上传改版，需做配置：
+https://github.com/tencentyun/wafer2-quickstart/issues/13

@@ -76,15 +76,16 @@
     color: #ffcd32;
 }
 .order-img{
-    width: 100rpx;
     height: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
 }
 .order-status{
     width: 40rpx;
     height: 40rpx;
+}
+.order-add{
+    margin-right: 30rpx;
 }
 .list{
     padding: 30rpx;
@@ -130,6 +131,10 @@
     width: 48rpx;
     height: 40rpx;
     margin-right: 20rpx;
+}
+.icon-edit{
+    width: 40rpx;
+    margin-right: 40rpx;
 }
 .info{
     text-align: center;

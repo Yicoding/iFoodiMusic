@@ -1,0 +1,61 @@
+.food{
+    padding-bottom: 20rpx;
+}
+.coverImg{
+    width: 100%;
+    height: 550rpx;
+}
+.editBtn{
+    width: 200rpx;
+    height: 70rpx;
+    background: #dedede;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8rpx;
+    color: #111111;
+    position: absolute;
+    right: 10rpx;
+    top: 470rpx;
+}
+.line{
+    padding: 20rpx;
+    display: flex;
+    align-items: center;
+}
+.lineDesc{
+    align-items: flex-start;
+}
+.line label{
+    color: #ffcd32;
+    margin-right: 20rpx;
+}
+.line input{
+    flex: 1;
+    border-bottom: 1rpx solid #333;
+}
+.line textarea{
+    flex: 1;
+    border: 1rpx solid #333;
+    padding: 20rpx;
+    height: 150rpx;
+}
+.saveBtn{
+    height: 90rpx;
+    font-size: 32rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #3381e3;
+}
+/*iphonex*/
+.foodX{
+  padding-bottom: 90rpx;
+}
+.footX{
+  padding-bottom: 30rpx;
+}

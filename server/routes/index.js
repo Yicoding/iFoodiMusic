@@ -71,5 +71,11 @@ router.get('/plantDetail', controllers.plant.plantDetail)
 router.get('/getPlantRateList', controllers.plant.getPlantRateList)
 router.post('/addPlantRate', controllers.plant.addPlantRate)
 router.delete('/removePlantRate', controllers.plant.removePlantRate)
+//美食
+router.post('/addFood', controllers.food.addFood)
+router.put('/updateFood', controllers.food.updateFood)
+router.delete('/removeFood', controllers.food.removeFood)
+router.post('/addFoodImg', controllers.food.addFoodImg)
+router.delete('/removeFoodImg', controllers.food.removeFoodImg)
 
 module.exports = router

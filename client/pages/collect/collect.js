@@ -119,6 +119,7 @@ Page({
             success: ({ data }) => {
               console.log(data, '小程序的openid')
               app.globalData.openid = data.openid
+              app.globalData.isAdmin = app.globalData.adminCount.includes(data.openid)
               wx.request({
                 url: config.service.collectFindByOpenId,
                 data: {

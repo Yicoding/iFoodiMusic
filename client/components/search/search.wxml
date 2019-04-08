@@ -8,5 +8,5 @@
     confirm-type="done"
     bindinput="textChange" />
   <text hidden="{{!text}}" class="cancel" bindtap="cancel">取消</text>
-  <image class="icon-user" src="{{avatar}}" />
+  <image class="icon-user" src="{{avatar}}" bindtap="switchEdit" />
 </view>

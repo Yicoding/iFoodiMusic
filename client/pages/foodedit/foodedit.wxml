@@ -1,0 +1,21 @@
+<view class="food {{isIpx ? 'foodX' : ''}}">
+  <image class="coverImg" src="{{cover}}" />
+  <view class="editBtn">修改封面图片</view>
+  <view class="line">
+    <label for="">名称</label>
+    <input bindinput="textChange" data-type="title" type="text" value="{{title}}" placeholder="请输入商品名" />
+  </view>
+  <view class="line lineDesc">
+    <label for="">介绍</label>
+    <textarea bindinput="textChange" data-type="descript" type="text" value="{{descript}}" placeholder="请输入商品信息"></textarea>
+  </view>
+  <view class="line">
+    <label for="">品类</label>
+    <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}" range-key="text">
+      <view class="picker">
+        {{array[index].text}}
+      </view>
+    </picker>
+  </view>
+  <view class="saveBtn {{isIpx ? 'footX' : ''}}" bindtap="saveFood">保存</view>
+</view>

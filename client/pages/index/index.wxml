@@ -12,7 +12,8 @@
         id="search"
         avatar="{{userInfo.avatarUrl}}"
         class="search"
-        bind:callback="search">
+        bind:callback="search"
+        bind:switchEdit="switchEdit" >
     </search>
     <view class="ul">
         <view
@@ -37,10 +38,16 @@
                     bindtap="checkOrder"
                     data-order="num">评论数</text>
             </view>
-            <view class="order-img" bindtap="switchStatus">
+            <view class="order-img">
+                <image
+                    wx:if="{{isEdit}}"
+                    class="order-status order-add"
+                    src="{{addIcon}}"
+                    bindtap="addFood" />
                 <image
                     class="order-status"
-                    src="{{status ? iconDown : iconUp}}" />
+                    src="{{status ? iconDown : iconUp}}"
+                    bindtap="switchStatus" />
             </view>
         </view>
     </view>
@@ -62,6 +69,12 @@
                 <view class="descipt">{{item.descript}}</view>
                 <view class="time">
                     <text class="text-time">上传于 {{item.time}}</text>
+                    <image class="icon-rate icon-edit" src="../../images/icon/delete.png" wx:if="{{isEdit}}" />
+                    <image
+                        wx:if="{{isEdit}}"
+                        class="icon-rate icon-edit"
+                        src="../../images/icon/edit.png"
+                        catchtap="editFood" />
                     <image class="icon-rate" src="../../images/icon/rate.png" />
                     <text class="text-num">{{item.num}}</text>
                 </view>

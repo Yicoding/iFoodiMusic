@@ -12,6 +12,7 @@ Page({
     status: true,
     iconUp: '../../images/icon/arrow-up.png',
     iconDown: '../../images/icon/arrow-down.png',
+    addIcon: '../../images/icon/add.png',
     typeArrOne: [
       {
         src: '../../images/icon/food-3.png',
@@ -46,7 +47,8 @@ Page({
     loaded: true,
     info: '数据加载中...',
     title: '',
-    isShow: false
+    isShow: false,
+    isEdit: true
   },
   onLoad: function () {
     console.log('index: onLoad')
@@ -153,6 +155,7 @@ Page({
           success: ({ data }) => {
             console.log(data, '小程序的openid')
             app.globalData.openid = data.openid
+            app.globalData.isAdmin = app.globalData.adminCount.includes(data.openid)
           }
         })
       }
@@ -252,6 +255,24 @@ Page({
     let id = e.currentTarget.dataset.id
     wx.navigateTo({
       url: `../food/food?id=${id}`
+    })
+  },
+  // 切换编辑
+  switchEdit() {
+    if (app.globalData.isAdmin) {
+      this.setData({ isEdit: !this.data.isEdit })
+    }
+  },
+  // 新增美食
+  addFood() {
+    wx.navigateTo({
+      url: '../foodedit/foodedit'
+    })
+  },
+  editFood(e) {
+    let id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: `../foodedit/foodedit?id=${id}`
     })
   }
 })
