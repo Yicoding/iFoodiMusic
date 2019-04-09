@@ -8,34 +8,25 @@ var timee = 0
 Page({
   data: {
     isIpx: app.globalData.isIpx,
-    cover: '../../images/avatar.png',
-    title: '',
-    descript: '',
-    time: '2019-04-08 18:20:35',
-    type: '',
+    coverImg: '../../images/index.jpg',
+    name: '',
+    desc: '',
+    createTime: '2019-04-08 18:20:35',
     id: null,
-    index: 0,
     num: 9, // 图片数量限制
     imgList: [], // 数据库存储的
     tempFilePaths: [], // 临时文件
-    array: [
-      { value: '', text: '请选择' },
-      { value: 'chuancai', text: '川菜' },
-      { value: 'jiachangcai', text: '家常菜' },
-      { value: 'xiangcai', text: '湘菜' },
-      { value: 'zhushi', text: '主食' },
-    ],
   },
   onLoad: function (options) {
     if (options.id) { // 编辑
       this.setData({ id: options.id })
-      this.getFoodDetail(options.id)
-      this.getFoodImg(options.id)
+      this.plantDetail(options.id)
+      this.getPlantImg(options.id)
     }
   },
   // 监听用户下拉动作
   onPullDownRefresh() {
-    let item = this.data.cover
+    let item = this.data.coverImg
     let urls = [item]
     wx.previewImage({
       current: item, // 当前显示图片的http链接
@@ -44,21 +35,17 @@ Page({
     wx.stopPullDownRefresh()
   },
   // 获取食物信息
-  getFoodDetail(id) {
+  plantDetail(id) {
     wx.request({
-      url: config.service.getFoodDetail,
+      url: config.service.plantDetail,
       data: { id },
       success: ({ data }) => {
-        console.log('getFoodDetail', data)
-        let index = this.data.array.findIndex(item => item.value === data.data.type)
-        console.log(index)
+        console.log('plantDetail', data)
         this.setData({
-          index,
-          cover: data.data.cover,
-          title: data.data.title,
-          descript: data.data.descript,
-          time: data.data.time,
-          type: data.data.type
+          coverImg: data.data.coverImg,
+          name: data.data.name,
+          desc: data.data.desc,
+          createTime: data.data.createTime,
         })
       },
       fail: (err) => {
@@ -67,12 +54,12 @@ Page({
     })
   },
   // 获取图片列表
-  getFoodImg(id) {
+  getPlantImg(id) {
     wx.request({
-      url: config.service.getFoodImg,
+      url: config.service.getPlantImg,
       data: { id },
       success: ({ data }) => {
-        console.log('getFoodImg', data)
+        console.log('getPlantImg', data)
         if (data.data.length) {
           this.setData({
             imgList: data.data
@@ -100,46 +87,32 @@ Page({
       [e.currentTarget.dataset.type]: e.detail.value.trim()
     })
   },
-  // pick回调
-  bindPickerChange(e) {
-    let index = e.detail.value
-    let type = this.data.array[index].value
-    console.log(type)
-    this.setData({ index, type })
-  },
   // 保存
   saveFood() {
-    let { id, cover, title, descript, time, type } = this.data
+    let { id, coverImg, name, desc, createTime } = this.data
     // 验证
-    if (!!!title) {
+    if (!!!name) {
       return wx.showToast({
         title: '请输入商品名',
         icon: 'none'
       })
     }
-    if (!!!descript) {
+    if (!!!desc) {
       return wx.showToast({
         title: '请输入商品信息',
-        icon: 'none'
-      })
-    }
-    if (!!!type) {
-      return wx.showToast({
-        title: '请选择商品类别',
         icon: 'none'
       })
     }
     if (id) { // 编辑
       wx.request({
         method: 'PUT',
-        url: config.service.updateFood,
+        url: config.service.updatePlant,
         data: {
           id,
-          cover,
-          title,
-          descript,
-          time,
-          type
+          coverImg,
+          name,
+          desc,
+          createTime
         },
         success: ({ data }) => {
           console.log(data)
@@ -172,18 +145,17 @@ Page({
     } else { // 新增
       wx.request({
         method: 'POST',
-        url: config.service.addFood,
+        url: config.service.addPlant,
         data: {
-          cover,
-          title,
-          descript,
-          time: formatTime(new Date()),
-          type
+          coverImg,
+          name,
+          desc,
+          createTime: formatTime(new Date()),
         },
         success: ({ data }) => {
           console.log(data)
           if (data.code == 0) {
-            let food_id = data.data[0]
+            let plant_id = data.data[0]
             wx.showLoading({
               title: '上传中',
               duration: 100000,
@@ -196,10 +168,10 @@ Page({
             Promise.all(promises).then((args) => {
               wx.request({
                 method: 'POST',
-                url: config.service.addFoodImg,
+                url: config.service.addPlantImg,
                 data: {
                   imgList: args,
-                  food_id
+                  plant_id
                 },
                 success: () => {
                   wx.hideLoading()
@@ -257,7 +229,7 @@ Page({
           return uploadFile(item)
         })
         Promise.all(promises).then((args) => {
-          this.setData({ cover: args[0] })
+          this.setData({ coverImg: args[0] })
           wx.hideLoading()
         }).catch(err => {
           wx.hideLoading()
@@ -297,7 +269,7 @@ Page({
     this.data.imgList.splice(e.currentTarget.dataset.index, 1)
     wx.request({
       method: 'DELETE',
-      url: config.service.removeFoodImg,
+      url: config.service.removePlantImg,
       data: { id: e.currentTarget.dataset.id },
       success: () => {
         this.setData({
@@ -355,14 +327,14 @@ Page({
           this.data.num -= res.tempFilePaths.length
           wx.request({
             method: 'POST',
-            url: config.service.addFoodImg,
+            url: config.service.addPlantImg,
             data: {
               imgList: args,
-              food_id: this.data.id
+              plant_id: this.data.id
             },
             success: () => {
               wx.hideLoading()
-              this.getFoodImg(this.data.id)
+              this.getPlantImg(this.data.id)
             }
           })
         }).catch(err => {

@@ -77,5 +77,13 @@ router.put('/updateFood', controllers.food.updateFood)
 router.delete('/removeFood', controllers.food.removeFood)
 router.post('/addFoodImg', controllers.food.addFoodImg)
 router.delete('/removeFoodImg', controllers.food.removeFoodImg)
+// 植物
+router.get('/getPlantImg', controllers.plant.getPlantImg)
+router.post('/addPlant', controllers.plant.addPlant)
+router.put('/updatePlant', controllers.plant.updatePlant)
+router.delete('/removePlant', controllers.plant.removePlant)
+router.post('/addPlantImg', controllers.plant.addPlantImg)
+router.delete('/removePlantImg', controllers.plant.removePlantImg)
+
 
 module.exports = router

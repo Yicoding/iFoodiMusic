@@ -1,7 +1,10 @@
 {
   "pages": [
+    "pages/test/test",
+    "pages/plantdetail/plantdetail",
     "pages/index/index",
     "pages/foodedit/foodedit",
+    "pages/plantedit/plantedit",
     "pages/times/times",
     "pages/music/music",
     "pages/wall/wall",
@@ -45,7 +48,7 @@
         "selectedIconPath": "images/icon/diary.png"
       },
       {
-        "pagePath": "pages/plant/plant",
+        "pagePath": "pages/test/test",
         "text": "植物墙",
         "iconPath": "images/icon/unburden.png",
         "selectedIconPath": "images/icon/unburden.png"

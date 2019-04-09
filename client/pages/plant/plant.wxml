@@ -1,16 +1,10 @@
 <view>
-  <view
-    class="list"
-    wx:for="{{wallList}}"
-    wx:key="{{item.id}}"
-    bindtap="goWallDetail"
-    data-id="{{item.id}}">
-    <image
-      class="cover"
-      src="{{item.coverImg}}"
-      catchtap="viewImage"
-      data-src="{{item.coverImg}}"
-      data-urls="{{item.coverImg}}" />
+  <view class="title">
+    <text>植物的乐园</text>
+    <image wx:if="{{isAdmin}}" class="present" src="../../images/icon/present.png" bindtap="toPresent" />
+  </view>
+  <view class="list" wx:for="{{wallList}}" wx:key="{{item.id}}" bindtap="goWallDetail" data-id="{{item.id}}">
+    <image class="cover" src="{{item.coverImg}}" catchtap="viewImage" data-src="{{item.coverImg}}" data-urls="{{item.coverImg}}" />
     <view class="container">
       <text class="title">{{item.name}}</text>
       <text class="time">上传于 {{item.createTime}}</text>

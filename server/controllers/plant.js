@@ -75,10 +75,105 @@ async function removePlantRate(ctx, next) {
         throw new Error(err)
     })
 }
+// 新增植物
+async function addPlant(ctx, next) {
+    let item = ctx.request.body
+    await mysql('plant').insert({
+        coverImg: item.coverImg,
+        name: item.name,
+        desc: item.desc,
+        createTime: item.createTime,
+    }).then(res => {
+        ctx.state.code = 0
+        ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
+// 更新植物
+async function updatePlant(ctx, next) {
+    let item = ctx.request.body
+    await mysql('plant').where({ id: item.id }).
+    update({
+        coverImg: item.coverImg,
+        name: item.name,
+        desc: item.desc,
+        createTime: item.createTime,
+    }).then(res => {
+        ctx.state.code = 0
+        ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
+// 删除植物
+async function removePlant(ctx, next) {
+    await mysql('plant').where({
+        id: ctx.request.body.id
+    }).del().then(res => {
+        ctx.state.code = 0
+        ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
+// 获取植物列表
+async function getPlantImg(ctx, next) {
+    await mysql('plant_pic').
+        select('*').
+        where({
+            plant_id: ctx.query.id
+        }).
+        then(res => {
+            ctx.state.code = 0
+            ctx.state.data = res
+        }).catch(err => {
+            ctx.state.code = -1
+            throw new Error(err)
+        })
+}
+// 新增植物图片
+async function addPlantImg(ctx, next) {
+    let item = ctx.request.body
+    let arr = item.imgList.map(todo => {
+        return {
+            src: todo,
+            plant_id: item.plant_id
+        }
+    })
+    await mysql('plant_pic').insert(arr).then(res => {
+        ctx.state.code = 0
+        ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
+// 删除植物图片
+async function removePlantImg(ctx, next) {
+    await mysql('plant_pic').where({
+        id: ctx.request.body.id
+    }).del().then(res => {
+        ctx.state.code = 0
+        ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
 module.exports = {
     getPlantList,
     plantDetail,
     getPlantRateList,
     addPlantRate,
-    removePlantRate
+    removePlantRate,
+    getPlantImg,
+    addPlant,
+    updatePlant,
+    removePlant,
+    addPlantImg,
+    removePlantImg
 }

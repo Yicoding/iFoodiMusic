@@ -63,6 +63,13 @@ var config = {
         removeFood: `${host}/weapp/removeFood`,
         addFoodImg: `${host}/weapp/addFoodImg`,
         removeFoodImg: `${host}/weapp/removeFoodImg`,
+        // 植物
+        getPlantImg: `${host}/weapp/getPlantImg`,
+        addPlant: `${host}/weapp/addPlant`,
+        updatePlant: `${host}/weapp/updatePlant`,
+        removePlant: `${host}/weapp/removePlant`,
+        addPlantImg: `${host}/weapp/addPlantImg`,
+        removePlantImg: `${host}/weapp/removePlantImg`,
     }
 };
 

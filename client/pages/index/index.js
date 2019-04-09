@@ -48,7 +48,7 @@ Page({
     info: '数据加载中...',
     title: '',
     isShow: false,
-    isEdit: false
+    isEdit: true
   },
   onLoad: function () {
     console.log('index: onLoad')

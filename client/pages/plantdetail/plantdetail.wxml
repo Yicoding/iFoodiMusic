@@ -3,14 +3,14 @@
     <image src="{{food.cover}}" mode="aspectFill" />
   </view>
   <view class="container">
-    <view class="title">{{food.title}}</view>
-    <view class="descript">{{food.descript}}</view>
-    <view class="time">上传于 {{food.time}}</view>
+    <view class="title">{{food.name}}</view>
+    <view class="descript">{{food.desc}}</view>
+    <view class="time">上传于 {{food.createTime}}</view>
     <view class="collect icon-favorite"></view>
   </view>
   <view class="split"></view>
   <view class="container">
-    <view class="title">美食一览</view>
+    <view class="title">植物一览</view>
     <view class="img-list">
       <image
         wx:for="{{imgList}}"

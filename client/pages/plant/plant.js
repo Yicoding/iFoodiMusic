@@ -10,9 +10,13 @@ Page({
     hasMore: false,
     loaded: true,
     info: '数据加载中...',
+    isAdmin: false,
   },
   onLoad: function () {
     this.getPlantList()
+  },
+  onShow() {
+    this.setData({ isAdmin: app.globalData.isAdmin })
   },
   // 监听用户下拉动作
   onPullDownRefresh() {
@@ -88,6 +92,12 @@ Page({
     wx.previewImage({
       current: e.currentTarget.dataset.src, // 当前显示图片的http链接
       urls: urls // 需要预览的图片http链接列表
+    })
+  },
+  // 新增
+  toPresent() {
+    wx.navigateTo({
+      url: '../plantedit/plantedit'
     })
   },
 })
