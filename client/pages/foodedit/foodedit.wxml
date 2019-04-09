@@ -1,6 +1,6 @@
 <view class="food {{isIpx ? 'foodX' : ''}}">
-  <image class="coverImg" src="{{cover}}" />
-  <view class="editBtn">修改封面图片</view>
+  <image class="coverImg" mode="aspectFill" src="{{cover}}" />
+  <view class="editBtn" catchtap="uploadCover">修改封面图片</view>
   <view class="line">
     <label for="">名称</label>
     <input bindinput="textChange" data-type="title" type="text" value="{{title}}" placeholder="请输入商品名" />
@@ -12,10 +12,16 @@
   <view class="line">
     <label for="">品类</label>
     <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}" range-key="text">
-      <view class="picker">
-        {{array[index].text}}
-      </view>
+      <view class="picker">{{array[index].text}}</view>
     </picker>
+  </view>
+  <view class="title" wx:if="{{id}}">美食一览</view>
+  <view class="container" wx:if="{{id}}">
+    <view wx:for="{{imgList}}" wx:key="{{index}}" class="image-item">
+      <image mode="aspectFill" class="image" src="{{item.src}}" bindtap="viewImage" data-src="{{item.src}}" />
+      <image class="icon-close" src="/images/icon-close.png" data-id="{{item.id}}" data-index="{{index}}" catchtap="remove" />
+    </view>
+    <view class="plus" bindtap="loadImg" wx:if="{{imgList.length < 9}}"></view>
   </view>
   <view class="saveBtn {{isIpx ? 'footX' : ''}}" bindtap="saveFood">保存</view>
 </view>

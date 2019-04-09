@@ -1,6 +1,6 @@
 //index.js
 //获取应用实例
-const app = getApp() 
+const app = getApp()
 var config = require('../../config')
 Page({
   data: {
@@ -48,7 +48,7 @@ Page({
     info: '数据加载中...',
     title: '',
     isShow: false,
-    isEdit: true
+    isEdit: false
   },
   onLoad: function () {
     console.log('index: onLoad')
@@ -56,12 +56,12 @@ Page({
       console.log(app.globalData.userInfo, 'index：存在全局用户信息')
       this.setData({
         userInfo: app.globalData.userInfo
-      },() => {
+      }, () => {
         this.setData({
           isShow: true
         })
       })
-    } else if (this.data.canIUse){
+    } else if (this.data.canIUse) {
       console.log('执行this.data.canIUse')
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
@@ -70,7 +70,7 @@ Page({
         app.globalData.userInfo = res.userInfo
         this.setData({
           userInfo: res.userInfo
-        },() => {
+        }, () => {
           this.setData({
             isShow: true
           })
@@ -85,7 +85,7 @@ Page({
           app.globalData.userInfo = res.userInfo
           this.setData({
             userInfo: res.userInfo
-          },() => {
+          }, () => {
             setTimeout(() => {
               this.setData({
                 isShow: true
@@ -98,13 +98,21 @@ Page({
     this.getFoodList()
   },
   onShow() {
-    if (app.globalData.timesRefresh) { 
+    if (app.globalData.timesRefresh) {
       this.setData({
         pageIndex: 0
       })
       this.getFoodList()
+      wx.pageScrollTo({
+        scrollTop: 0
+      })
       app.globalData.timesRefresh = false
     }
+  },
+  // 监听用户下拉动作
+  onPullDownRefresh() {
+    this.setData({ pageIndex: 0 })
+    this.getFoodList()
   },
   // 监听用户滑动页面事件
   onPageScroll(e) {
@@ -162,18 +170,19 @@ Page({
     })
   },
   // 获取列表
-  getFoodList(type=null) {
+  getFoodList(type = null) {
     wx.request({
       url: config.service.getFoodList,
       data: {
         title: this.data.title,
-        type: type? type : this.data.type,
+        type: type ? type : this.data.type,
         order: this.data.order,
         sort: this.data.status ? 'DESC' : 'ASC',
         pageIndex: this.data.pageIndex,
         pageSize: this.data.pageSize,
       },
-      success:({ data }) => {
+      success: ({ data }) => {
+        wx.stopPullDownRefresh()
         this.setData({
           loaded: true
         })
@@ -201,6 +210,9 @@ Page({
             info: '没有更多啦~\(≧▽≦)/~啦啦啦'
           })
         }
+      },
+      fail: (e) => {
+        wx.stopPullDownRefresh()
       }
     })
   },
@@ -269,10 +281,40 @@ Page({
       url: '../foodedit/foodedit'
     })
   },
+  // 编辑美食
   editFood(e) {
     let id = e.currentTarget.dataset.id
     wx.navigateTo({
       url: `../foodedit/foodedit?id=${id}`
+    })
+  },
+  // 删除美食
+  removeFood(e) {
+    wx.showModal({
+      title: '提示',
+      content: '您要抛弃我这道好吃又不胖的美食吗？',
+      success: (res) => {
+        console.log(res)
+        if (res.confirm) {
+          let id = e.currentTarget.dataset.id
+          wx.request({
+            method: 'DELETE',
+            url: config.service.removeFood,
+            data: { id },
+            success: () => {
+              this.setData({pageIndex: 0})
+              this.getFoodList()
+              wx.showToast({
+                title: '江湖再见，慢走不送...',
+                icon: 'none'
+              })
+              wx.pageScrollTo({
+                scrollTop: 0
+              })
+            }
+          })
+        }
+      }
     })
   }
 })

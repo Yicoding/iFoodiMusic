@@ -1,5 +1,5 @@
 .food{
-    padding-bottom: 20rpx;
+    padding-bottom: 140rpx;
 }
 .coverImg{
     width: 100%;
@@ -52,9 +52,76 @@
     right: 0;
     background: #3381e3;
 }
+.title{
+    color: #ffcd32;
+    padding-left: 20rpx;
+}
+.container {
+    margin-top: 8rpx;
+    box-sizing: border-box;
+    padding: 0 30rpx 0 18rpx;
+    overflow: hidden;
+    font-size: 0;
+}
+  
+.image-item {
+    display: inline-block;
+    position: relative;
+}
+  
+.image {
+    width: 222rpx;
+    height: 222rpx;
+    margin-left: 12rpx;
+    border: 1rpx solid #d4d7dc;
+    box-sizing: border-box;
+    margin-top: 12rpx;
+}
+
+.icon-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 34rpx;
+    height: 34rpx;
+    display: block;
+    z-index: 9;
+}
+
+.plus {
+    display: inline-block;
+    width: 222rpx;
+    height: 222rpx;
+    margin-left: 12rpx;
+    border: 1rpx solid #333;
+    position: relative;
+    box-sizing: border-box;
+    margin-top: 12rpx;
+}
+.plus:before {
+    position: absolute;
+    content: '';
+    width: 68rpx;
+    height: 4rpx;
+    background: #333;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+  
+.plus:after {
+    position: absolute;
+    content: '';
+    width: 4rpx;
+    height: 68rpx;
+    background: #333;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 /*iphonex*/
 .foodX{
-  padding-bottom: 90rpx;
+  padding-bottom: 230rpx;
 }
 .footX{
   padding-bottom: 30rpx;

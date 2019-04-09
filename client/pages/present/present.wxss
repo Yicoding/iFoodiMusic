@@ -44,6 +44,7 @@ textarea {
   margin-left: 12rpx;
   border: 1rpx solid #d4d7dc;
   box-sizing: border-box;
+  margin-top: 12rpx;
 }
 
 .icon-close {
@@ -64,6 +65,7 @@ textarea {
   border: 1rpx solid #d4d7dc;
   position: relative;
   box-sizing: border-box;
+  margin-top: 12rpx;
 }
 
 .plus:before {

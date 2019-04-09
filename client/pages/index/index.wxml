@@ -69,11 +69,17 @@
                 <view class="descipt">{{item.descript}}</view>
                 <view class="time">
                     <text class="text-time">上传于 {{item.time}}</text>
-                    <image class="icon-rate icon-edit" src="../../images/icon/delete.png" wx:if="{{isEdit}}" />
+                    <image
+                        wx:if="{{isEdit}}"
+                        class="icon-rate icon-edit"
+                        src="../../images/icon/delete.png"
+                        data-id="{{item.id}}"
+                        catchtap="removeFood" />
                     <image
                         wx:if="{{isEdit}}"
                         class="icon-rate icon-edit"
                         src="../../images/icon/edit.png"
+                        data-id="{{item.id}}"
                         catchtap="editFood" />
                     <image class="icon-rate" src="../../images/icon/rate.png" />
                     <text class="text-num">{{item.num}}</text>

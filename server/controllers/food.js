@@ -117,7 +117,13 @@ async function getFoodImg(ctx, next) {
 // 新增美食图片
 async function addFoodImg(ctx, next) {
     let item = ctx.request.body
-    await mysql('food_pic').insert({src: item.src, food_id: item.food_id}).then(res => {
+    let arr = item.imgList.map(todo => {
+        return {
+            src: todo,
+            food_id: item.food_id
+        }
+    })
+    await mysql('food_pic').insert(arr).then(res => {
         ctx.state.code = 0
         ctx.state.data = res
     }).catch(err => {
