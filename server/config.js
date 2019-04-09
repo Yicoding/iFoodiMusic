@@ -35,7 +35,8 @@ const CONF = {
         fileBucket: 'qcloudtest',
         // fileBucket: 'lg-km606yvg',
         // 文件夹
-        uploadFolder: 'present'
+        uploadFolder: 'present',
+        maxSize: 100
     },
     qcloudAppId: '1257454171',
     qcloudSecretId: 'AKIDmtlOmudVu31jBMs4XkiNnzvd6KI0Fopa',

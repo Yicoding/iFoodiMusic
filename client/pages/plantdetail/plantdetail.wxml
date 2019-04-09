@@ -1,6 +1,6 @@
 <view class="food {{isIpx ? 'foodX' : ''}}">
   <view class="cover">
-    <image src="{{food.cover}}" mode="aspectFill" />
+    <image src="{{food.coverImg}}" mode="aspectFill" />
   </view>
   <view class="container">
     <view class="title">{{food.name}}</view>
