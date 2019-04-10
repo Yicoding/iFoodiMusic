@@ -243,7 +243,8 @@ Page({
   uploadCover() {
     wx.chooseImage({
       count: 1, // 默认9
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      // sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: (res) => {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
@@ -278,11 +279,19 @@ Page({
   },
   // 移除照片
   remove(e) {
-    if (this.data.id) { // 修改美食
-      this.removePut(e)
-    } else { // 新增美食
-      this.removeAdd(e)
-    }
+    wx.showModal({
+      title: '提示',
+      content: '真的不要我了吗？',
+      success: (res) => {
+        if (res.confirm) {
+          if (this.data.id) { // 修改美食
+            this.removePut(e)
+          } else { // 新增美食
+            this.removeAdd(e)
+          }
+        }
+      }
+    })
   },
   // 移除照片(新增美食)
   removeAdd(e) {
@@ -319,7 +328,8 @@ Page({
   loadImgAdd() {
     wx.chooseImage({
       count: this.data.num, // 默认9
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      // sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: (res) => {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
@@ -337,7 +347,8 @@ Page({
   loadImgPut() {
     wx.chooseImage({
       count: this.data.num, // 默认9
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      // sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: (res) => {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片

@@ -7,7 +7,7 @@
   </view>
   <view class="line">
     <label for="">介绍</label>
-    <textarea bindinput="textChange" data-type="desc" type="text" value="{{desc}}" placeholder="请输入商品信息"></textarea>
+    <textarea bindinput="textChange" data-type="desc" type="text" value="{{desc}}" placeholder="请输入商品信息" maxlength="2000"></textarea>
   </view>
   <view class="title">植物一览</view>
   <view class="container">

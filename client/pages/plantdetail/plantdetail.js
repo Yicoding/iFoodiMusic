@@ -25,7 +25,7 @@ Page({
   },
   // 监听用户下拉动作
   onPullDownRefresh() {
-    let item = this.data.food.cover
+    let item = this.data.food.coverImg
     let urls = [item]
     wx.previewImage({
       current: item, // 当前显示图片的http链接
@@ -131,10 +131,10 @@ Page({
       console.log('ok')
       wx.request({
         method: 'POST',
-        url: config.service.addFoodRate,
+        url: config.service.addPlantRate,
         data: {
           content: this.data.text,
-          food_id: this.data.id,
+          plant_id: this.data.id,
           openid: app.globalData.openid,
           nickName: app.globalData.userInfo.nickName,
           avatarUrl: app.globalData.userInfo.avatarUrl,
@@ -186,7 +186,7 @@ Page({
           let id = e.currentTarget.dataset.id
           wx.request({
             method: 'DELETE',
-            url: config.service.removeFoodRate,
+            url: config.service.removePlantRate,
             data: {
               id: id
             },

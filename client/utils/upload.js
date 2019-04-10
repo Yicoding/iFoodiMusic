@@ -7,8 +7,8 @@ function uploadFile(filePath) {
             filePath: filePath,
             name: 'file',
             success: function (res) {
-                res = JSON.parse(res.data)
                 console.log(res)
+                res = JSON.parse(res.data)
                 if(res.code == 0) {
                     resolve(res.data.imgUrl)
                 } else {
