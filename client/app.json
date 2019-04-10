@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/test/test",
     "pages/plantdetail/plantdetail",
-    "pages/index/index",
     "pages/foodedit/foodedit",
     "pages/plantedit/plantedit",
     "pages/times/times",
