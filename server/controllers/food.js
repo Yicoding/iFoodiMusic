@@ -189,6 +189,50 @@ async function removeFoodRate(ctx, next) {
         throw new Error(err)
     })
 }
+
+// 获取type列表
+async function getTypeList(ctx, next) {
+    await mysql('food_type').
+        select('*').
+        then(res => {
+            ctx.state.code = 0
+            ctx.state.data = res
+        }).catch(err => {
+            ctx.state.code = -1
+            throw new Error(err)
+        })
+}
+// 新增type
+async function addType(ctx, next) {
+    let item = ctx.request.body
+    await mysql('food_rate').insert({
+        content: item.content,
+        food_id: item.food_id,
+        openid: item.openid,
+        nickName: item.nickName,
+        avatarUrl: item.avatarUrl,
+        presentTime: item.presentTime
+    }).then(res => {
+        ctx.state.code = 0
+        ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
+// 删除type
+async function removeFoodRate(ctx, next) {
+    await mysql('food_rate').where({
+        id: ctx.request.body.id
+    }).del().then(res => {
+        ctx.state.code = 0
+        ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
+
 module.exports = {
     getFoodList,
     getFoodDetail,
@@ -200,5 +244,6 @@ module.exports = {
     updateFood,
     removeFood,
     addFoodImg,
-    removeFoodImg
+    removeFoodImg,
+    getTypeList,
 }
