@@ -72,6 +72,7 @@ var config = {
         removePlantImg: `${host}/weapp/removePlantImg`,
         // 菜单种类
         getTypeList: `${host}/weapp/getTypeList`,
+        getTypeDetail: `${host}/weapp/getTypeDetail`,
         addType: `${host}/weapp/addType`,
         updateType: `${host}/weapp/updateType`,
         removeType: `${host}/weapp/removeType`,

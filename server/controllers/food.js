@@ -202,6 +202,21 @@ async function getTypeList(ctx, next) {
             throw new Error(err)
         })
 }
+// 根据id获取type
+async function getTypeDetail(ctx, next) {
+    await mysql('food_type').
+        select('*').
+        where({
+            id: ctx.query.id
+        }).
+        then(res => {
+            ctx.state.code = 0
+            ctx.state.data = res[0]
+        }).catch(err => {
+            ctx.state.code = -1
+            throw new Error(err)
+        })
+}
 // 新增type
 async function addType(ctx, next) {
     let item = ctx.request.body
@@ -259,6 +274,7 @@ module.exports = {
     addFoodImg,
     removeFoodImg,
     getTypeList,
+    getTypeDetail,
     addType,
     updateType,
     removeType

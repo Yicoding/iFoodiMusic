@@ -217,7 +217,7 @@ Page({
     let id = e.currentTarget.id
     this.translateXMsgItem(id, 0, 200);
     wx.navigateTo({
-      url: `../plantedit/plantedit?id=${id}`
+      url: `../setedit/setedit?id=${id}`
     })
   },
   getItemIndex: function (id) {

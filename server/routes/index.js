@@ -86,6 +86,7 @@ router.post('/addPlantImg', controllers.plant.addPlantImg)
 router.delete('/removePlantImg', controllers.plant.removePlantImg)
 // 菜单种类
 router.get('/getTypeList', controllers.food.getTypeList)
+router.get('/getTypeDetail', controllers.food.getTypeDetail)
 router.post('/addType', controllers.food.addType)
 router.put('/updateType', controllers.food.updateType)
 router.delete('/removeType', controllers.food.removeType)
