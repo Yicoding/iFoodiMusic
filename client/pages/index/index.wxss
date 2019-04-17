@@ -36,15 +36,21 @@
     width: 100%;
 }
 .ul{
-    display: flex;
-    align-items: center;
-    height: 180rpx;
+    padding: 20rpx 0;
     background: #2a2a2a;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+.ul::-webkit-scrollbar {
+    height: 0;
 }
 .li{
-    flex: 1;
+    display: inline-block;
+    width: 100rpx;
     text-align: center;
     font-size: 24rpx;
+    margin: 0 30rpx;
 }
 .li.active{
     color: #3483e9;

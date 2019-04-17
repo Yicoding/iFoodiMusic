@@ -205,13 +205,26 @@ async function getTypeList(ctx, next) {
 // 新增type
 async function addType(ctx, next) {
     let item = ctx.request.body
-    await mysql('food_rate').insert({
-        content: item.content,
-        food_id: item.food_id,
-        openid: item.openid,
-        nickName: item.nickName,
-        avatarUrl: item.avatarUrl,
-        presentTime: item.presentTime
+    await mysql('food_type').insert({
+        value: item.value,
+        text: item.text,
+        img: item.img
+    }).then(res => {
+        ctx.state.code = 0
+        ctx.state.data = res
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
+// 更新type
+async function updateType(ctx, next) {
+    let item = ctx.request.body
+    await mysql('food_type').where({ id: item.id }).
+    update({
+        value: item.value,
+        text: item.text,
+        img: item.img
     }).then(res => {
         ctx.state.code = 0
         ctx.state.data = res
@@ -221,8 +234,8 @@ async function addType(ctx, next) {
     })
 }
 // 删除type
-async function removeFoodRate(ctx, next) {
-    await mysql('food_rate').where({
+async function removeType(ctx, next) {
+    await mysql('food_type').where({
         id: ctx.request.body.id
     }).del().then(res => {
         ctx.state.code = 0
@@ -246,4 +259,7 @@ module.exports = {
     addFoodImg,
     removeFoodImg,
     getTypeList,
+    addType,
+    updateType,
+    removeType
 }

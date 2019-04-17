@@ -17,12 +17,12 @@
     </search>
     <view class="ul">
         <view
-            class="li {{type == item.type ? 'active' : ''}}"
+            class="li {{type == item.value ? 'active' : ''}}"
             wx:for="{{typeArrOne}}"
-            wx:key="{{item.type}}"
+            wx:key="{{item.value}}"
             bindtap="checkType"
-            data-type="{{item.type}}">
-            <image src="{{item.src}}" />
+            data-type="{{item.value}}">
+            <image src="{{item.img}}" />
             <view>{{item.text}}</view>
         </view>
     </view>

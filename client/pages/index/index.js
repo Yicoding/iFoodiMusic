@@ -15,30 +15,10 @@ Page({
     addIcon: '../../images/icon/add.png',
     typeArrOne: [
       {
-        src: '../../images/icon/food-3.png',
-        type: 'all',
+        img: '../../images/icon/food-3.png',
+        value: 'all',
         text: '全部'
-      },
-      {
-        src: '../../images/icon/food-4.png',
-        type: 'chuancai',
-        text: '川菜'
-      },
-      {
-        src: '../../images/icon/food-7.png',
-        type: 'jiachangcai',
-        text: '家常菜'
-      },
-      {
-        src: '../../images/icon/food-11.png',
-        type: 'xiangcai',
-        text: '湘菜'
-      },
-      {
-        src: '../../images/icon/food-8.png',
-        type: 'zhushi',
-        text: '主食'
-      },
+      }
     ],
     foodList: [],
     pageIndex: 0,
@@ -47,16 +27,18 @@ Page({
     loaded: true,
     info: '数据加载中...',
     title: '',
-    isShow: false,
+    isShow: true,
     isEdit: true
   },
   onLoad: function () {
+    console.log(0)
     console.log('index: onLoad')
     if (app.globalData.userInfo) {
       console.log(app.globalData.userInfo, 'index：存在全局用户信息')
       this.setData({
         userInfo: app.globalData.userInfo
       }, () => {
+        console.log(1)
         this.setData({
           isShow: true
         })
@@ -71,6 +53,7 @@ Page({
         this.setData({
           userInfo: res.userInfo
         }, () => {
+          console.log(2)
           this.setData({
             isShow: true
           })
@@ -86,16 +69,21 @@ Page({
           this.setData({
             userInfo: res.userInfo
           }, () => {
+            console.log(3)
             setTimeout(() => {
               this.setData({
                 isShow: true
               })
             }, 500)
           })
+        },
+        fail: () => {
+          console.log('fail')
         }
       })
     }
     this.getFoodList()
+    this.getTypeList()
   },
   onShow() {
     if (app.globalData.timesRefresh) {
@@ -169,6 +157,21 @@ Page({
       }
     })
   },
+  // 获取菜单列表
+  getTypeList() {
+    wx.request({
+      url: config.service.getTypeList,
+      success: ({ data }) => {
+        console.log('getTypeList', data)
+        let typeArrOne = [...this.data.typeArrOne, ...data.data, {
+          value: 'setting',
+          text: '设置',
+          img: '../../images/icon/setting.png'
+        }]
+        this.setData({ typeArrOne })
+      }
+    })
+  },
   // 获取列表
   getFoodList(type = null) {
     wx.request({
@@ -229,6 +232,9 @@ Page({
   // 选择类别
   checkType(e) {
     let type = e.currentTarget.dataset.type
+    if (type == 'setting') { // 设置
+      return wx.navigateTo({ url: '../setting/setting' })
+    }
     this.setData({
       type: type,
       pageIndex: 0
@@ -302,7 +308,7 @@ Page({
             url: config.service.removeFood,
             data: { id },
             success: () => {
-              this.setData({pageIndex: 0})
+              this.setData({ pageIndex: 0 })
               this.getFoodList()
               wx.showToast({
                 title: '江湖再见，慢走不送...',

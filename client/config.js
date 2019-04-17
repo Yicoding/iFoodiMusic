@@ -57,7 +57,7 @@ var config = {
         getPlantRateList: `${host}/weapp/getPlantRateList`,
         addPlantRate: `${host}/weapp/addPlantRate`,
         removePlantRate: `${host}/weapp/removePlantRate`,
-        //美食
+        // 美食
         addFood: `${host}/weapp/addFood`,
         updateFood: `${host}/weapp/updateFood`,
         removeFood: `${host}/weapp/removeFood`,
@@ -70,6 +70,11 @@ var config = {
         removePlant: `${host}/weapp/removePlant`,
         addPlantImg: `${host}/weapp/addPlantImg`,
         removePlantImg: `${host}/weapp/removePlantImg`,
+        // 菜单种类
+        getTypeList: `${host}/weapp/getTypeList`,
+        addType: `${host}/weapp/addType`,
+        updateType: `${host}/weapp/updateType`,
+        removeType: `${host}/weapp/removeType`,
     }
 };
 

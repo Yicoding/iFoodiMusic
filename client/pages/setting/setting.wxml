@@ -1,0 +1,23 @@
+<!-- index.wxml -->
+<view class="container">
+  <view class="title">
+    <text>菜品分类</text>
+    <!-- <image wx:if="{{isAdmin}}" class="present" src="../../images/icon/present.png" bindtap="toPresent" /> -->
+    <image class="present" src="../../images/icon/present.png" bindtap="toPresent" />
+  </view>
+  <view wx:for="{{wallList}}" wx:key="id" class='msg-item' animation='{{item.wrapAnimation}}'>
+    <view id='{{item.id}}' class='msg' animation='{{item.animation}}' bindtouchstart='ontouchstart' bindtouchmove='ontouchmove' bindtouchend='ontouchend' bindtap="goWallDetail" data-id="{{item.id}}">
+      <image class="cover" src="{{item.img}}" catchtap="viewImage" data-src="{{item.img}}" data-urls="{{item.img}}" />
+      <text class="name">{{item.text}}</text>
+    </view>
+    <view class='msg-menu'>
+      <view id='{{item.id}}' class='menu-delete' bindtap='onDeleteMsgTap' bindtap='onDeleteMsgLongtap'>
+        删除
+      </view>
+      <view id='{{item.id}}' class='menu-mark' bindtap='onMarkMsgTap' bindtap='onMarkMsgLongtap'>
+        编辑
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{!loaded}}" class="info">{{info}}</view>
+</view>
