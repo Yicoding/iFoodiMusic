@@ -2,7 +2,7 @@ const { mysql } = require('../qcloud')
 // 爱美食列表
 async function getFoodList(ctx, next) {
     let type = ctx.query.type
-    if (type == 'all') {
+    if (type == '0') {
         await mysql('food').
             leftJoin('food_rate', 'food.id', '=', 'food_rate.food_id').
             select('food.id', 'food.cover', 'food.title', 'food.descript', 'food.time', mysql.raw('count(food_rate.id) as num')).
@@ -221,7 +221,6 @@ async function getTypeDetail(ctx, next) {
 async function addType(ctx, next) {
     let item = ctx.request.body
     await mysql('food_type').insert({
-        value: item.value,
         text: item.text,
         img: item.img
     }).then(res => {
@@ -237,7 +236,6 @@ async function updateType(ctx, next) {
     let item = ctx.request.body
     await mysql('food_type').where({ id: item.id }).
     update({
-        value: item.value,
         text: item.text,
         img: item.img
     }).then(res => {

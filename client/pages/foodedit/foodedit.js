@@ -19,18 +19,16 @@ Page({
     imgList: [], // 数据库存储的
     tempFilePaths: [], // 临时文件
     array: [
-      { value: '', text: '请选择' },
-      { value: 'chuancai', text: '川菜' },
-      { value: 'jiachangcai', text: '家常菜' },
-      { value: 'xiangcai', text: '湘菜' },
-      { value: 'zhushi', text: '主食' },
+      { id: '', text: '请选择' },
     ],
   },
   onLoad: function (options) {
     if (options.id) { // 编辑
       this.setData({ id: options.id })
-      this.getFoodDetail(options.id)
+      this.getTypeList(options.id)
       this.getFoodImg(options.id)
+    } else {
+      this.getTypeList()
     }
   },
   // 监听用户下拉动作
@@ -43,6 +41,18 @@ Page({
     })
     wx.stopPullDownRefresh()
   },
+  // 获取菜单列表
+  getTypeList(id = null) {
+    wx.request({
+      url: config.service.getTypeList,
+      success: ({ data }) => {
+        console.log('getTypeList', data)
+        let array = [...this.data.array, ...data.data]
+        this.setData({ array })
+        id && this.getFoodDetail(id)
+      }
+    })
+  },
   // 获取食物信息
   getFoodDetail(id) {
     wx.request({
@@ -50,8 +60,8 @@ Page({
       data: { id },
       success: ({ data }) => {
         console.log('getFoodDetail', data)
-        let index = this.data.array.findIndex(item => item.value === data.data.type)
-        console.log(index)
+        let index = this.data.array.findIndex(item => item.id == data.data.type)
+        console.log('index', index)
         this.setData({
           index,
           cover: data.data.cover,
@@ -103,7 +113,7 @@ Page({
   // pick回调
   bindPickerChange(e) {
     let index = e.detail.value
-    let type = this.data.array[index].value
+    let type = this.data.array[index].id
     console.log(type)
     this.setData({ index, type })
   },

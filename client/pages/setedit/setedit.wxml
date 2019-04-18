@@ -3,20 +3,7 @@
   <view class="editBtn" catchtap="uploadCover">修改封面图片</view>
   <view class="line">
     <label for="">名称</label>
-    <input bindinput="textChange" data-type="text" type="text" value="{{text}}" placeholder="请输入商品名" />
-  </view>
-  <view class="line">
-    <label for="">介绍</label>
-    <input bindinput="textChange" data-type="text" type="text" value="{{text}}" placeholder="请输入商品名" />
-    <textarea bindinput="textChange" data-type="desc" type="text" value="{{desc}}" placeholder="请输入商品信息" maxlength="2000"></textarea>
-  </view>
-  <view class="title">植物一览</view>
-  <view class="container">
-    <view wx:for="{{id ? imgList : tempFilePaths}}" wx:key="{{index}}" class="image-item">
-      <image mode="aspectFill" class="image" src="{{item.src}}" bindtap="viewImage" data-src="{{item.src}}" />
-      <image class="icon-close" src="/images/icon-close.png" data-id="{{item.id}}" data-index="{{index}}" catchtap="remove" />
-    </view>
-    <view class="plus" bindtap="loadImg" wx:if="{{id ? imgList.length < 9 : tempFilePaths.length < 9}}"></view>
+    <input bindinput="textChange" data-type="text" type="text" value="{{text}}" placeholder="请输入菜单名" />
   </view>
   <view class="saveBtn {{isIpx ? 'footX' : ''}}" bindtap="saveFood">保存</view>
 </view>

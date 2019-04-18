@@ -7,19 +7,13 @@ Page({
     userInfo: null,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     isFixed: false,
-    type: 'all',
+    type: 0,
     order: 'time',
     status: true,
     iconUp: '../../images/icon/arrow-up.png',
     iconDown: '../../images/icon/arrow-down.png',
     addIcon: '../../images/icon/add.png',
-    typeArrOne: [
-      {
-        img: '../../images/icon/food-3.png',
-        value: 'all',
-        text: '全部'
-      }
-    ],
+    typeArrOne: [],
     foodList: [],
     pageIndex: 0,
     pageSize: 10,
@@ -27,10 +21,15 @@ Page({
     loaded: true,
     info: '数据加载中...',
     title: '',
-    isShow: true,
+    isShow: false,
     isEdit: true
   },
   onLoad: function () {
+    setTimeout(() => {
+      this.setData({
+        isShow: true
+      })
+    }, 1500)
     console.log(0)
     console.log('index: onLoad')
     if (app.globalData.userInfo) {
@@ -94,6 +93,7 @@ Page({
       wx.pageScrollTo({
         scrollTop: 0
       })
+      this.getTypeList()
       app.globalData.timesRefresh = false
     }
   },
@@ -163,8 +163,12 @@ Page({
       url: config.service.getTypeList,
       success: ({ data }) => {
         console.log('getTypeList', data)
-        let typeArrOne = [...this.data.typeArrOne, ...data.data, {
-          value: 'setting',
+        let typeArrOne = [{
+          id: 0,
+          img: '../../images/icon/food-3.png',
+          text: '全部'
+        }, ...data.data, {
+          id: '-1',
           text: '设置',
           img: '../../images/icon/setting.png'
         }]
@@ -226,17 +230,17 @@ Page({
       title: val.detail,
       pageIndex: 0
     })
-    let type = val.detail ? 'all' : ''
+    let type = val.detail ? '0' : ''
     this.getFoodList(type)
   },
   // 选择类别
   checkType(e) {
     let type = e.currentTarget.dataset.type
-    if (type == 'setting') { // 设置
+    if (type == '-1') { // 设置
       return wx.navigateTo({ url: '../setting/setting' })
     }
     this.setData({
-      type: type,
+      type,
       pageIndex: 0
     })
     this.selectComponent("#search").empty()

@@ -45,7 +45,7 @@ Page({
       wx.pageScrollTo({
         scrollTop: 0
       })
-      app.globalData.timesRefresh = false
+      // app.globalData.timesRefresh = false
     }
   },
   // 监听用户下拉动作
@@ -188,24 +188,44 @@ Page({
       title: '提示',
       content: '确定要删除吗？',
       success: (res) => {
-        console.log(res)
-        if (res.confirm) {
-          wx.request({
-            method: 'DELETE',
-            url: config.service.removeType,
-            data: { id },
-            success: () => {
-              this.getTypeList()
-              wx.showToast({
-                title: '江湖再见，慢走不送...',
-                icon: 'none'
+        wx.request({
+          method: 'GET',
+          url: config.service.getFoodList,
+          data: {
+            title: '',
+            type: id,
+            order: 'id',
+            sort: 'DESC',
+            pageIndex: 0,
+            pageSize: 1,
+          },
+          success: ({ data }) => {
+            console.log('getTypeDetail', data)
+            if (data.code == 0 && data.data.length > 0) {
+              wx.showModal({
+                title: '提示',
+                content: '该菜单下存在美食，不能删除',
+                showCancel: false
               })
-              // wx.pageScrollTo({
-              //   scrollTop: 0
-              // })
+            } else {
+              if (res.confirm) {
+                wx.request({
+                  method: 'DELETE',
+                  url: config.service.removeType,
+                  data: { id },
+                  success: () => {
+                    this.getTypeList()
+                    wx.showToast({
+                      title: '江湖再见，慢走不送...',
+                      icon: 'none'
+                    })
+                    app.globalData.timesRefresh = true
+                  }
+                })
+              }
             }
-          })
-        }
+          }
+        })
       }
     })
   },
@@ -274,13 +294,6 @@ Page({
       }
     })
   },
-  // 跳转到详情页
-  goWallDetail(e) {
-    let id = e.currentTarget.dataset.id
-    wx.navigateTo({
-      url: `../plantdetail/plantdetail?id=${id}`
-    })
-  },
   // 预览照片
   viewImage(e) {
     console.log(e)
@@ -293,7 +306,7 @@ Page({
   // 新增
   toPresent() {
     wx.navigateTo({
-      url: '../plantedit/plantedit'
+      url: '../setedit/setedit'
     })
   },
 })

@@ -6,7 +6,7 @@
     <image class="present" src="../../images/icon/present.png" bindtap="toPresent" />
   </view>
   <view wx:for="{{wallList}}" wx:key="id" class='msg-item' animation='{{item.wrapAnimation}}'>
-    <view id='{{item.id}}' class='msg' animation='{{item.animation}}' bindtouchstart='ontouchstart' bindtouchmove='ontouchmove' bindtouchend='ontouchend' bindtap="goWallDetail" data-id="{{item.id}}">
+    <view id='{{item.id}}' class='msg' animation='{{item.animation}}' bindtouchstart='ontouchstart' bindtouchmove='ontouchmove' bindtouchend='ontouchend' data-id="{{item.id}}">
       <image class="cover" src="{{item.img}}" catchtap="viewImage" data-src="{{item.img}}" data-urls="{{item.img}}" />
       <text class="name">{{item.text}}</text>
     </view>

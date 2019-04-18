@@ -22,6 +22,7 @@
     padding: 20rpx;
     display: flex;
     align-items: center;
+    margin-top: 30rpx;
 }
 .line label{
     color: #ffcd32;
@@ -31,16 +32,6 @@
     flex: 1;
     border-bottom: 1rpx solid #666;
     height: 70rpx;
-}
-.line textarea{
-    flex: 1;
-    border: 1rpx solid #666;
-    padding: 20rpx;
-    height: 150rpx;
-    border-radius: 8rpx;
-}
-.line picker{
-    flex: 1;
 }
 .saveBtn{
     height: 90rpx;
@@ -54,73 +45,6 @@
     right: 0;
     z-index: 999;
     background: #3381e3;
-}
-.title{
-    color: #ffcd32;
-    padding-left: 20rpx;
-}
-.container {
-    margin-top: 8rpx;
-    box-sizing: border-box;
-    padding: 0 30rpx 0 18rpx;
-    overflow: hidden;
-    font-size: 0;
-}
-  
-.image-item {
-    display: inline-block;
-    position: relative;
-}
-  
-.image {
-    width: 222rpx;
-    height: 222rpx;
-    margin-left: 12rpx;
-    border: 1rpx solid #d4d7dc;
-    box-sizing: border-box;
-    margin-top: 12rpx;
-}
-
-.icon-close {
-    position: absolute;
-    right: 0;
-    top: 12rpx;
-    width: 34rpx;
-    height: 34rpx;
-    display: block;
-    z-index: 9;
-}
-
-.plus {
-    display: inline-block;
-    width: 222rpx;
-    height: 222rpx;
-    margin-left: 12rpx;
-    border: 1rpx solid #666;
-    position: relative;
-    box-sizing: border-box;
-    margin-top: 12rpx;
-}
-.plus:before {
-    position: absolute;
-    content: '';
-    width: 68rpx;
-    height: 4rpx;
-    background: #666;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-  
-.plus:after {
-    position: absolute;
-    content: '';
-    width: 4rpx;
-    height: 68rpx;
-    background: #666;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 /*iphonex*/
 .foodX{
