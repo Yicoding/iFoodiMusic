@@ -76,7 +76,7 @@
     position: absolute;
     width: 150rpx;
     height: 100%;
-    top: 1rpx;
+    top: 0;
     right: 0;
     background-color: rgb(255, 58, 50);
     color: #fff;
@@ -88,7 +88,7 @@
     position: absolute;
     width: 200rpx;
     height: 100%;
-    top: 1rpx;
+    top: 0;
     right: 150rpx;
     background-color: rgb(200, 199, 205);
     color: #fff;
