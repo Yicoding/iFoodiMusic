@@ -91,5 +91,14 @@ router.post('/addType', controllers.food.addType)
 router.put('/updateType', controllers.food.updateType)
 router.delete('/removeType', controllers.food.removeType)
 
+// iplat平台
+// 公司
+router.get('/getCompanyList', controllers.company.getCompanyList) // 查看公司列表
+router.get('/getCompanyDetail', controllers.company.getCompanyDetail) // 查看单个公司列表
+router.post('/addCompany', controllers.company.addCompany) // 新增公司
+router.put('/updateCompany', controllers.company.updateCompany) // 更新单个公司
+router.delete('/removeCompany', controllers.company.removeCompany) // 删除单个公司
+
+
 
 module.exports = router

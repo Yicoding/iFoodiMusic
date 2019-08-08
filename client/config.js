@@ -76,6 +76,14 @@ var config = {
         addType: `${host}/weapp/addType`,
         updateType: `${host}/weapp/updateType`,
         removeType: `${host}/weapp/removeType`,
+
+        // iplat平台
+        // 公司
+        getCompanyList: `${host}/weapp/getCompanyList`, // 查看公司列表
+        getCompanyDetail: `${host}/weapp/getCompanyDetail`, // 查看公司列表
+        addCompany: `${host}/weapp/addCompany`, // 新增公司
+        updateCompany: `${host}/weapp/updateCompany`, // 更新单个公司
+        removeCompany: `${host}/weapp/removeCompany`, // 删除单个公司
     }
 };
 
