@@ -84,6 +84,24 @@ var config = {
         addCompany: `${host}/weapp/addCompany`, // 新增公司
         updateCompany: `${host}/weapp/updateCompany`, // 更新单个公司
         removeCompany: `${host}/weapp/removeCompany`, // 删除单个公司
+        // 角色
+        getRoleList: `${host}/weapp/getRoleList`, // 查看公司列表
+        getRoleDetail: `${host}/weapp/getRoleDetail`, // 查看公司列表
+        addRole: `${host}/weapp/addRole`, // 新增公司
+        updateRole: `${host}/weapp/updateRole`, // 更新单个公司
+        removeRole: `${host}/weapp/removeRole`, // 删除单个公司
+        // 商品类型
+        getGoodsTypeList: `${host}/weapp/getGoodsTypeList`, // 查看商品类型列表
+        getGoodsTypeDetail: `${host}/weapp/getGoodsTypeDetail`, // 查看商品类型列表
+        addGoodsType: `${host}/weapp/addGoodsType`, // 新增商品类型
+        updateGoodsType: `${host}/weapp/updateGoodsType`, // 更新单个商品类型
+        removeGoodsType: `${host}/weapp/removeGoodsType`, // 删除单个商品类型
+        // 用户
+        getUserList: `${host}/weapp/getUserList`, // 查看用户列表
+        getUserDetail: `${host}/weapp/getUserDetail`, // 查看用户列表
+        addUser: `${host}/weapp/addUser`, // 新增用户
+        updateUser: `${host}/weapp/updateUser`, // 更新单个用户
+        removeUser: `${host}/weapp/removeUser`, // 删除单个用户
     }
 };
 

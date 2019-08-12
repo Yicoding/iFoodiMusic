@@ -99,6 +99,27 @@ router.post('/addCompany', controllers.company.addCompany) // 新增公司
 router.put('/updateCompany', controllers.company.updateCompany) // 更新单个公司
 router.delete('/removeCompany', controllers.company.removeCompany) // 删除单个公司
 
+//角色
+router.get('/getRoleList', controllers.role.getRoleList) // 查看角色列表
+router.get('/getRoleDetail', controllers.role.getRoleDetail) // 查看单个角色列表
+router.post('/addRole', controllers.role.addRole) // 新增角色
+router.put('/updateRole', controllers.role.updateRole) // 更新单个角色
+router.delete('/removeRole', controllers.role.removeRole) // 删除单个角色
+
+// 商品类型
+router.get('/getGoodsTypeList', controllers.type.getGoodsTypeList) // 查看商品类型列表
+router.get('/getGoodsTypeDetail', controllers.type.getGoodsTypeDetail) // 查看单个商品类型列表
+router.post('/addGoodsType', controllers.type.addGoodsType) // 新增商品类型
+router.put('/updateGoodsType', controllers.type.updateGoodsType) // 更新单个商品类型
+router.delete('/removeGoodsType', controllers.type.removeGoodsType) // 删除单个商品类型
+
+// 用户
+router.get('/getUserList', controllers.users.getUserList) // 查看用户列表
+router.get('/getUserDetail', controllers.users.getUserDetail) // 查看单个用户列表
+router.post('/addUser', controllers.users.addUser) // 新增用户
+router.put('/updateUser', controllers.users.updateUser) // 更新单个用户
+router.delete('/removeUser', controllers.users.removeUser) // 删除单个用户
+
 
 
 module.exports = router

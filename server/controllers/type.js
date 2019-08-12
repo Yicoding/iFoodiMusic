@@ -1,10 +1,9 @@
 const { mysql } = require('../qcloud')
-const { changedate } = require('./util')
 
-// 查看公司列表
-async function getCompanyList(ctx, next) {
-    await mysql('company').
-    select('*').
+// 查看商品类型列表
+async function getGoodsTypeList(ctx, next) {
+    await mysql('type').join('company', 'type.company_id', '=', 'company.id').
+    select('type.id', 'type.name', 'company.id as company_id', 'company.name as companyName').
     then(res => {
         ctx.state.code = 0
         ctx.state.data = res
@@ -14,9 +13,9 @@ async function getCompanyList(ctx, next) {
     })
 }
 
-// 查看单个公司详情
-async function getCompanyDetail(ctx, next) {
-    await mysql('company').
+// 查看单个商品类型详情
+async function getGoodsTypeDetail(ctx, next) {
+    await mysql('type').
     select('*').
     where({
         id: ctx.query.id
@@ -30,20 +29,16 @@ async function getCompanyDetail(ctx, next) {
     })
 }
 
-// 新增公司
-async function addCompany(ctx, next) {
+// 新增商品类型
+async function addGoodsType(ctx, next) {
     let item = ctx.request.body
-    let createTime = changedate(new Date(), 'yyyy-MM-dd HH:mm:ss')
-    await mysql('company').insert({
+    await mysql('type').insert({
         name: item.name,
-        createTime,
-        desc: item.desc,
-        logo: item.logo
+        company_id: item.company_id
     }).then(res => {
         ctx.state.code = 0
         let data = {
-            id: res[0],
-            createTime
+            id: res[0]
         }
         ctx.state.data = data
     }).catch(err => {
@@ -52,14 +47,13 @@ async function addCompany(ctx, next) {
     })
 }
 
-// 更新单个公司
-async function updateCompany(ctx, next) {
+// 更新单个商品类型信息
+async function updateGoodsType(ctx, next) {
     let item = ctx.request.body
-    await mysql('company').where({ id: item.id }).
+    await mysql('type').where({ id: item.id }).
     update({
         name: item.name,
-        desc: item.desc,
-        logo: item.logo
+        company_id: item.company_id
     }).then(res => {
         ctx.state.code = 0
         ctx.state.data = res
@@ -69,9 +63,9 @@ async function updateCompany(ctx, next) {
     })
 }
 
-// 删除单个公司
-async function removeCompany(ctx, next) {
-    await mysql('company').where({
+// 删除单个商品类型
+async function removeGoodsType(ctx, next) {
+    await mysql('type').where({
         id: ctx.request.body.id
     }).del().then(res => {
         ctx.state.code = 0
@@ -83,9 +77,9 @@ async function removeCompany(ctx, next) {
 }
 
 module.exports = {
-    getCompanyList,
-    getCompanyDetail,
-    addCompany,
-    updateCompany,
-    removeCompany
+    getGoodsTypeList,
+    getGoodsTypeDetail,
+    addGoodsType,
+    updateGoodsType,
+    removeGoodsType
 }

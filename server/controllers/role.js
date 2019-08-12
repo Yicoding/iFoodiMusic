@@ -1,9 +1,8 @@
 const { mysql } = require('../qcloud')
-const { changedate } = require('./util')
 
-// 查看公司列表
-async function getCompanyList(ctx, next) {
-    await mysql('company').
+// 查看角色列表
+async function getRoleList(ctx, next) {
+    await mysql('role').
     select('*').
     then(res => {
         ctx.state.code = 0
@@ -14,9 +13,9 @@ async function getCompanyList(ctx, next) {
     })
 }
 
-// 查看单个公司详情
-async function getCompanyDetail(ctx, next) {
-    await mysql('company').
+// 查看单个角色详情
+async function getRoleDetail(ctx, next) {
+    await mysql('role').
     select('*').
     where({
         id: ctx.query.id
@@ -30,20 +29,16 @@ async function getCompanyDetail(ctx, next) {
     })
 }
 
-// 新增公司
-async function addCompany(ctx, next) {
+// 新增角色
+async function addRole(ctx, next) {
     let item = ctx.request.body
-    let createTime = changedate(new Date(), 'yyyy-MM-dd HH:mm:ss')
-    await mysql('company').insert({
+    await mysql('role').insert({
         name: item.name,
-        createTime,
-        desc: item.desc,
-        logo: item.logo
+        fullName: item.fullName
     }).then(res => {
         ctx.state.code = 0
         let data = {
-            id: res[0],
-            createTime
+            id: res[0]
         }
         ctx.state.data = data
     }).catch(err => {
@@ -52,14 +47,13 @@ async function addCompany(ctx, next) {
     })
 }
 
-// 更新单个公司
-async function updateCompany(ctx, next) {
+// 更新单个角色信息
+async function updateRole(ctx, next) {
     let item = ctx.request.body
-    await mysql('company').where({ id: item.id }).
+    await mysql('role').where({ id: item.id }).
     update({
         name: item.name,
-        desc: item.desc,
-        logo: item.logo
+        fullName: item.fullName
     }).then(res => {
         ctx.state.code = 0
         ctx.state.data = res
@@ -69,9 +63,9 @@ async function updateCompany(ctx, next) {
     })
 }
 
-// 删除单个公司
-async function removeCompany(ctx, next) {
-    await mysql('company').where({
+// 删除单个角色
+async function removeRole(ctx, next) {
+    await mysql('role').where({
         id: ctx.request.body.id
     }).del().then(res => {
         ctx.state.code = 0
@@ -83,9 +77,9 @@ async function removeCompany(ctx, next) {
 }
 
 module.exports = {
-    getCompanyList,
-    getCompanyDetail,
-    addCompany,
-    updateCompany,
-    removeCompany
+    getRoleList,
+    getRoleDetail,
+    addRole,
+    updateRole,
+    removeRole
 }
