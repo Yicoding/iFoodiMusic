@@ -29,6 +29,28 @@ async function getUserDetail(ctx, next) {
     })
 }
 
+// 用户登录
+async function userLogin(ctx, next) {
+    let item = ctx.query
+    await mysql('user').
+    select('*').
+    where({
+        name: item.name,
+        password: item.password
+    }).
+    then(res => {
+        ctx.state.code = 0
+        if (!res[0]) {
+            ctx.state.code = 500
+            ctx.state.data = { msg: '用户名或密码不正确' }
+        }
+        ctx.state.data = res[0]
+    }).catch(err => {
+        ctx.state.code = -1
+        throw new Error(err)
+    })
+}
+
 // 新增用户
 async function addUser(ctx, next) {
     let item = ctx.request.body
@@ -91,6 +113,7 @@ async function removeUser(ctx, next) {
 module.exports = {
     getUserList,
     getUserDetail,
+    userLogin,
     addUser,
     updateUser,
     removeUser

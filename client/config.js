@@ -99,6 +99,7 @@ var config = {
         // 用户
         getUserList: `${host}/weapp/getUserList`, // 查看用户列表
         getUserDetail: `${host}/weapp/getUserDetail`, // 查看用户列表
+        userLogin: `${host}/weapp/userLogin`, // 用户登录
         addUser: `${host}/weapp/addUser`, // 新增用户
         updateUser: `${host}/weapp/updateUser`, // 更新单个用户
         removeUser: `${host}/weapp/removeUser`, // 删除单个用户
