@@ -116,7 +116,7 @@ router.delete('/removeGoodsType', controllers.type.removeGoodsType) // 删除单
 // 用户
 router.get('/getUserList', controllers.users.getUserList) // 查看用户列表
 router.get('/getUserDetail', controllers.users.getUserDetail) // 查看单个用户列表
-router.get('/userLogin', controllers.users.userLogin) // 用户登录
+router.post('/userLogin', controllers.users.userLogin) // 用户登录
 router.post('/addUser', controllers.users.addUser) // 新增用户
 router.put('/updateUser', controllers.users.updateUser) // 更新单个用户
 router.delete('/removeUser', controllers.users.removeUser) // 删除单个用户

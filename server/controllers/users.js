@@ -31,7 +31,7 @@ async function getUserDetail(ctx, next) {
 
 // 用户登录
 async function userLogin(ctx, next) {
-    let item = ctx.query
+    let item = ctx.request.body
     await mysql('user').
     select('*').
     where({
@@ -40,9 +40,10 @@ async function userLogin(ctx, next) {
     }).
     then(res => {
         ctx.state.code = 0
-        if (!res[0]) {
-            ctx.state.code = 500
-            ctx.state.data = { msg: '用户名或密码不正确' }
+        if (res.length === 0) {
+            ctx.state.code = -1
+            ctx.state.data = '用户名或密码不正确'
+            return
         }
         ctx.state.data = res[0]
     }).catch(err => {
