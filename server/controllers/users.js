@@ -2,8 +2,18 @@ const { mysql } = require('../qcloud')
 
 // 查看用户列表
 async function getUserList(ctx, next) {
+    let item = ctx.query
+    let filter = {},
+        filterNot = []
+    if (item.role_id != 1) {
+        filter = {
+            company_id: item.company_id
+        }
+        filterNot = [1, item.id]
+    }
     await mysql('user').join('company', 'user.company_id', '=', 'company.id').join('role', 'user.role_id', '=', 'role.id').
     select('user.id', 'user.name', 'user.phone', 'user.password', 'user.age', 'user.sign', 'user.avatar', 'company.id as company_id', 'company.name as companyName', 'role.id as role_id', 'role.fullName as role_fullName').
+    where(filter).whereNotIn('user.id', filterNot).
     then(res => {
         ctx.state.code = 0
         ctx.state.data = res
@@ -32,11 +42,11 @@ async function getUserDetail(ctx, next) {
 // 用户登录
 async function userLogin(ctx, next) {
     let item = ctx.request.body
-    await mysql('user').
-    select('*').
+    await mysql('user').join('company', 'user.company_id', '=', 'company.id').join('role', 'user.role_id', '=', 'role.id').
+    select('user.id', 'user.name', 'user.phone', 'user.password', 'user.age', 'user.sign', 'user.avatar', 'company.id as company_id', 'company.name as companyName', 'role.id as role_id', 'role.name as role_name').
     where({
-        name: item.name,
-        password: item.password
+        'user.name': item.name,
+        'user.password': item.password
     }).
     then(res => {
         ctx.state.code = 0

@@ -2,8 +2,15 @@ const { mysql } = require('../qcloud')
 
 // 查看商品类型列表
 async function getGoodsTypeList(ctx, next) {
+    let item = ctx.query
+    let filter = {}
+    if (item.role_id != 1) {
+        filter = {
+            company_id: item.company_id
+        }
+    }
     await mysql('type').join('company', 'type.company_id', '=', 'company.id').
-    select('type.id', 'type.name', 'company.id as company_id', 'company.name as companyName').
+    select('type.id', 'type.name', 'company.id as company_id', 'company.name as companyName').where(filter).
     then(res => {
         ctx.state.code = 0
         ctx.state.data = res

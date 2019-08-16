@@ -2,8 +2,14 @@ const { mysql } = require('../qcloud')
 
 // 查看角色列表
 async function getRoleList(ctx, next) {
+    let item = ctx.query
+    let filter = {}
+    if (!item.all) {
+        filter = { id: 1 }
+    }
     await mysql('role').
     select('*').
+    whereNot(filter).
     then(res => {
         ctx.state.code = 0
         ctx.state.data = res
