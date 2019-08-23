@@ -4,10 +4,8 @@ const { mysql } = require('../qcloud')
 async function getGoodsTypeList(ctx, next) {
     let item = ctx.query
     let filter = {}
-    if (item.role_id != 1) {
-        filter = {
-            company_id: item.company_id
-        }
+    if (item.company_id) {
+        filter.company_id = item.company_id
     }
     await mysql('type').join('company', 'type.company_id', '=', 'company.id').
     select('type.id', 'type.name', 'company.id as company_id', 'company.name as companyName').where(filter).
@@ -73,7 +71,7 @@ async function updateGoodsType(ctx, next) {
 // 删除单个商品类型
 async function removeGoodsType(ctx, next) {
     await mysql('type').where({
-        id: ctx.request.body.id
+        id: ctx.query.id
     }).del().then(res => {
         ctx.state.code = 0
         ctx.state.data = res
