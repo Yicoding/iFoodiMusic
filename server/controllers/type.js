@@ -5,10 +5,18 @@ async function getGoodsTypeList(ctx, next) {
     let item = ctx.query
     let filter = {}
     if (item.company_id) {
-        filter.company_id = item.company_id
+        filter = {
+            company_id: item.company_id
+        }
     }
-    await mysql('type').join('company', 'type.company_id', '=', 'company.id').
-    select('type.id', 'type.name', 'company.id as company_id', 'company.name as companyName').where(filter).
+    await mysql('type').
+    join('company', 'type.company_id', '=', 'company.id').
+    select(
+        'type.id',
+        'type.name',
+        'company.id as company_id',
+        'company.name as companyName'
+    ).where(filter).
     then(res => {
         ctx.state.code = 0
         ctx.state.data = res
@@ -24,8 +32,7 @@ async function getGoodsTypeDetail(ctx, next) {
     select('*').
     where({
         id: ctx.query.id
-    }).
-    then(res => {
+    }).then(res => {
         ctx.state.code = 0
         ctx.state.data = res[0]
     }).catch(err => {

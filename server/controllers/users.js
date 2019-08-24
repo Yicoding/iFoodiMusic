@@ -5,15 +5,31 @@ async function getUserList(ctx, next) {
     let item = ctx.query
     let filter = {},
         filterNot = []
-    if (item.role_id != 1) {
+    if (item.role_name !== 'root') {
         filter = {
             company_id: item.company_id
         }
-        filterNot = [1, item.id]
+        filterNot = ['root']
     }
-    await mysql('user').join('company', 'user.company_id', '=', 'company.id').join('role', 'user.role_id', '=', 'role.id').
-    select('user.id', 'user.name', 'user.phone', 'user.password', 'user.age', 'user.sign', 'user.avatar', 'company.id as company_id', 'company.name as companyName', 'role.id as role_id', 'role.fullName as role_fullName').
-    where(filter).whereNotIn('user.id', filterNot).
+    await mysql('user').
+    join('company', 'user.company_id', '=', 'company.id').
+    join('role', 'user.role_id', '=', 'role.id').
+    select(
+        'user.id',
+        'user.name',
+        'user.phone',
+        'user.password',
+        'user.age',
+        'user.sign',
+        'user.avatar',
+        'company.id as company_id',
+        'company.name as companyName',
+        'role.id as role_id',
+        'role.name as role_name',
+        'role.fullName as role_fullName'
+    ).
+    where(filter).
+    whereNotIn('role.name', filterNot).
     then(res => {
         ctx.state.code = 0
         ctx.state.data = res
@@ -29,8 +45,7 @@ async function getUserDetail(ctx, next) {
     select('*').
     where({
         id: ctx.query.id
-    }).
-    then(res => {
+    }).then(res => {
         ctx.state.code = 0
         ctx.state.data = res[0]
     }).catch(err => {
@@ -43,12 +58,22 @@ async function getUserDetail(ctx, next) {
 async function userLogin(ctx, next) {
     let item = ctx.request.body
     await mysql('user').join('company', 'user.company_id', '=', 'company.id').join('role', 'user.role_id', '=', 'role.id').
-    select('user.id', 'user.name', 'user.phone', 'user.password', 'user.age', 'user.sign', 'user.avatar', 'company.id as company_id', 'company.name as companyName', 'role.id as role_id', 'role.name as role_name').
-    where({
+    select(
+        'user.id',
+        'user.name',
+        'user.phone',
+        'user.password',
+        'user.age',
+        'user.sign',
+        'user.avatar',
+        'company.id as company_id',
+        'company.name as companyName',
+        'role.id as role_id',
+        'role.name as role_name'
+    ).where({
         'user.name': item.name,
         'user.password': item.password
-    }).
-    then(res => {
+    }).then(res => {
         ctx.state.code = 0
         if (res.length === 0) {
             ctx.state.code = -1

@@ -4,8 +4,10 @@ const { mysql } = require('../qcloud')
 async function getRoleList(ctx, next) {
     let item = ctx.query
     let filter = {}
-    if (!item.all) {
-        filter = { id: 1 }
+    if (item.role_name !== 'root') {
+        filter = {
+            name: 'root'
+        }
     }
     await mysql('role').
     select('*').
