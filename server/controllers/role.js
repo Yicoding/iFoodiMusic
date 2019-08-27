@@ -4,7 +4,7 @@ const { mysql } = require('../qcloud')
 async function getRoleList(ctx, next) {
     let item = ctx.query
     let filter = {}
-    if (item.role_name !== 'root') {
+    if (item.company_id) {
         filter = {
             name: 'root'
         }

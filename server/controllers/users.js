@@ -5,7 +5,7 @@ async function getUserList(ctx, next) {
     let item = ctx.query
     let filter = {},
         filterNot = []
-    if (item.role_name !== 'root') {
+    if (item.company_id) {
         filter = {
             company_id: item.company_id
         }

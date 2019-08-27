@@ -80,29 +80,35 @@ var config = {
         // iplat平台
         // 公司
         getCompanyList: `${host}/weapp/getCompanyList`, // 查看公司列表
-        getCompanyDetail: `${host}/weapp/getCompanyDetail`, // 查看公司列表
+        getCompanyDetail: `${host}/weapp/getCompanyDetail`, // 查看单个公司
         addCompany: `${host}/weapp/addCompany`, // 新增公司
         updateCompany: `${host}/weapp/updateCompany`, // 更新单个公司
         removeCompany: `${host}/weapp/removeCompany`, // 删除单个公司
         // 角色
-        getRoleList: `${host}/weapp/getRoleList`, // 查看公司列表
-        getRoleDetail: `${host}/weapp/getRoleDetail`, // 查看公司列表
-        addRole: `${host}/weapp/addRole`, // 新增公司
-        updateRole: `${host}/weapp/updateRole`, // 更新单个公司
-        removeRole: `${host}/weapp/removeRole`, // 删除单个公司
+        getRoleList: `${host}/weapp/getRoleList`, // 查看角色列表
+        getRoleDetail: `${host}/weapp/getRoleDetail`, // 查看单个角色
+        addRole: `${host}/weapp/addRole`, // 新增角色
+        updateRole: `${host}/weapp/updateRole`, // 更新单个角色
+        removeRole: `${host}/weapp/removeRole`, // 删除单个角色
         // 商品类型
         getGoodsTypeList: `${host}/weapp/getGoodsTypeList`, // 查看商品类型列表
-        getGoodsTypeDetail: `${host}/weapp/getGoodsTypeDetail`, // 查看商品类型列表
+        getGoodsTypeDetail: `${host}/weapp/getGoodsTypeDetail`, // 查看单个商品类型
         addGoodsType: `${host}/weapp/addGoodsType`, // 新增商品类型
         updateGoodsType: `${host}/weapp/updateGoodsType`, // 更新单个商品类型
         removeGoodsType: `${host}/weapp/removeGoodsType`, // 删除单个商品类型
         // 用户
         getUserList: `${host}/weapp/getUserList`, // 查看用户列表
-        getUserDetail: `${host}/weapp/getUserDetail`, // 查看用户列表
+        getUserDetail: `${host}/weapp/getUserDetail`, // 查看单个用户
         userLogin: `${host}/weapp/userLogin`, // 用户登录
         addUser: `${host}/weapp/addUser`, // 新增用户
         updateUser: `${host}/weapp/updateUser`, // 更新单个用户
         removeUser: `${host}/weapp/removeUser`, // 删除单个用户
+        // 商品
+        getGoodsList: `${host}/weapp/getGoodsList`, // 查看商品列表
+        getGoodsDetail: `${host}/weapp/getGoodsDetail`, // 查看单个商品
+        addGoods: `${host}/weapp/addGoods`, // 新增商品
+        updateGoods: `${host}/weapp/updateGoods`, // 更新单个商品
+        removeGoods: `${host}/weapp/removeGoods`, // 删除单个商品
     }
 };
 

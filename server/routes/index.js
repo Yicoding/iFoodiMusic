@@ -121,6 +121,12 @@ router.post('/addUser', controllers.users.addUser) // 新增用户
 router.put('/updateUser', controllers.users.updateUser) // 更新单个用户
 router.delete('/removeUser', controllers.users.removeUser) // 删除单个用户
 
+// 商品
+router.get('/getGoodsList', controllers.goods.getGoodsList) // 查看商品列表
+router.get('/getGoodsDetail', controllers.goods.getGoodsDetail) // 查看单个商品列表
+router.post('/addGoods', controllers.goods.addGoods) // 新增商品
+router.put('/updateGoods', controllers.goods.updateGoods) // 更新单个商品
+router.delete('/removeGoods', controllers.goods.removeGoods) // 删除单个商品
 
 
 module.exports = router
