@@ -8,7 +8,7 @@ async function getGoodsList(ctx, next) {
     filterIn = ['type.id', '=', item.type]
   }
   if (item.company_id) { // 按公司查找商品
-    filter['company_id'] = item.company_id
+    filter['goods.company_id'] = item.company_id
   }
   if (item.type) { // 按商品类型查找商品
     filter['goods_type.type_id'] = item.type
@@ -16,7 +16,7 @@ async function getGoodsList(ctx, next) {
   await mysql('goods').
     join('company', 'goods.company_id', '=', 'company.id').
     join('goods_type', 'goods_type.good_id', '=', 'goods.id').
-    join('type', 'goods_type.type_id', '=', 'type.id').
+    leftJoin('type', 'goods_type.type_id', '=', 'type.id').
     join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
     join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
     distinct(
@@ -36,11 +36,21 @@ async function getGoodsList(ctx, next) {
       'company.name as companyName',
       'a.name as unitSingleName',
       'b.name as unitAllName',
-      // mysql.raw('group_concat(type.name) as typeName')
+      mysql.raw('group_concat(type.id, "-" ,type.name) as typeName')
     ).
+    groupBy('goods.id').
     where(filter).
     then(res => {
       ctx.state.code = 0
+      res.forEach(item => {
+        item.typeName = item.typeName.split(',').map(todo => {
+          todo = todo.split('-')
+          return {
+            id: todo[0],
+            name: todo[1]
+          }
+        })
+      })
       ctx.state.data = res
     }).catch(err => {
       ctx.state.code = -1
@@ -53,6 +63,8 @@ async function getGoodsDetail(ctx, next) {
   let item = ctx.query
   await mysql('goods').
     join('company', 'goods.company_id', '=', 'company.id').
+    join('goods_type', 'goods_type.good_id', '=', 'goods.id').
+    leftJoin('type', 'goods_type.type_id', '=', 'type.id').
     join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
     join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
     select(
@@ -71,7 +83,8 @@ async function getGoodsDetail(ctx, next) {
       'goods.company_id',
       'company.name as companyName',
       'a.name as unitSingleName',
-      'b.name as unitAllName'
+      'b.name as unitAllName',
+      mysql.raw('group_concat(type.id, "-" ,type.name) as typeName')
       // mysql.raw(`(select unit.name from unit join goods on unit.id=goods.unitSingle where goods.id=${item.id}) as unitSingleName`),
       // mysql.raw(`(select unit.name from unit join goods on unit.id=goods.unitAll where goods.id=${item.id}) as unitAllName`),
     ).
@@ -80,6 +93,15 @@ async function getGoodsDetail(ctx, next) {
     }).
     then(res => {
       ctx.state.code = 0
+      res.forEach(item => {
+        item.typeName = item.typeName.split(',').map(todo => {
+          todo = todo.split('-')
+          return {
+            id: todo[0],
+            name: todo[1]
+          }
+        })
+      })
       ctx.state.data = res[0]
     }).catch(err => {
       ctx.state.code = -1
