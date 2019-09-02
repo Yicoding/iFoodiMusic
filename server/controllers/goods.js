@@ -33,6 +33,8 @@ async function getGoodsList(ctx, next) {
       'goods.num',
       'goods.origin',
       'goods.company_id',
+      'goods.unitSingle',
+      'goods.unitAll',
       'company.name as companyName',
       'a.name as unitSingleName',
       'b.name as unitAllName',
@@ -43,6 +45,18 @@ async function getGoodsList(ctx, next) {
     then(res => {
       ctx.state.code = 0
       res.forEach(item => {
+        item.unitOne = {
+          id: item.unitSingle,
+          name: item.unitSingleName
+        }
+        item.unitDouble = {
+          id: item.unitAll,
+          name: item.unitAllName
+        }
+        delete item.unitSingle
+        delete item.unitSingleName
+        delete item.unitAll
+        delete item.unitAllName
         item.typeName = item.typeName.split(',').map(todo => {
           todo = todo.split('-')
           return {
@@ -81,6 +95,8 @@ async function getGoodsDetail(ctx, next) {
       'goods.num',
       'goods.origin',
       'goods.company_id',
+      'goods.unitSingle',
+      'goods.unitAll',
       'company.name as companyName',
       'a.name as unitSingleName',
       'b.name as unitAllName',
@@ -94,6 +110,18 @@ async function getGoodsDetail(ctx, next) {
     then(res => {
       ctx.state.code = 0
       res.forEach(item => {
+        item.unitOne = {
+          id: item.unitSingle,
+          name: item.unitSingleName
+        }
+        item.unitDouble = {
+          id: item.unitAll,
+          name: item.unitAllName
+        }
+        delete item.unitSingle
+        delete item.unitSingleName
+        delete item.unitAll
+        delete item.unitAllName
         item.typeName = item.typeName.split(',').map(todo => {
           todo = todo.split('-')
           return {
