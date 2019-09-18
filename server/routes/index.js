@@ -128,5 +128,12 @@ router.post('/addGoods', controllers.goods.addGoods) // 新增商品
 router.put('/updateGoods', controllers.goods.updateGoods) // 更新单个商品
 router.delete('/removeGoods', controllers.goods.removeGoods) // 删除单个商品
 
+// 单位
+router.get('/getUnitList', controllers.unit.getUnitList) // 查看单位列表
+router.get('/getUnitDetail', controllers.unit.getUnitDetail) // 查看单个单位列表
+router.post('/addUnit', controllers.unit.addUnit) // 新增单位
+router.put('/updateUnit', controllers.unit.updateUnit) // 更新单个单位
+router.delete('/removeUnit', controllers.unit.removeUnit) // 删除单个单位
+
 
 module.exports = router
