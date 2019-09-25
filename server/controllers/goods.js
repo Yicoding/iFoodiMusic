@@ -3,10 +3,7 @@ const { mysql } = require('../qcloud')
 // 查看商品列表
 async function getGoodsList(ctx, next) {
   let item = ctx.query
-  let filter = {}
-  if (item.type) { // 按商品类型查找商品
-    filterIn = ['type.id', '=', item.type]
-  }
+  let filter = {};
   if (item.company_id) { // 按公司查找商品
     filter['goods.company_id'] = item.company_id
   }
