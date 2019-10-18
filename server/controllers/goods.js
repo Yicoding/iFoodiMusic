@@ -1,5 +1,74 @@
 const { mysql } = require('../qcloud')
 
+// // 查看商品列表
+// async function getGoodsList(ctx, next) {
+//   let item = ctx.query
+//   let filter = {};
+//   if (item.company_id) { // 按公司查找商品
+//     filter['goods.company_id'] = item.company_id
+//   }
+//   if (item.type) { // 按商品类型查找商品
+//     filter['goods_type.type_id'] = item.type
+//   }
+//   await mysql('goods').
+//     join('company', 'goods.company_id', '=', 'company.id').
+//     join('goods_type', 'goods_type.good_id', '=', 'goods.id').
+//     leftJoin('type', 'goods_type.type_id', '=', 'type.id').
+//     join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
+//     join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
+//     distinct(
+//       'goods.id',
+//       'goods.name',
+//       'goods.coverImg',
+//       'goods.desc',
+//       'goods.buySingle',
+//       'goods.buyAll',
+//       'goods.midSingle',
+//       'goods.midAll',
+//       'goods.sellSingle',
+//       'goods.sellAll',
+//       'goods.num',
+//       'goods.origin',
+//       'goods.company_id',
+//       'goods.unitSingle',
+//       'goods.unitAll',
+//       'company.name as companyName',
+//       'a.name as unitSingleName',
+//       'b.name as unitAllName',
+//       mysql.raw('group_concat(type.id, "-" ,type.name) as typeName')
+//     ).
+//     groupBy('goods.id').
+//     where(filter).
+//     then(res => {
+//       ctx.state.code = 0
+//       res.forEach(item => {
+//         item.unitOne = {
+//           id: item.unitSingle,
+//           name: item.unitSingleName
+//         }
+//         item.unitDouble = {
+//           id: item.unitAll,
+//           name: item.unitAllName
+//         }
+//         delete item.unitSingle
+//         delete item.unitSingleName
+//         delete item.unitAll
+//         delete item.unitAllName
+//         item.typeName = item.typeName.split(',').map(todo => {
+//           todo = todo.split('-')
+//           return {
+//             id: Number(todo[0]),
+//             name: todo[1]
+//           }
+//         })
+//       })
+//       ctx.state.data = res
+//     }).catch(err => {
+//       ctx.state.code = -1
+//       throw new Error(err)
+//     })
+// }
+
 // 查看商品列表
 async function getGoodsList(ctx, next) {
   let item = ctx.query
@@ -7,9 +76,9 @@ async function getGoodsList(ctx, next) {
   if (item.company_id) { // 按公司查找商品
     filter['goods.company_id'] = item.company_id
   }
-  if (item.type) { // 按商品类型查找商品
-    filter['goods_type.type_id'] = item.type
-  }
+  // if (item.type) { // 按商品类型查找商品
+  //   filter['goods_type.type_id'] = item.type
+  // }
   await mysql('goods').
     join('company', 'goods.company_id', '=', 'company.id').
     join('goods_type', 'goods_type.good_id', '=', 'goods.id').
@@ -39,6 +108,7 @@ async function getGoodsList(ctx, next) {
     ).
     groupBy('goods.id').
     where(filter).
+    andWhere('typeName', 'like', item.type_id),
     then(res => {
       ctx.state.code = 0
       res.forEach(item => {
@@ -57,7 +127,7 @@ async function getGoodsList(ctx, next) {
         item.typeName = item.typeName.split(',').map(todo => {
           todo = todo.split('-')
           return {
-            id: todo[0],
+            id: Number(todo[0]),
             name: todo[1]
           }
         })
@@ -140,8 +210,6 @@ async function addGoods(ctx, next) {
   await mysql('goods').insert({
     name: item.name,
     company_id: item.company_id,
-    coverImg: item.coverImg,
-    desc: item.desc,
     unitSingle: item.unitSingle,
     unitAll: item.unitAll,
     buySingle: item.buySingle,
@@ -151,7 +219,9 @@ async function addGoods(ctx, next) {
     sellSingle: item.sellSingle,
     sellAll: item.sellAll,
     num: item.num,
-    origin: item.origin
+    desc: item.desc,
+    origin: item.origin,
+    coverImg: item.coverImg
   }).then(res => {
     ctx.state.code = 0
     let data = {
