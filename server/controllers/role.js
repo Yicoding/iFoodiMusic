@@ -74,7 +74,8 @@ async function updateRole(ctx, next) {
 // 删除单个角色
 async function removeRole(ctx, next) {
     await mysql('role').where({
-        id: ctx.request.body.id
+        // id: ctx.request.body.id
+        id: ctx.query.id
     }).del().then(res => {
         ctx.state.code = 0
         ctx.state.data = res

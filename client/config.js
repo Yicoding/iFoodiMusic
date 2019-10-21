@@ -115,6 +115,13 @@ var config = {
         addUnit: `${host}/weapp/addUnit`, // 新增单位
         updateUnit: `${host}/weapp/updateUnit`, // 更新单个单位
         removeUnit: `${host}/weapp/removeUnit`, // 删除单个单位
+        // 订单
+        getOrderList: `${host}/weapp/getOrderList`, // 查看订单列表
+        getOrderDetail: `${host}/weapp/getOrderDetail`, // 查看订单详情
+        updateOrder: `${host}/weapp/updateOrder`, // 更新单个订单信息
+        removeOrder: `${host}/weapp/removeOrder`, // 删除单个订单
+
+        getTest: `${host}/weapp/getTest`, // 删除单个订单
     }
 };
 

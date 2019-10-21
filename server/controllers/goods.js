@@ -142,12 +142,16 @@ async function getGoodsList(ctx, next) {
                 typeInfo[item.id] = item.name
               });
               res.forEach(item => {
-                item.typeName = item.typeName.split(',').map(todo => {
-                  return {
-                    id: Number(todo),
-                    name: typeInfo[todo]
-                  }
-                })
+                if (item.typeName === '0') {
+                  item.typeName = '0'
+                } else {
+                  item.typeName = item.typeName.split(',').map(todo => {
+                    return {
+                      id: Number(todo),
+                      name: typeInfo[todo]
+                    }
+                  })
+                }
               })
               const Data = Object.assign({}, response[0], {
                 data: res
@@ -239,19 +243,19 @@ async function addGoods(ctx, next) {
   await mysql('goods').insert({
     name: item.name,
     company_id: item.company_id,
-    unitSingle: item.unitSingle,
-    unitAll: item.unitAll,
+    unitSingle: item.unitOne_id,
+    unitAll: item.unitDouble_id,
+    num: item.num,
     buySingle: item.buySingle,
     buyAll: item.buyAll,
     midSingle: item.midSingle,
     midAll: item.midAll,
     sellSingle: item.sellSingle,
     sellAll: item.sellAll,
-    num: item.num,
     desc: item.desc,
     origin: item.origin,
     coverImg: item.coverImg,
-    typeName: item.typeName
+    typeName: String(item.typeName)
   }).then(res => {
     ctx.state.code = 0
     let data = {
@@ -271,18 +275,19 @@ async function updateGoods(ctx, next) {
     update({
       name: item.name,
       company_id: item.company_id,
-      coverImg: item.coverImg,
-      desc: item.desc,
-      unitSingle: item.unitSingle,
-      unitAll: item.unitAll,
+      unitSingle: item.unitOne_id,
+      unitAll: item.unitDouble_id,
+      num: item.num,
       buySingle: item.buySingle,
       buyAll: item.buyAll,
       midSingle: item.midSingle,
       midAll: item.midAll,
       sellSingle: item.sellSingle,
       sellAll: item.sellAll,
-      num: item.num,
-      origin: item.origin
+      desc: item.desc,
+      origin: item.origin,
+      coverImg: item.coverImg,
+      typeName: String(item.typeName)
     }).then(res => {
       ctx.state.code = 0
       ctx.state.data = res
@@ -295,7 +300,8 @@ async function updateGoods(ctx, next) {
 // 删除单个商品
 async function removeGoods(ctx, next) {
   await mysql('goods').where({
-    id: ctx.request.body.id
+    // id: ctx.request.body.id
+    id: ctx.query.id
   }).del().then(res => {
     ctx.state.code = 0
     ctx.state.data = res

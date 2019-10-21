@@ -135,5 +135,13 @@ router.post('/addUnit', controllers.unit.addUnit) // 新增单位
 router.put('/updateUnit', controllers.unit.updateUnit) // 更新单个单位
 router.delete('/removeUnit', controllers.unit.removeUnit) // 删除单个单位
 
+// 订单
+router.get('/getOrderList', controllers.order.getOrderList) // 查看订单列表
+router.get('/getOrderDetail', controllers.order.getOrderDetail) // 查看订单详情
+router.put('/updateOrder', controllers.order.updateOrder) // 更新单个订单信息
+router.delete('/removeOrder', controllers.order.removeOrder) // 删除单个订单
+
+router.get('/getTest', controllers.order.getTest) // 测试
+
 
 module.exports = router

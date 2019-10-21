@@ -72,7 +72,8 @@ async function updateCompany(ctx, next) {
 // 删除单个公司
 async function removeCompany(ctx, next) {
     await mysql('company').where({
-        id: ctx.request.body.id
+        // id: ctx.request.body.id
+        id: ctx.query.id
     }).del().then(res => {
         ctx.state.code = 0
         ctx.state.data = res
