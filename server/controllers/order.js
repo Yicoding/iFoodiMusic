@@ -166,11 +166,24 @@ async function removeOrder(ctx, next) {
     })
 }
 
-async function getTest(ctx, next) {
+// 单个订单包含的商品列表
+async function getOrderDetailList(ctx, next) {
+    const item = ctx.query;
     try {
-        const res = await mysql('role').select('*');
+        const res = await mysql('order_detail').
+        select('*').
+        where('order_id', item.order_id);
+        const total = await mysql('order_detail').
+        select(mysql.raw('count(*) as total')).
+        where('order_id', item.order_id);
+        res.forEach(todo => {
+            todo.typeName = todo.typeName.split(',');
+        });
+        const Data =  Object.assign({}, total[0], {
+            data: res
+        });
         ctx.state.code = 0;
-        ctx.state.data = res;
+        ctx.state.data = Data;
     } catch(e) {
         ctx.state.code = -1;
         throw new Error(e);
@@ -182,5 +195,5 @@ module.exports = {
     getOrderDetail,
     updateOrder,
     removeOrder,
-    getTest
+    getOrderDetailList
 }

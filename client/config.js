@@ -120,8 +120,7 @@ var config = {
         getOrderDetail: `${host}/weapp/getOrderDetail`, // 查看订单详情
         updateOrder: `${host}/weapp/updateOrder`, // 更新单个订单信息
         removeOrder: `${host}/weapp/removeOrder`, // 删除单个订单
-
-        getTest: `${host}/weapp/getTest`, // 删除单个订单
+        getOrderDetailList: `${host}/weapp/getOrderDetailList`, // 单个订单包含的商品列表
     }
 };
 

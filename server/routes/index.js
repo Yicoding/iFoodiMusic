@@ -140,8 +140,7 @@ router.get('/getOrderList', controllers.order.getOrderList) // 查看订单列�
 router.get('/getOrderDetail', controllers.order.getOrderDetail) // 查看订单详情
 router.put('/updateOrder', controllers.order.updateOrder) // 更新单个订单信息
 router.delete('/removeOrder', controllers.order.removeOrder) // 删除单个订单
-
-router.get('/getTest', controllers.order.getTest) // 测试
+router.get('/getOrderDetailList', controllers.order.getOrderDetailList) // 单个订单包含的商品列表
 
 
 module.exports = router
