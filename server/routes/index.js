@@ -127,6 +127,7 @@ router.get('/getGoodsDetail', controllers.goods.getGoodsDetail) // 查看单个�
 router.post('/addGoods', controllers.goods.addGoods) // 新增商品
 router.put('/updateGoods', controllers.goods.updateGoods) // 更新单个商品
 router.delete('/removeGoods', controllers.goods.removeGoods) // 删除单个商品
+router.get('/getGoodsByCompany', controllers.goods.getGoodsByCompany) // 按公司查找所有商品类型+类型下的商品列表
 
 // 单位
 router.get('/getUnitList', controllers.unit.getUnitList) // 查看单位列表

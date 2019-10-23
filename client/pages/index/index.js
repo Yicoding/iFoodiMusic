@@ -38,9 +38,11 @@ Page({
         userInfo: app.globalData.userInfo
       }, () => {
         console.log(1)
-        this.setData({
-          isShow: true
-        })
+        setTimeout(() => {
+          this.setData({
+            isShow: true
+          })
+        }, 1500)
       })
     } else if (this.data.canIUse) {
       console.log('执行this.data.canIUse')
@@ -53,9 +55,11 @@ Page({
           userInfo: res.userInfo
         }, () => {
           console.log(2)
-          this.setData({
-            isShow: true
-          })
+          setTimeout(() => {
+            this.setData({
+              isShow: true
+            })
+          }, 1500)
         })
       }
     } else {
@@ -73,7 +77,7 @@ Page({
               this.setData({
                 isShow: true
               })
-            }, 500)
+            }, 1500)
           })
         },
         fail: () => {

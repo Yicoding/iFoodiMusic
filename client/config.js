@@ -109,6 +109,7 @@ var config = {
         addGoods: `${host}/weapp/addGoods`, // 新增商品
         updateGoods: `${host}/weapp/updateGoods`, // 更新单个商品
         removeGoods: `${host}/weapp/removeGoods`, // 删除单个商品
+        getGoodsByCompany: `${host}/weapp/getGoodsByCompany`, // 按公司查找所有商品类型+类型下的商品列表
         // 单位
         getUnitList: `${host}/weapp/getUnitList`, // 查看单位列表
         getUnitDetail: `${host}/weapp/getUnitDetail`, // 查看单个单位

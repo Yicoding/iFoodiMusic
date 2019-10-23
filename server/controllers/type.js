@@ -43,20 +43,23 @@ async function getGoodsTypeDetail(ctx, next) {
 
 // 新增商品类型
 async function addGoodsType(ctx, next) {
-    let item = ctx.request.body
-    await mysql('type').insert({
-        name: item.name,
-        company_id: item.company_id
-    }).then(res => {
-        ctx.state.code = 0
-        let data = {
+    try {
+        const item = ctx.request.body;
+        const res = await mysql('type').insert({
+            name: item.name,
+            company_id: item.company_id
+        });
+        await mysql('type').where({ id: res[0] }).update({
+            code: `10000${res[0]}`
+        });
+        const data = {
             id: res[0]
-        }
-        ctx.state.data = data
-    }).catch(err => {
-        ctx.state.code = -1
-        throw new Error(err)
-    })
+        };
+        ctx.state.data = data;
+    } catch(e) {
+        ctx.state.code = -1;
+        throw new Error(e);
+    }
 }
 
 // 更新单个商品类型信息

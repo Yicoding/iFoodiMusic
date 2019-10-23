@@ -311,10 +311,70 @@ async function removeGoods(ctx, next) {
   })
 }
 
+// 按公司查找所有商品类型+类型下的商品列表
+async function getGoodsByCompany(ctx, next) {
+  try {
+    const item = ctx.query;
+    const res = await mysql('type').
+      select('id', 'name').
+      where('company_id', item.company_id);
+    for (let i = 0; i < res.length; i ++) {
+      const todu = res[i];
+      const data = await mysql('goods').
+        join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
+        join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
+        select(
+          'goods.id',
+          'goods.name',
+          'goods.coverImg',
+          'goods.desc',
+          'goods.buySingle',
+          'goods.buyAll',
+          'goods.midSingle',
+          'goods.midAll',
+          'goods.sellSingle',
+          'goods.sellAll',
+          'goods.num',
+          'goods.origin',
+          'goods.unitSingle',
+          'goods.unitAll',
+          'a.name as unitSingleName',
+          'b.name as unitAllName'
+        ).where('goods.typeName', 'REGEXP', `${todu.id}`);
+        // ).where('goods.typeName', `/${todu.id}/i`);
+        data.forEach(one => {
+          one.unitOne = {
+            id: one.unitSingle,
+            name: one.unitSingleName
+          };
+          one.unitDouble = {
+            id: one.unitAll,
+            name: one.unitAllName
+          };
+          delete one.unitSingle;
+          delete one.unitSingleName;
+          delete one.unitAll;
+          delete one.unitAllName;
+          if (!item.role || item.role !== 'admin') {
+            delete one.buySingle;
+            delete one.buyAll;
+          }
+        });
+      todu.children = data;
+    }
+    ctx.state.code = 0;
+    ctx.state.data = res;
+  } catch(e) {
+    ctx.state.code = -1;
+    throw new Error(e);
+  }
+}
+
 module.exports = {
   getGoodsList,
   getGoodsDetail,
   addGoods,
   updateGoods,
-  removeGoods
+  removeGoods,
+  getGoodsByCompany
 }
