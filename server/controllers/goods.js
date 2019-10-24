@@ -71,105 +71,104 @@ const { mysql } = require('../qcloud')
 
 // 查看商品列表
 async function getGoodsList(ctx, next) {
-  let item = ctx.query
-  let filter = {};
-  if (item.company_id) { // 按公司查找商品
-    filter['goods.company_id'] = item.company_id
-  }
-  item.type_id = item.type_id || '';
-  item.pageIndex = item.pageIndex || 0;
-  item.pageSize = item.pageSize || 10;
-  item.order = item.order || 'id';
-  item.sort = item.sort || 'ASC';
-  await mysql('goods').
-    join('company', 'goods.company_id', '=', 'company.id').
-    join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
-    join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
-    select(
-      'goods.id',
-      'goods.name',
-      'goods.company_id',
-      'company.name as companyName',
-      'goods.coverImg',
-      'goods.desc',
-      'goods.buySingle',
-      'goods.buyAll',
-      'goods.midSingle',
-      'goods.midAll',
-      'goods.sellSingle',
-      'goods.sellAll',
-      'goods.num',
-      'goods.origin',
-      'goods.unitSingle',
-      'goods.unitAll',
-      'goods.typeName',
-      'a.name as unitSingleName',
-      'b.name as unitAllName',
-    ).
-    where(filter).
-    andWhere('goods.typeName', 'like', `%${item.type_id}%`). // 按商品类型查找商品
-    orderBy(ctx.query.order, ctx.query.sort).
-    limit(ctx.query.pageSize).
-    offset(ctx.query.pageIndex * ctx.query.pageSize).
-    then(async res => {
-      await mysql('goods').select(mysql.raw('count(*) as total')).where(filter).
-      then(async response => {
-        ctx.state.code = 0
-        res.forEach(item => {
-          item.unitOne = {
-            id: item.unitSingle,
-            name: item.unitSingleName
-          }
-          item.unitDouble = {
-            id: item.unitAll,
-            name: item.unitAllName
-          }
-          delete item.unitSingle
-          delete item.unitSingleName
-          delete item.unitAll
-          delete item.unitAllName
-        })
-        if (!item.company_id) { // 查询全部
-          const Data = Object.assign({}, response[0], {
-            data: res
-          });
-          ctx.state.data = Data
-        } else { // 按公司查找商品
-          await mysql('type').select('*').where('company_id', item.company_id).
-            then(data => {
-              let typeInfo = {};
-              data.forEach(item => {
-                typeInfo[item.id] = item.name
-              });
-              res.forEach(item => {
-                if (item.typeName === '0') {
-                  item.typeName = '0'
-                } else {
-                  item.typeName = item.typeName.split(',').map(todo => {
-                    return {
-                      id: Number(todo),
-                      name: typeInfo[todo]
-                    }
-                  })
-                }
-              })
-              const Data = Object.assign({}, response[0], {
-                data: res
-              });
-              ctx.state.data = Data
-            }).catch(err => {
-              ctx.state.code = -1
-              throw new Error('three?'+err)
-            })
+  try {
+    let item = ctx.query
+    let filter = {};
+    if (item.company_id) { // 按公司查找商品
+      filter['goods.company_id'] = item.company_id
+    }
+    item.code = item.code || '[1-9]+';
+    item.name = item.name || '';
+    item.pageIndex = item.pageIndex || 0;
+    item.pageSize = item.pageSize || 10;
+    item.order = item.order || 'id';
+    item.sort = item.sort || 'ASC';
+    const res = await mysql('goods').
+      join('company', 'goods.company_id', '=', 'company.id').
+      join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
+      join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
+      select(
+        'goods.id',
+        'goods.name',
+        'goods.company_id',
+        'company.name as companyName',
+        'goods.coverImg',
+        'goods.desc',
+        'goods.buySingle',
+        'goods.buyAll',
+        'goods.midSingle',
+        'goods.midAll',
+        'goods.sellSingle',
+        'goods.sellAll',
+        'goods.num',
+        'goods.origin',
+        'goods.unitSingle',
+        'goods.unitAll',
+        'goods.typeName',
+        'a.name as unitSingleName',
+        'b.name as unitAllName',
+      ).
+      where(filter).
+      andWhere('goods.typeName', 'REGEXP', `${item.code}`).
+      andWhere('goods.name', 'like', `%${item.name}%`). // 按商品类型查找商品
+      orderBy(ctx.query.order, ctx.query.sort).
+      limit(ctx.query.pageSize).
+      offset(ctx.query.pageIndex * ctx.query.pageSize);
+      const response = mysql('goods').select(mysql.raw('count(*) as total')).where(filter).
+      andWhere('goods.typeName', 'REGEXP', `${item.code}`).
+      andWhere('goods.typeName', 'like', `%${item.name}%`);
+    ctx.state.code = 0;
+    res.forEach(item => {
+      item.unitOne = {
+        id: item.unitSingle,
+        name: item.unitSingleName
+      }
+      item.unitDouble = {
+        id: item.unitAll,
+        name: item.unitAllName
+      }
+      delete item.unitSingle
+      delete item.unitSingleName
+      delete item.unitAll
+      delete item.unitAllName
+    });
+    if (!item.company_id) { // 查询全部
+      const Data = Object.assign({}, response[0], {
+        data: res
+      });
+      ctx.state.data = Data
+    } else { // 按公司查找商品
+      const data = await mysql('type').select('*').where('company_id', item.company_id);
+      let typeInfo = {};
+      data.forEach(item => {
+        typeInfo[item.code] = {
+          id: item.id,
+          name: item.name,
+          code: item.code
         }
-      }).catch(err => {
-        ctx.state.code = -1
-        throw new Error('two?' + err)
+      });
+      res.forEach(item => {
+        if (item.typeName === '0') {
+          item.typeName = '0'
+        } else {
+          item.typeName = item.typeName.split(',').map(todo => {
+            return {
+              id: typeInfo[todo].id,
+              name: typeInfo[todo].name,
+              code: typeInfo[todo].code
+            }
+          })
+        }
       })
-    }).catch(err => {
-      ctx.state.code = -1
-      throw new Error('one?' + err)
-    })
+      const Data = Object.assign({}, response[0], {
+        data: res
+      });
+      ctx.state.data = Data
+    }
+  } catch(e) {
+    ctx.state.code = -1;
+    throw new Error(e);
+  }
 }
 
 // 查看单个商品详情
@@ -316,7 +315,7 @@ async function getGoodsByCompany(ctx, next) {
   try {
     const item = ctx.query;
     const res = await mysql('type').
-      select('id', 'name').
+      select('id', 'name', 'code').
       where('company_id', item.company_id);
     for (let i = 0; i < res.length; i ++) {
       const todu = res[i];
@@ -340,8 +339,7 @@ async function getGoodsByCompany(ctx, next) {
           'goods.unitAll',
           'a.name as unitSingleName',
           'b.name as unitAllName'
-        ).where('goods.typeName', 'REGEXP', `${todu.id}`);
-        // ).where('goods.typeName', `/${todu.id}/i`);
+        ).where('goods.typeName', 'REGEXP', `${todu.code}`);
         data.forEach(one => {
           one.unitOne = {
             id: one.unitSingle,

@@ -14,6 +14,7 @@ async function getGoodsTypeList(ctx, next) {
     select(
         'type.id',
         'type.name',
+        'type.code',
         'company.id as company_id',
         'company.name as companyName'
     ).where(filter).
@@ -49,12 +50,15 @@ async function addGoodsType(ctx, next) {
             name: item.name,
             company_id: item.company_id
         });
-        await mysql('type').where({ id: res[0] }).update({
-            code: `10000${res[0]}`
-        });
-        const data = {
-            id: res[0]
-        };
+        const id = res[0];
+        const num = 6 - String(id).length;
+        let code = '1';
+        for (let i = 0; i < num; i ++) {
+            code += 0
+        }
+        code += id;
+        await mysql('type').where({ id }).update({ code });
+        const data = { id };
         ctx.state.data = data;
     } catch(e) {
         ctx.state.code = -1;
