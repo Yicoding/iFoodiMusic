@@ -122,6 +122,7 @@ var config = {
         updateOrder: `${host}/weapp/updateOrder`, // 更新单个订单信息
         removeOrder: `${host}/weapp/removeOrder`, // 删除单个订单
         getOrderDetailList: `${host}/weapp/getOrderDetailList`, // 单个订单包含的商品列表
+        getShoplistEasy: `${host}/weapp/getShoplistEasy`, // 单个订单包含的商品列表
     }
 };
 

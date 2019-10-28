@@ -320,6 +320,7 @@ async function getGoodsByCompany(ctx, next) {
     for (let i = 0; i < res.length; i ++) {
       const todu = res[i];
       const data = await mysql('goods').
+        leftJoin('order_detail', 'goods.id', '=', 'order_detail.good_id').
         join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
         join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
         select(
@@ -338,8 +339,10 @@ async function getGoodsByCompany(ctx, next) {
           'goods.unitSingle',
           'goods.unitAll',
           'a.name as unitSingleName',
-          'b.name as unitAllName'
-        ).where('goods.typeName', 'REGEXP', `${todu.code}`);
+          'b.name as unitAllName',
+          mysql.raw('count(order_detail.id) as saleNum')
+        ).where('goods.typeName', 'REGEXP', `${todu.code}`).
+        groupBy('goods.id');
         data.forEach(one => {
           one.unitOne = {
             id: one.unitSingle,
