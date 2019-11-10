@@ -144,6 +144,7 @@ router.delete('/removeOrder', controllers.order.removeOrder) // 删除单个订�
 router.get('/getOrderDetailList', controllers.order.getOrderDetailList) // 单个订单包含的商品列表
 
 // 购物车
+router.get('/getShoplist', controllers.shop.getShoplist) // 获取购物车列表
 router.get('/getShoplistEasy', controllers.shop.getShoplistEasy) // 获取购物车列表easy版
 router.post('/addShop', controllers.shop.addShop) // 新增购物车
 router.put('/updateShop', controllers.shop.updateShop) // 更新单个购物车
