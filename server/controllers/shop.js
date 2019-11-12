@@ -12,7 +12,8 @@ async function getShoplist(ctx, next) {
         'shop.id',
         'shop.good_id',
         'shop.unitType',
-        'a.name as unitName',
+        'a.name as unitSingleName',
+        'b.name as unitAllName',
         'shop.priceType',
         'shop.num',
         'shop.writePrice',
@@ -21,6 +22,10 @@ async function getShoplist(ctx, next) {
         'goods.desc',
         'goods.buySingle',
         'goods.buyAll',
+        'goods.midSingle',
+        'goods.midAll',
+        'goods.sellSingle',
+        'goods.sellAll',
         'goods.num as unitDecimal'
       ).
       where('user_id', user_id).
@@ -117,10 +122,40 @@ async function removeShop(ctx, next) {
   }
 }
 
+// 按商品购物车id，删除单个购物车商品
+async function removeShopById(ctx, next) {
+  try {
+    const { id } = ctx.request.body;
+    const res = await mysql('shop').where({id}).del();
+    ctx.state.code = 0;
+    ctx.state.data = res;
+  } catch(e) {
+    ctx.state.code = -1;
+    throw new Error(e);
+  }
+}
+
+// 按用户删除购物车
+async function removeShopByUser(ctx, next) {
+  try {
+    const { user_id } = ctx.request.body;
+    const res = await mysql('shop').where({
+      user_id
+    }).del();
+    ctx.state.code = 0;
+    ctx.state.data = res;
+  } catch(e) {
+    ctx.state.code = -1;
+    throw new Error(e);
+  }
+}
+
 module.exports = {
   getShoplist,
   getShoplistEasy,
   addShop,
   updateShop,
-  removeShop
+  removeShop,
+  removeShopById,
+  removeShopByUser
 };

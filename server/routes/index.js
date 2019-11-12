@@ -117,6 +117,7 @@ router.delete('/removeGoodsType', controllers.type.removeGoodsType) // 删除单
 router.get('/getUserList', controllers.users.getUserList) // 查看用户列表
 router.get('/getUserDetail', controllers.users.getUserDetail) // 查看单个用户列表
 router.post('/userLogin', controllers.users.userLogin) // 用户登录
+router.post('/loginByWx', controllers.users.loginByWx) // 用户登录
 router.post('/addUser', controllers.users.addUser) // 新增用户
 router.put('/updateUser', controllers.users.updateUser) // 更新单个用户
 router.delete('/removeUser', controllers.users.removeUser) // 删除单个用户
@@ -139,6 +140,7 @@ router.delete('/removeUnit', controllers.unit.removeUnit) // 删除单个单位
 // 订单
 router.get('/getOrderList', controllers.order.getOrderList) // 查看订单列表
 router.get('/getOrderDetail', controllers.order.getOrderDetail) // 查看订单详情
+router.post('/addOrder', controllers.order.addOrder) // 更新单个订单信息
 router.put('/updateOrder', controllers.order.updateOrder) // 更新单个订单信息
 router.delete('/removeOrder', controllers.order.removeOrder) // 删除单个订单
 router.get('/getOrderDetailList', controllers.order.getOrderDetailList) // 单个订单包含的商品列表
@@ -149,6 +151,8 @@ router.get('/getShoplistEasy', controllers.shop.getShoplistEasy) // 获取购物
 router.post('/addShop', controllers.shop.addShop) // 新增购物车
 router.put('/updateShop', controllers.shop.updateShop) // 更新单个购物车
 router.delete('/removeShop', controllers.shop.removeShop) // 删除单个购物车
+router.delete('/removeShopById', controllers.shop.removeShopById) // 删除单个购物车
+router.delete('/removeShopByUser', controllers.shop.removeShopByUser) // 按用户删除购物车
 
 
 module.exports = router

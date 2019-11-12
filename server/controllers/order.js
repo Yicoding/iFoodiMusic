@@ -12,7 +12,7 @@ async function getOrderList(ctx, next) {
     } else if (item.createUser) {
         filter.createUser = item.createUser;
     } else if (item.payUser) {
-        filter.payUser = item.payUser;        
+        filter.payUser = item.payUser;
     } else if (item.finishUser) {
         filter.finishUser = item.finishUser;
     }
@@ -22,11 +22,11 @@ async function getOrderList(ctx, next) {
     item.sort = item.sort || 'ASC';
     try {
         let res = await mysql('order_list').
-        select('*').
-        where(filter).
-        orderBy(ctx.query.order, ctx.query.sort).
-        limit(ctx.query.pageSize).
-        offset(ctx.query.pageIndex * ctx.query.pageSize);
+            select('*').
+            where(filter).
+            orderBy(ctx.query.order, ctx.query.sort).
+            limit(ctx.query.pageSize).
+            offset(ctx.query.pageIndex * ctx.query.pageSize);
         let data = await mysql('user').select('id', 'name', 'phone').where('company_id', item.company_id);
         let userInfo = {};
         data.forEach(item => {
@@ -69,7 +69,7 @@ async function getOrderList(ctx, next) {
         });
         ctx.state.code = 0
         ctx.state.data = Data
-    } catch(e) {
+    } catch (e) {
         ctx.state.code = -1
         throw new Error(e)
     }
@@ -78,56 +78,99 @@ async function getOrderList(ctx, next) {
 // 查看单个订单详情
 async function getOrderDetail(ctx, next) {
     await mysql('order_list').
-    select('*').
-    where({
-        id: ctx.query.id
-    }).then(async res => {
-        await mysql('user').select('id', 'name', 'phone').where('company_id', res[0].company_id).then(data => {
-            let userInfo = {};
-            data.forEach(item => {
-                userInfo[item.id] = {
-                    name: item.name,
-                    phone: item.phone
+        select('*').
+        where({
+            id: ctx.query.id
+        }).then(async res => {
+            await mysql('user').select('id', 'name', 'phone').where('company_id', res[0].company_id).then(data => {
+                let userInfo = {};
+                data.forEach(item => {
+                    userInfo[item.id] = {
+                        name: item.name,
+                        phone: item.phone
+                    }
+                });
+                let item = res[0];
+                const role = ctx.query.role;
+                if (!role || role !== 'admin') {
+                    delete item.spend;
+                    delete item.gain;
                 }
-            });
-            let item = res[0];
-            const role = ctx.query.role;
-            if (!role || role !== 'admin') {
-                delete item.spend;
-                delete item.gain;
-            }
-            if (item.createUser) {
-                item.createUser = {
-                    id: item.createUser,
-                    name: userInfo[item.createUser].name,
-                    phone: userInfo[item.createUser].phone
+                if (item.createUser) {
+                    item.createUser = {
+                        id: item.createUser,
+                        name: userInfo[item.createUser].name,
+                        phone: userInfo[item.createUser].phone
+                    }
                 }
-            }
-            if (item.payUser) {
-                item.payUser = {
-                    id: item.payUser,
-                    name: userInfo[item.payUser].name,
-                    phone: userInfo[item.payUser].phone
+                if (item.payUser) {
+                    item.payUser = {
+                        id: item.payUser,
+                        name: userInfo[item.payUser].name,
+                        phone: userInfo[item.payUser].phone
+                    }
                 }
-            }
-            if (item.finishUser) {
-                item.finishUser = {
-                    id: item.finishUser,
-                    name: userInfo[item.finishUser].name,
-                    phone: userInfo[item.finishUser].phone
+                if (item.finishUser) {
+                    item.finishUser = {
+                        id: item.finishUser,
+                        name: userInfo[item.finishUser].name,
+                        phone: userInfo[item.finishUser].phone
+                    }
                 }
-            }
-            ctx.state.code = 0
-            ctx.state.data = item
+                ctx.state.code = 0
+                ctx.state.data = item
+            }).catch(err => {
+                ctx.state.code = -1
+                throw new Error(err)
+            })
         }).catch(err => {
             ctx.state.code = -1
             throw new Error(err)
         })
-    }).catch(err => {
-        ctx.state.code = -1
-        throw new Error(err)
-    })
 }
+
+// 新增订单
+async function addOrder(ctx, next) {
+    try {
+        const item = ctx.request.body;
+        const {
+            company_id,
+            spend,
+            total,
+            gain,
+            createUser,
+            customerName,
+            customerPhone,
+            customerSite,
+            orderList
+        } = item;
+        const currentTime = changedate(new Date(), 'yyyy-MM-dd HH:mm:ss');
+        const res = await mysql('order_list').insert({
+            company_id,
+            spend,
+            total,
+            gain,
+            state: 1,
+            createTime: currentTime,
+            createUser,
+            customerName,
+            customerPhone,
+            customerSite
+        });
+        const id = res[0]
+        orderList.forEach(item => {
+            item.order_id = id
+        })
+        await mysql('order_detail').insert(orderList);
+        ctx.state.code = 0
+        const data = { id };
+        ctx.state.data = data;
+    } catch (e) {
+        ctx.state.code = -1;
+        throw new Error(e);
+    }
+}
+
 
 // 更新单个订单信息
 async function updateOrder(ctx, next) {
@@ -144,13 +187,13 @@ async function updateOrder(ctx, next) {
         values.finishUser = item.user_id;
     }
     await mysql('order_list').where({ id: item.id }).
-    update(values).then(res => {
-        ctx.state.code = 0
-        ctx.state.data = res
-    }).catch(err => {
-        ctx.state.code = -1
-        throw new Error(err)
-    })
+        update(values).then(res => {
+            ctx.state.code = 0
+            ctx.state.data = res
+        }).catch(err => {
+            ctx.state.code = -1
+            throw new Error(err)
+        })
 }
 
 // 删除单个订单
@@ -171,17 +214,17 @@ async function getOrderDetailList(ctx, next) {
     const item = ctx.query;
     try {
         const res = await mysql('order_detail').
-        select('*').
-        where('order_id', item.order_id);
+            select('*').
+            where('order_id', item.order_id);
         const total = await mysql('order_detail').
-        select(mysql.raw('count(*) as total')).
-        where('order_id', item.order_id);
-        const Data =  Object.assign({}, total[0], {
+            select(mysql.raw('count(*) as total')).
+            where('order_id', item.order_id);
+        const Data = Object.assign({}, total[0], {
             data: res
         });
         ctx.state.code = 0;
         ctx.state.data = Data;
-    } catch(e) {
+    } catch (e) {
         ctx.state.code = -1;
         throw new Error(e);
     }
@@ -190,6 +233,7 @@ async function getOrderDetailList(ctx, next) {
 module.exports = {
     getOrderList,
     getOrderDetail,
+    addOrder,
     updateOrder,
     removeOrder,
     getOrderDetailList
