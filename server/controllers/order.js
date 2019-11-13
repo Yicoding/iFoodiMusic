@@ -3,39 +3,49 @@ const { changedate } = require('./util')
 
 // 查看订单列表
 async function getOrderList(ctx, next) {
-    let item = ctx.query
-    let filter = {}
-    if (item.company_id) { //  按公司
-        filter.company_id = item.company_id;
-    } else if (item.state) { // 按状态
-        filter.state = item.state;
-    } else if (item.createUser) {
-        filter.createUser = item.createUser;
-    } else if (item.payUser) {
-        filter.payUser = item.payUser;
-    } else if (item.finishUser) {
-        filter.finishUser = item.finishUser;
-    }
+    const item = ctx.query;
+    const filter = {};
+    const betweenFiler = {};
+    item.company_id && (filter.company_id = item.company_id); //  按公司
+    item.state && (filter.state = item.state); // 按状态
+    item.createUser && (filter.createUser = item.createUser);
+    item.payUser && (filter.payUser = item.payUser);
+    item.finishUser && (filter.finishUser = item.finishUser);
+
     item.pageIndex = item.pageIndex || 0;
     item.pageSize = item.pageSize || 10;
     item.order = item.order || 'id';
     item.sort = item.sort || 'ASC';
+    if (item.date) {
+        betweenFiler.createTime = [`${item.date} 00:00:00`, `${item.date} 23:59:59`];
+    }
     try {
-        let res = await mysql('order_list').
-            select('*').
-            where(filter).
-            orderBy(ctx.query.order, ctx.query.sort).
-            limit(ctx.query.pageSize).
-            offset(ctx.query.pageIndex * ctx.query.pageSize);
-        let data = await mysql('user').select('id', 'name', 'phone').where('company_id', item.company_id);
-        let userInfo = {};
+        let res;
+        if (item.date) {
+            res = await mysql('order_list').
+                select('*').
+                where(filter).
+                whereBetween('createTime', [`${item.date} 00:00:00`, `${item.date} 23:59:59`]).
+                orderBy(item.order, item.sort).
+                limit(item.pageSize).
+                offset(item.pageIndex * item.pageSize);
+        } else {
+            res = await mysql('order_list').
+                select('*').
+                where(filter).
+                orderBy(item.order, item.sort).
+                limit(item.pageSize).
+                offset(item.pageIndex * item.pageSize);
+        }
+        const data = await mysql('user').select('id', 'name', 'phone').where('company_id', item.company_id);
+        const userInfo = {};
         data.forEach(item => {
             userInfo[item.id] = {
                 name: item.name,
                 phone: item.phone
             }
         });
-        let total = await mysql('order_list').select(mysql.raw('count(*) as total')).where(filter);
+        const total = await mysql('order_list').select(mysql.raw('count(*) as total')).where(filter);
         const role = item.role;
         res.forEach(item => {
             if (!role || role !== 'admin') {
@@ -196,6 +206,20 @@ async function updateOrder(ctx, next) {
         })
 }
 
+// 更新单个订单商品发货状态
+async function updateOrderGood(ctx, next) {
+    try {
+        const item = ctx.request.body;
+        const { ids, isChecked } = item;
+        const res = await mysql('order_detail').where('id', 'in', ids).update('isChecked', isChecked);
+        ctx.state.code = 0
+        ctx.state.data = res
+    } catch (e) {
+        ctx.state.code = -1
+        throw new Error(e)
+    }
+}
+
 // 删除单个订单
 async function removeOrder(ctx, next) {
     await mysql('order_list').where({
@@ -235,6 +259,7 @@ module.exports = {
     getOrderDetail,
     addOrder,
     updateOrder,
+    updateOrderGood,
     removeOrder,
     getOrderDetailList
 }

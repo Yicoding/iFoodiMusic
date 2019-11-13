@@ -193,7 +193,6 @@ Page({
         pageSize: this.data.pageSize,
       },
       success: ({ data }) => {
-        wx.stopPullDownRefresh()
         this.setData({
           loaded: true
         })
