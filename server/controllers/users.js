@@ -95,6 +95,7 @@ async function loginByWx(ctx, next) {
             select(
                 'user.id',
                 'user.name',
+                'user.sex',
                 'user.phone',
                 'user.password',
                 'user.age',
