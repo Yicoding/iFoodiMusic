@@ -148,6 +148,7 @@ router.get('/getOrderDetailList', controllers.order.getOrderDetailList) // 单�
 
 // 购物车
 router.get('/getShoplist', controllers.shop.getShoplist) // 获取购物车列表
+router.get('/getShoplistInValid', controllers.shop.getShoplistInValid) // 获取购物车列表
 router.get('/getShoplistEasy', controllers.shop.getShoplistEasy) // 获取购物车列表easy版
 router.post('/addShop', controllers.shop.addShop) // 新增购物车
 router.put('/updateShop', controllers.shop.updateShop) // 更新单个购物车
