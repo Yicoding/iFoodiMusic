@@ -45,7 +45,7 @@ async function getGoodsList(ctx, next) {
       orderBy(ctx.query.order, ctx.query.sort).
       limit(ctx.query.pageSize).
       offset(ctx.query.pageIndex * ctx.query.pageSize);
-      const response = mysql('goods').select(mysql.raw('count(*) as total')).where(filter).
+    const response = mysql('goods').select(mysql.raw('count(*) as total')).where(filter).
       andWhere('goods.typeName', 'REGEXP', `${item.code}`).
       andWhere('goods.typeName', 'like', `%${item.name}%`);
     ctx.state.code = 0;
@@ -96,7 +96,7 @@ async function getGoodsList(ctx, next) {
       });
       ctx.state.data = Data
     }
-  } catch(e) {
+  } catch (e) {
     ctx.state.code = -1;
     throw new Error(e);
   }
@@ -104,67 +104,96 @@ async function getGoodsList(ctx, next) {
 
 // 查看单个商品详情
 async function getGoodsDetail(ctx, next) {
-  let item = ctx.query
-  await mysql('goods').
-    join('company', 'goods.company_id', '=', 'company.id').
-    join('goods_type', 'goods_type.good_id', '=', 'goods.id').
-    leftJoin('type', 'goods_type.type_id', '=', 'type.id').
-    join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
-    join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
-    select(
-      'goods.id',
-      'goods.name',
-      'goods.coverImg',
-      'goods.desc',
-      'goods.buySingle',
-      'goods.buyAll',
-      'goods.midSingle',
-      'goods.midAll',
-      'goods.sellSingle',
-      'goods.sellAll',
-      'goods.num',
-      'goods.origin',
-      'goods.company_id',
-      'goods.unitSingle',
-      'goods.unitAll',
-      'company.name as companyName',
-      'a.name as unitSingleName',
-      'b.name as unitAllName',
-      mysql.raw('group_concat(type.id, "-" ,type.name) as typeName')
-      // mysql.raw(`(select unit.name from unit join goods on unit.id=goods.unitSingle where goods.id=${item.id}) as unitSingleName`),
-      // mysql.raw(`(select unit.name from unit join goods on unit.id=goods.unitAll where goods.id=${item.id}) as unitAllName`),
-    ).
-    where({
-      'goods.id': item.id
-    }).
-    then(res => {
-      ctx.state.code = 0
-      res.forEach(item => {
-        item.unitOne = {
-          id: item.unitSingle,
-          name: item.unitSingleName
+  try {
+    const { id, company_id } = ctx.query;
+    const res = await mysql('goods').
+      join('company', 'goods.company_id', '=', 'company.id').
+      join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
+      join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
+      select(
+        'goods.id',
+        'goods.name',
+        'goods.company_id',
+        'company.name as companyName',
+        'goods.coverImg',
+        'goods.desc',
+        'goods.unitSingle',
+        'goods.unitAll',
+        'goods.buySingle',
+        'goods.buyAll',
+        'goods.midSingle',
+        'goods.midAll',
+        'goods.sellSingle',
+        'goods.sellAll',
+        'goods.num',
+        'goods.origin',
+        'goods.typeName',
+        'a.name as unitSingleName',
+        'b.name as unitAllName',
+      ).where({ 'goods.id': id });
+    if (res.length === 0) { // 不存在
+      ctx.state.code = -1;
+      throw new Error('商品不存在');
+      return;
+    }
+    const data = await mysql('type').select('*').where('company_id', company_id);
+    res.forEach(item => {
+      item.unitOne = {
+        id: item.unitSingle,
+        name: item.unitSingleName
+      }
+      item.unitDouble = {
+        id: item.unitAll,
+        name: item.unitAllName
+      }
+      delete item.unitSingle
+      delete item.unitSingleName
+      delete item.unitAll
+      delete item.unitAllName
+      let typeInfo = {};
+      data.forEach(item => {
+        typeInfo[item.code] = {
+          id: item.id,
+          name: item.name,
+          code: item.code
         }
-        item.unitDouble = {
-          id: item.unitAll,
-          name: item.unitAllName
-        }
-        delete item.unitSingle
-        delete item.unitSingleName
-        delete item.unitAll
-        delete item.unitAllName
+      });
+      if (item.typeName === '0') {
+        item.typeName = '0'
+      } else {
         item.typeName = item.typeName.split(',').map(todo => {
-          todo = todo.split('-')
           return {
-            id: todo[0],
-            name: todo[1]
+            id: typeInfo[todo].id,
+            name: typeInfo[todo].name,
+            code: typeInfo[todo].code
           }
         })
-      })
-      ctx.state.data = res[0]
-    }).catch(err => {
-      ctx.state.code = -1
-      throw new Error(err)
-    })
+      }
+    });
+    ctx.state.code = 0;
+    ctx.state.data = res[0];
+  } catch (e) {
+    ctx.state.code = -1;
+    throw new Error(e);
+  }
+}
+// 查看单个商品详情
+async function getGoodsDetailById(ctx, next) {
+  try {
+    const { id } = ctx.query;
+    const res = await mysql('goods').
+      select('*').where({ id });
+    if (res.length === 0) { // 不存在
+      ctx.state.code = -1;
+      throw new Error('商品不存在');
+      return;
+    }
+    ctx.state.code = 0;
+    ctx.state.data = res[0];
+  } catch (e) {
+    ctx.state.code = -1;
+    throw new Error(e);
+  }
 }
 
 // 新增商品
@@ -231,7 +260,7 @@ async function updateGoods(ctx, next) {
 async function removeGoods(ctx, next) {
   await mysql('goods').where({
     // id: ctx.request.body.id
-    id: ctx.query.id
+    id: ctx.query.id || ctx.request.body.id
   }).del().then(res => {
     ctx.state.code = 0
     ctx.state.data = res
@@ -248,7 +277,7 @@ async function getGoodsByCompany(ctx, next) {
     const res = await mysql('type').
       select('id', 'name', 'code').
       where('company_id', item.company_id);
-    for (let i = 0; i < res.length; i ++) {
+    for (let i = 0; i < res.length; i++) {
       const todu = res[i];
       const data = await mysql('goods').
         leftJoin('order_detail', 'goods.id', '=', 'order_detail.good_id').
@@ -274,29 +303,29 @@ async function getGoodsByCompany(ctx, next) {
           mysql.raw('count(order_detail.id) as saleNum')
         ).where('goods.typeName', 'REGEXP', `${todu.code}`).
         groupBy('goods.id');
-        data.forEach(one => {
-          one.unitOne = {
-            id: one.unitSingle,
-            name: one.unitSingleName
-          };
-          one.unitDouble = {
-            id: one.unitAll,
-            name: one.unitAllName
-          };
-          delete one.unitSingle;
-          delete one.unitSingleName;
-          delete one.unitAll;
-          delete one.unitAllName;
-          if (!item.role || item.role !== 'admin') {
-            delete one.buySingle;
-            delete one.buyAll;
-          }
-        });
+      data.forEach(one => {
+        one.unitOne = {
+          id: one.unitSingle,
+          name: one.unitSingleName
+        };
+        one.unitDouble = {
+          id: one.unitAll,
+          name: one.unitAllName
+        };
+        delete one.unitSingle;
+        delete one.unitSingleName;
+        delete one.unitAll;
+        delete one.unitAllName;
+        if (!item.role || item.role !== 'admin') {
+          delete one.buySingle;
+          delete one.buyAll;
+        }
+      });
       todu.children = data;
     }
     ctx.state.code = 0;
     ctx.state.data = res;
-  } catch(e) {
+  } catch (e) {
     ctx.state.code = -1;
     throw new Error(e);
   }
@@ -305,6 +334,7 @@ async function getGoodsByCompany(ctx, next) {
 module.exports = {
   getGoodsList,
   getGoodsDetail,
+  getGoodsDetailById,
   addGoods,
   updateGoods,
   removeGoods,

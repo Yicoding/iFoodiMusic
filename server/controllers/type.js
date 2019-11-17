@@ -85,7 +85,7 @@ async function updateGoodsType(ctx, next) {
 // 删除单个商品类型
 async function removeGoodsType(ctx, next) {
     await mysql('type').where({
-        id: ctx.query.id
+        id: ctx.query.id || ctx.request.body.id
     }).del().then(res => {
         ctx.state.code = 0
         ctx.state.data = res
