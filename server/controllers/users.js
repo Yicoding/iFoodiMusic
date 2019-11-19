@@ -22,6 +22,7 @@ async function getUserList(ctx, next) {
             'user.age',
             'user.sign',
             'user.avatar',
+            'user.sex',
             'company.id as company_id',
             'company.name as companyName',
             'role.id as role_id',
@@ -30,6 +31,7 @@ async function getUserList(ctx, next) {
         ).
         where(filter).
         whereNotIn('role.name', filterNot).
+        orderBy('role_id', 'ASC').
         then(res => {
             ctx.state.code = 0
             ctx.state.data = res
