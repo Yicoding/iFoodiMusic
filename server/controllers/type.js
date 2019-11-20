@@ -68,12 +68,15 @@ async function addGoodsType(ctx, next) {
 
 // 更新单个商品类型信息
 async function updateGoodsType(ctx, next) {
-    let item = ctx.request.body
+    const item = ctx.request.body;
+    const info = {
+        name: item.name
+    };
+    if (item.company_id) {
+        info.company_id = item.company_id;
+    }
     await mysql('type').where({ id: item.id }).
-    update({
-        name: item.name,
-        company_id: item.company_id
-    }).then(res => {
+    update(info).then(res => {
         ctx.state.code = 0
         ctx.state.data = res
     }).catch(err => {

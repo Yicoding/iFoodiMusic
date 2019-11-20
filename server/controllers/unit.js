@@ -61,12 +61,15 @@ async function addUnit(ctx, next) {
 
 // 更新单个单位信息
 async function updateUnit(ctx, next) {
-  let item = ctx.request.body
+  const item = ctx.request.body;
+  const info = {
+    name: item.name
+  };
+  if (item.company_id) {
+    info.company_id = item.company_id;
+}
   await mysql('unit').where({ id: item.id }).
-    update({
-      name: item.name,
-      company_id: item.company_id
-    }).then(res => {
+    update(info).then(res => {
       ctx.state.code = 0
       ctx.state.data = res
     }).catch(err => {

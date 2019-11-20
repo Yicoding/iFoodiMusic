@@ -126,8 +126,8 @@ async function loginByWx(ctx, next) {
 
 // 新增用户
 async function addUser(ctx, next) {
-    let item = ctx.request.body
-    await mysql('user').insert({
+    const item = ctx.request.body
+    const info = {
         name: item.name,
         phone: item.phone,
         password: item.password,
@@ -136,9 +136,13 @@ async function addUser(ctx, next) {
         avatar: item.avatar,
         role_id: item.role_id,
         company_id: item.company_id
-    }).then(res => {
+    };
+    if (item.sex) {
+        info.sex = item.sex;
+    }
+    await mysql('user').insert(info).then(res => {
         ctx.state.code = 0
-        let data = {
+        const data = {
             id: res[0]
         }
         ctx.state.data = data
@@ -150,18 +154,22 @@ async function addUser(ctx, next) {
 
 // 更新单个用户信息
 async function updateUser(ctx, next) {
-    let item = ctx.request.body
+    const item = ctx.request.body;
+    const info = {
+        name: item.name,
+        phone: item.phone,
+        password: item.password,
+        age: item.age,
+        sign: item.sign,
+        avatar: item.avatar,
+        role_id: item.role_id,
+        company_id: item.company_id
+    };
+    if (item.sex) {
+        info.sex = item.sex;
+    }
     await mysql('user').where({ id: item.id }).
-        update({
-            name: item.name,
-            phone: item.phone,
-            password: item.password,
-            age: item.age,
-            sign: item.sign,
-            avatar: item.avatar,
-            role_id: item.role_id,
-            company_id: item.company_id
-        }).then(res => {
+        update(info).then(res => {
             ctx.state.code = 0
             ctx.state.data = res
         }).catch(err => {
