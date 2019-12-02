@@ -1,5 +1,13 @@
 const { mysql } = require('../qcloud')
 const { changedate } = require('./util')
+// 打印配置
+const yly = require('yly-nodejs-sdk');
+const config = new yly.Config({
+    'cid': '1087420892',         //应用id
+    'secret': 'fbd1936498aa2bae20e2b7d5332d67c2'       //应用秘钥
+});
+const oauthClient = new yly.OauthClinet(config);
+let tokenData;
 
 // 查看订单列表
 async function getOrderList(ctx, next) {
@@ -82,6 +90,63 @@ async function getOrderList(ctx, next) {
     } catch (e) {
         ctx.state.code = -1
         throw new Error(e)
+    }
+}
+
+// 打印订单
+async function printOrderById(ctx, next) {
+    try {
+        const item = ctx.request.body;
+        const { id } = item;
+        const res = await mysql('order_list').select('*').where({ id });
+        const data = await mysql('order_detail').
+            select('*').
+            where('order_id', id);
+        res[0].goodList = data;
+        let goodList = '';
+        data.forEach(item => {
+            goodList + `<tr><td>${item.name}</td><td>${item.sale}</td><td>x${item.num}${item.unitType == 1 ? item.unitSingle : item.unitAll}</td><td>${item.total}</td></tr>`;
+        })
+        const result = await oauthClient.getToken();
+        if (
+            result.error != 0 &&
+            result.error_description != 'success'
+        ) {
+            throw new Error('failed:' + result.error_description);
+        }
+        tokenData = {
+            'accessToken': result.body.access_token,
+            'refreshToken': result.body.refresh_token,
+        };
+        if (result.body.machine_code) {
+            tokenData.machineCode = result.body.machine_code;
+        }
+
+        var RpcClient = new yly.RpcClient(tokenData.accessToken, config);
+        var Print = new yly.Print(RpcClient);
+        var content = "<FS2><center>**#恒祥茶庄**</center></FS2>";
+        // content += repeat('.', 32);
+        content += '.'.repeat(32);
+        content += "<FS2><center>--在线支付--</center></FS2>";
+        content += `订单时间:${changeDate(new Date(), 'yyyy-MM-dd HH:mm')}\n`;
+        content += `订单编号:${res[0].id}\n`;
+        content += '*'.repeat(32) + "商品" + '*'.repeat(32);
+        content += "<table>";
+        content += "<tr><td>商品名</td><td>单价</td><td>数量</td><td>合计</td></tr>";
+        content += goodList;
+        content += "</table>";
+        content += '.'.repeat(32);
+        content += "<QR>这是二维码内容</QR>";
+        content += '*'.repeat(32);
+        content += `订单总价: ¥ ${res[0].total} 元\n`;
+        content += "<FS2><center>**#end**</center></FS2>";
+        await Print.index(tokenData.machineCode || '4004627652', 'orderNo1', content);
+
+        ctx.code = 0;
+        ctx.data = res[0];
+    } catch (err) {
+        ctx.state.code = -1
+        throw new Error(err)
     }
 }
 
@@ -261,5 +326,6 @@ module.exports = {
     updateOrder,
     updateOrderGood,
     removeOrder,
-    getOrderDetailList
+    getOrderDetailList,
+    printOrderById
 }
