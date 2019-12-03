@@ -115,6 +115,23 @@ async function addShop(ctx, next) {
   }
 }
 
+// 批量新增购物车
+async function addShopMultiple(ctx, next) {
+  try {
+    const { shopList } = ctx.request.body;
+    const res = await mysql('shop').
+    insert(shopList);
+    ctx.state.code = 0;
+    const data = {
+      id: res[0]
+    };
+    ctx.state.data = data;
+  } catch(e) {
+    ctx.state.code = -1;
+    throw new Error(e);
+  }
+}
+
 // 修改单个购物车商品数量
 async function updateShop(ctx, next) {
   try {
@@ -193,6 +210,7 @@ module.exports = {
   getShoplistInValid,
   getShoplistEasy,
   addShop,
+  addShopMultiple,
   updateShop,
   removeShop,
   removeShopById,

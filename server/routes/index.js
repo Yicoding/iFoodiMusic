@@ -153,6 +153,7 @@ router.get('/getShoplist', controllers.shop.getShoplist) // 获取购物车列�
 router.get('/getShoplistInValid', controllers.shop.getShoplistInValid) // 获取购物车列表
 router.get('/getShoplistEasy', controllers.shop.getShoplistEasy) // 获取购物车列表easy版
 router.post('/addShop', controllers.shop.addShop) // 新增购物车
+router.post('/addShopMultiple', controllers.shop.addShopMultiple) // 更新单个订单信息
 router.put('/updateShop', controllers.shop.updateShop) // 更新单个购物车
 router.delete('/removeShop', controllers.shop.removeShop) // 删除单个购物车
 router.delete('/removeShopById', controllers.shop.removeShopById) // 删除单个购物车
