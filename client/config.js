@@ -4,6 +4,7 @@
 
 // 此处主机域名修改成腾讯云解决方案分配的域名
 var host = 'https://0az3korx.qcloud.la'; // 开发
+// var host = 'https://ilovelyplat.com:3000'; // 生产
 // var host = '766293205.ifoodimusic.club'; // 生产
 
 var config = {
