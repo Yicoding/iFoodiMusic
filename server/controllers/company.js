@@ -38,7 +38,9 @@ async function addCompany(ctx, next) {
         name: item.name,
         createTime,
         desc: item.desc,
-        logo: item.logo
+        logo: item.logo,
+        tel: item.tel,
+        phone: item.phone,
     }).then(res => {
         ctx.state.code = 0
         let data = {
@@ -59,7 +61,10 @@ async function updateCompany(ctx, next) {
     update({
         name: item.name,
         desc: item.desc,
-        logo: item.logo
+        logo: item.logo,
+        address: item.address,
+        tel: item.tel,
+        phone: item.phone,
     }).then(res => {
         ctx.state.code = 0
         ctx.state.data = res
