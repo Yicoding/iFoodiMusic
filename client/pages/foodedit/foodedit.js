@@ -263,6 +263,7 @@ Page({
           duration: 100000,
           mask: true
         })
+        // return console.log('uploadCover', res)
         var promises = []
         promises = res.tempFilePaths.map(item => {
           return uploadFile(item)

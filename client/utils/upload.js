@@ -7,7 +7,7 @@ function uploadFile(filePath) {
             filePath: filePath,
             name: 'file',
             success: function (res) {
-                console.log(res)
+                console.log('uploadFile成功res', res)
                 res = JSON.parse(res.data)
                 if(res.code == 0) {
                     resolve(res.data.imgUrl)
@@ -16,6 +16,7 @@ function uploadFile(filePath) {
                 }
             },
             fail: function (e) {
+                console.log('uploadFile失败', e)
                 reject('上传失败')
             }
         })
