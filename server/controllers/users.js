@@ -43,10 +43,23 @@ async function getUserList(ctx, next) {
 
 // 查看单个用户详情
 async function getUserDetail(ctx, next) {
-    await mysql('user').
-        select('*').
+    await mysql('user').join('company', 'user.company_id', '=', 'company.id').join('role', 'user.role_id', '=', 'role.id').
+        select(
+            'user.id',
+            'user.name',
+            'user.phone',
+            'user.password',
+            'user.age',
+            'user.sign',
+            'user.sex',
+            'user.avatar',
+            'company.id as company_id',
+            'company.name as companyName',
+            'role.id as role_id',
+            'role.name as role_name'
+        ).
         where({
-            id: ctx.query.id
+            'user.id': ctx.query.id
         }).then(res => {
             ctx.state.code = 0
             ctx.state.data = res[0]
@@ -67,6 +80,7 @@ async function userLogin(ctx, next) {
             'user.password',
             'user.age',
             'user.sign',
+            'user.sex',
             'user.avatar',
             'company.id as company_id',
             'company.name as companyName',
