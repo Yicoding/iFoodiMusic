@@ -1,92 +1,21 @@
-<!--index.wxml-->
-<view class="container {{isFixed ? 'container-padding' : ''}}">
-    <view class="modal" wx:if="{{!userInfo && isShow}}">
-        <view class="modal-container">
-            <view class="modal-confirm">需要你的个人信息才能发表呦O(∩_∩)O~~</view>
-            <button
-                open-type="getUserInfo"
-                bindgetuserinfo="getuserInfo">确定</button>
-        </view>
-    </view>
-    <search
-        id="search"
-        avatar="{{userInfo.avatarUrl}}"
-        class="search"
-        bind:callback="search"
-        bind:switchEdit="switchEdit" >
-    </search>
-    <view class="ul">
-        <view
-            class="li {{type == item.id ? 'active' : ''}}"
-            wx:for="{{typeArrOne}}"
-            wx:key="{{item.id}}"
-            bindtap="checkType"
-            data-type="{{item.id}}">
-            <image src="{{item.img}}" />
-            <view>{{item.text}}</view>
-        </view>
-    </view>
-    <view class="{{isFixed ? 'order-fixed' : ''}}">
-        <view class="order">
-            <view class="order-li">
-                <text
-                    class="order-text {{order == 'time' ? 'active' : ''}}"
-                    bindtap="checkOrder"
-                    data-order="time">上架时间</text>
-                <text
-                    class="order-text {{order == 'num' ? 'active' : ''}}"
-                    bindtap="checkOrder"
-                    data-order="num">评论数</text>
-            </view>
-            <view class="order-img">
-                <image
-                    wx:if="{{isEdit}}"
-                    class="order-status order-add"
-                    src="{{addIcon}}"
-                    bindtap="addFood" />
-                <image
-                    class="order-status"
-                    src="{{status ? iconDown : iconUp}}"
-                    bindtap="switchStatus" />
-            </view>
-        </view>
-    </view>
-    <view>
-        <view
-            class="list"
-            wx:for="{{foodList}}"
-            wx:key="{{item.id}}"
-            bindtap="goDetail"
-            data-id="{{item.id}}">
-            <image
-                class="cover"
-                src="{{item.cover}}"
-                catchtap="viewImage"
-                data-src="{{item.cover}}"
-                data-urls="{{item.cover}}" />
-            <view class="content">
-                <view class="title">{{item.title}}</view>
-                <view class="descipt">{{item.descript}}</view>
-                <view class="time">
-                    <text class="text-time">上传于 {{item.time}}</text>
-                    <image
-                        wx:if="{{isEdit}}"
-                        class="icon-rate icon-edit"
-                        src="../../images/icon/delete.png"
-                        data-id="{{item.id}}"
-                        catchtap="removeFood" />
-                    <image
-                        wx:if="{{isEdit}}"
-                        class="icon-rate icon-edit"
-                        src="../../images/icon/edit.png"
-                        data-id="{{item.id}}"
-                        catchtap="editFood" />
-                    <image class="icon-rate" src="../../images/icon/rate.png" />
-                    <text class="text-num">{{item.num}}</text>
-                </view>
-            </view>
-        </view>
-    </view>
-    <view wx:if="{{foodList.length}}" class="info">{{info}}</view>
-    <view wx:else class="empty">没有找到你要的食物哦，快呼叫Ecode补充吧O(∩_∩)O~~</view>
+
+<wxs src="./tools.wxs" module="tools" />
+
+<view class="container">
+  请输入搜索内容：
+  <view class="search">
+    <input placeholder="请输入搜索内容" value="{{ value }}" bindinput="onChange" />
+    <view bindtap="search">搜索</view>
+  </view>
+  <view class="answer" wx:for="{{ dataList }}" wx:if="{{ item && item.title }}" wx:key>
+    <rich-text nodes="{{tools.tranFuc(item.title, value, index)}}" />
+    <!-- <view>
+      答案：
+      <text style="color: red;">{{ item.name }}</text>
+    </view> -->
+  </view>
+  <view class="empty" wx:if="{{ dataList.length === 0 }}">没有搜索到结果，换个条件搜索吧～</view>
 </view>
+
+<!-- <view bindtap="goTop" class="arrow"></view> -->
+<image src="{{ src }}" bindtap="goTop" class="arrow" />

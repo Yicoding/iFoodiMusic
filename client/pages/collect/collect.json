@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "艾音乐歌单",
-  "usingComponents": {
-    "navigator": "/components/navigator/navigator"
-  }
-}

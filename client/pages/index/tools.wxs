@@ -1,0 +1,13 @@
+
+var tranFuc = function(title, value, index) {
+  if (title) {
+    var patten = getRegExp(value.trim(), 'g');
+    return index+1 + '、' + title.replace(patten, function(a) {
+      return '<span style="color: red;">' + a + '</span>'
+    })
+  }
+}
+
+module.exports = {
+  tranFuc: tranFuc
+}

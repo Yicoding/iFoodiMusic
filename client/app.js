@@ -4,35 +4,35 @@ App({
     deviceInfo:{}
   },
   onLaunch: function () {
-    this.data.deviceInfo = wx.getSystemInfoSync();
-    console.log(this.data.deviceInfo);
-    // 登录
-    wx.login({
-      success: ({ code }) => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        console.log(code, 'res.code')
-        wx.request({
-          url: 'https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code',
-          data: {
-            appid: 'wxa951826c9c76290b',
-            secret: '67957573d25420da690f4c6798e0e8a8',
-            js_code: code,
-            grant_type: 'authorization_code'
-          },
-          success: ({ data }) => {
-            console.log(data, '小程序的openid')
-            this.globalData.openid = data.openid
-            this.getSetting()
-            this.globalData.isAdmin = this.globalData.adminCount.includes(data.openid)
-          }
-        })
-      }
-    })
-    // 打开调试11
-    wx.setEnableDebug({
-      enableDebug: true
-    })
-    this.getSystemInfo()
+    // this.data.deviceInfo = wx.getSystemInfoSync();
+    // console.log(this.data.deviceInfo);
+    // // 登录
+    // wx.login({
+    //   success: ({ code }) => {
+    //     // 发送 res.code 到后台换取 openId, sessionKey, unionId
+    //     console.log(code, 'res.code')
+    //     wx.request({
+    //       url: 'https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code',
+    //       data: {
+    //         appid: 'wxa951826c9c76290b',
+    //         secret: '67957573d25420da690f4c6798e0e8a8',
+    //         js_code: code,
+    //         grant_type: 'authorization_code'
+    //       },
+    //       success: ({ data }) => {
+    //         console.log(data, '小程序的openid')
+    //         this.globalData.openid = data.openid
+    //         this.getSetting()
+    //         this.globalData.isAdmin = this.globalData.adminCount.includes(data.openid)
+    //       }
+    //     })
+    //   }
+    // })
+    // // 打开调试11
+    // wx.setEnableDebug({
+    //   enableDebug: true
+    // })
+    // this.getSystemInfo()
   },
   // 获取用户信息
   getSetting() {

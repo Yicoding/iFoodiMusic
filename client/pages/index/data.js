@@ -1,7 +1,4 @@
-//index.js
-//获取应用实例
-const app = getApp()
-const arr = [
+[
   {
     "title": "下列不属于重大事故具有的特点的是(C)。 A、扩散迅速 B、发生突然 C、造成的破坏大"
   },
@@ -2088,42 +2085,3 @@ const arr = [
     "title": "受伤者在车内无法自行下车时，可设法将其从车内移出，尽量避免二次受伤。(对)"
   }
 ]
-Page({
-  data: {
-    dataList: [],
-    value: '',
-    src: '/images/icon/food-1.png'
-  },
-  onLoad: function () {
-
-  },
-  // 输入框改变
-  onChange(e) {
-    const { value } = e.detail;
-    this.setData({ value });
-  },
-  // 搜索
-  search() {
-    const { value } = this.data;
-    this.searchFuc(value.trim());
-  },
-  // 搜索逻辑
-  searchFuc(value) {
-    if (value) {
-      console.log('value', value)
-      const dataList = [];
-      arr.forEach(item => {
-        var patten = new RegExp(value);
-        if (patten.test(item.title)) {
-          dataList.push(item)
-        }
-      });
-      this.setData({ dataList });
-    }
-  },
-  goTop() {
-    wx.pageScrollTo({
-      scrollTop: 0
-    })
-  }
-})

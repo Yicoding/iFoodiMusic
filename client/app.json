@@ -1,63 +1,12 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/setting/setting",
-    "pages/setedit/setedit",
-    "pages/plantdetail/plantdetail",
-    "pages/foodedit/foodedit",
-    "pages/plantedit/plantedit",
-    "pages/times/times",
-    "pages/music/music",
-    "pages/wall/wall",
-    "pages/present/present",
-    "pages/collect/collect",
-    "pages/songlist/songlist",
-    "pages/user/user",
-    "pages/text/text",
-    "pages/article/article",
-    "pages/food/food",
-    "pages/msg/msg",
-    "pages/player/player",
-    "pages/plant/plant",
-    "pages/plantinfo/plantinfo"
+    "pages/index/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#262834",
     "navigationBarTitleText": "iFoodiMusic",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#1C1F27"
-  },
-  "tabBar": {
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "艾美食",
-        "iconPath": "images/icon/food.png",
-        "selectedIconPath": "images/icon/food.png"
-      },
-      {
-        "pagePath": "pages/music/music",
-        "text": "艾音乐",
-        "iconPath": "images/icon/music.png",
-        "selectedIconPath": "images/icon/music.png"
-      },
-      {
-        "pagePath": "pages/times/times",
-        "text": "好时光",
-        "iconPath": "images/icon/diary.png",
-        "selectedIconPath": "images/icon/diary.png"
-      },
-      {
-        "pagePath": "pages/plant/plant",
-        "text": "植物墙",
-        "iconPath": "images/icon/unburden.png",
-        "selectedIconPath": "images/icon/unburden.png"
-      }
-    ],
-    "color": "#c2c4d0",
-    "selectedColor": "#3483e9",
-    "backgroundColor": "#252934"
+    "navigationBarTextStyle": "white"
   },
   "requiredBackgroundModes": [
     "audio"

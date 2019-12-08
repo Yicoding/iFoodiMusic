@@ -1,9 +1,0 @@
-<view class="food {{isIpx ? 'foodX' : ''}}">
-  <image class="coverImg" mode="aspectFill" src="{{img}}" />
-  <view class="editBtn" catchtap="uploadCover">修改封面图片</view>
-  <view class="line">
-    <label for="">名称</label>
-    <input bindinput="textChange" data-type="text" type="text" value="{{text}}" placeholder="请输入菜单名" />
-  </view>
-  <view class="saveBtn {{isIpx ? 'footX' : ''}}" bindtap="saveFood">保存</view>
-</view>
