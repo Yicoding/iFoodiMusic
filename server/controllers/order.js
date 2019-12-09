@@ -221,7 +221,7 @@ async function updateOrder(ctx, next) {
     if (item.state === 2) { // 收款
         values.payTime = currentTime;
         values.payUser = item.user_id;
-    } else {
+    } else if (item.state === 3) {
         values.finishTime = currentTime;
         values.finishUser = item.user_id;
     }
