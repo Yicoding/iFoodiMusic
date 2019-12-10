@@ -15,6 +15,7 @@ async function getGoodsList(ctx, next) {
     item.order = item.order || 'id';
     item.sort = item.sort || 'ASC';
     const res = await mysql('goods').
+      leftJoin('order_detail', 'goods.id', '=', 'order_detail.good_id').
       join('company', 'goods.company_id', '=', 'company.id').
       join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
       join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
@@ -38,7 +39,9 @@ async function getGoodsList(ctx, next) {
         'goods.typeName',
         'a.name as unitSingleName',
         'b.name as unitAllName',
+        mysql.raw('count(order_detail.id) as saleNum')
       ).
+      groupBy('goods.id').
       where(filter).
       andWhere('goods.typeName', 'REGEXP', `${item.code}`).
       andWhere('goods.name', 'like', `%${item.name}%`). // 按商品类型查找商品
