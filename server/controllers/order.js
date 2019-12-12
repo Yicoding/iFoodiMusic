@@ -56,7 +56,7 @@ async function getOrderList(ctx, next) {
         const total = await mysql('order_list').select(mysql.raw('count(*) as total')).where(filter);
         const role = item.role;
         res.forEach(item => {
-            if (!role || role !== 'admin') {
+            if (!role || (role !== 'admin' || role !== 'root')) {
                 delete item.spend;
                 delete item.gain;
             }
