@@ -9,10 +9,10 @@
   </view>
   <view class="answer" wx:for="{{ dataList }}" wx:if="{{ item && item.title }}" wx:key>
     <rich-text nodes="{{tools.tranFuc(item.title, value, index)}}" />
-    <!-- <view>
+    <view>
       答案：
       <text style="color: red;">{{ item.name }}</text>
-    </view> -->
+    </view>
   </view>
   <view class="empty" wx:if="{{ dataList.length === 0 }}">没有搜索到结果，换个条件搜索吧～</view>
 </view>
