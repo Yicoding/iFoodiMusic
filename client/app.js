@@ -12,26 +12,29 @@ App({
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         console.log(code, 'res.code')
         wx.request({
-          url: 'https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code',
+          // url: 'https://api.weixin.qq.com/sns/jscode2session',
+          // url: 'http://localhost:3003/getOpenId',
+          url: 'https://ilovelyplat.com:3002/getOpenId',
           data: {
-            appid: 'wxa951826c9c76290b',
-            secret: '67957573d25420da690f4c6798e0e8a8',
-            js_code: code,
-            grant_type: 'authorization_code'
+            // appid: 'wxa951826c9c76290b',
+            // secret: '67957573d25420da690f4c6798e0e8a8',
+            // js_code: code,
+            // grant_type: 'authorization_code'
+            code
           },
           success: ({ data }) => {
-            console.log(data, '小程序的openid')
-            this.globalData.openid = data.openid
+            console.log(data.data.openid, '小程序的openid')
+            this.globalData.openid = data.data.openid
             this.getSetting()
-            this.globalData.isAdmin = this.globalData.adminCount.includes(data.openid)
+            this.globalData.isAdmin = this.globalData.adminCount.includes(data.data.openid);
           }
         })
       }
     })
-    // 打开调试11
-    wx.setEnableDebug({
-      enableDebug: true
-    })
+    // // 打开调试11
+    // wx.setEnableDebug({
+    //   enableDebug: true
+    // })
     this.getSystemInfo()
   },
   // 获取用户信息
