@@ -191,7 +191,7 @@ Page({
         console.log(res)
         if (res.confirm) {
           wx.request({
-            method: 'DELETE',
+            method: 'PUT',
             url: config.service.removePlant,
             data: { id },
             success: () => {

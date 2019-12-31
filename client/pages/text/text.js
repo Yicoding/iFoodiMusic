@@ -164,7 +164,7 @@ Page({
         if (res.confirm) {
           let id = e.currentTarget.dataset.id
           wx.request({
-            method: 'DELETE',
+            method: 'PUT',
             url: config.service.removeRate,
             data: {
               id: id

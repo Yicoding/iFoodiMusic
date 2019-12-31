@@ -136,7 +136,7 @@ Page({
   // 取消收藏
   removeCollect(id) {
     wx.request({
-      method: 'DELETE',
+      method: 'PUT',
       url: config.service.removeCollect,
       data: {
         id: id,

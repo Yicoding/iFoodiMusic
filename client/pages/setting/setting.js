@@ -210,7 +210,7 @@ Page({
             } else {
               if (res.confirm) {
                 wx.request({
-                  method: 'DELETE',
+                  method: 'PUT',
                   url: config.service.removeType,
                   data: { id },
                   success: () => {

@@ -277,7 +277,7 @@ Page({
   removePut(e) {
     this.data.imgList.splice(e.currentTarget.dataset.index, 1)
     wx.request({
-      method: 'DELETE',
+      method: 'PUT',
       url: config.service.removePlantImg,
       data: { id: e.currentTarget.dataset.id },
       success: () => {
