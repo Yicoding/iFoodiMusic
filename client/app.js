@@ -1,3 +1,5 @@
+var config = require('./config')
+
 //app.js
 App({
   data: {
@@ -14,7 +16,8 @@ App({
         wx.request({
           // url: 'https://api.weixin.qq.com/sns/jscode2session',
           // url: 'http://localhost:3003/getOpenId',
-          url: 'https://ilovelyplat.com:3002/getOpenId',
+          // url: 'https://ilovelyplat.com:3002/getOpenId',
+          url: config.service.getOpenId,
           data: {
             // appid: 'wxa951826c9c76290b',
             // secret: '67957573d25420da690f4c6798e0e8a8',
