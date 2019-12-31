@@ -6,6 +6,7 @@
 // var host = 'https://0az3korx.qcloud.la'; // 开发
 var host = 'https://ilovelyplat.com:3000'; // 生产
 // var host = '766293205.ifoodimusic.club'; // 生产
+var hostServer = 'https://ilovelyplat.com:3002'; // 生产
 
 var config = {
 
@@ -124,6 +125,7 @@ var config = {
         removeOrder: `${host}/removeOrder`, // 删除单个订单
         getOrderDetailList: `${host}/getOrderDetailList`, // 单个订单包含的商品列表
         getShoplistEasy: `${host}/getShoplistEasy`, // 单个订单包含的商品列表
+        putObject: `${hostServer}/putObject`, // 单个订单包含的商品列表
     }
 };
 
