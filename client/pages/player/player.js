@@ -121,7 +121,7 @@ Page({
       method: 'POST',
       url: config.service.addCollect,
       data: {
-        id: app.globalData.playList[app.globalData.playIndex].id,
+        id: app.globalData.playList[app.globalData.playIndex].songid || app.globalData.playList[app.globalData.playIndex].id,
         openid: app.globalData.openid,
         userName: app.globalData.userInfo.nickName
       },
