@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const { ajax } = require('../../utils/ajax');
 var config = require('../../config')
 var { formatTime } = require('../../utils/util.js')
 Page({
@@ -39,7 +40,7 @@ Page({
   },
   // 获取食物信息
   plantDetail() {
-    wx.request({
+    ajax({
       url: config.service.plantDetail,
       data: {
         id: this.data.id
@@ -57,7 +58,7 @@ Page({
   },
   // 获取图片列表
   getPlantImg() {
-    wx.request({
+    ajax({
       url: config.service.getPlantImg,
       data: {
         id: this.data.id
@@ -77,7 +78,7 @@ Page({
   },
   // 获取食物评价
   getPlantRateList(id) {
-    wx.request({
+    ajax({
       url: config.service.getPlantRateList,
       data: {
         id: this.data.id
@@ -129,7 +130,7 @@ Page({
   send() {
     if (this.data.text) {
       console.log('ok')
-      wx.request({
+      ajax({
         method: 'POST',
         url: config.service.addPlantRate,
         data: {
@@ -184,7 +185,7 @@ Page({
         console.log(res)
         if (res.confirm) {
           let id = e.currentTarget.dataset.id
-          wx.request({
+          ajax({
             method: 'PUT',
             url: config.service.removePlantRate,
             data: {

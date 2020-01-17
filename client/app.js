@@ -1,4 +1,5 @@
 var config = require('./config')
+const { ajax } = require('./utils/ajax');
 
 //app.js
 App({
@@ -13,7 +14,7 @@ App({
       success: ({ code }) => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         console.log(code, 'res.code')
-        wx.request({
+        ajax({
           // url: 'https://api.weixin.qq.com/sns/jscode2session',
           // url: 'http://localhost:3003/getOpenId',
           // url: 'https://ilovelyplat.com:3002/getOpenId',

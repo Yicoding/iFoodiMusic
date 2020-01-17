@@ -2,6 +2,7 @@
 //获取应用实例
 
 var app = getApp()
+const { ajax } = require('../../utils/ajax');
 var config = require('../../config')
 
 Page({
@@ -188,7 +189,7 @@ Page({
       title: '提示',
       content: '确定要删除吗？',
       success: (res) => {
-        wx.request({
+        ajax({
           method: 'GET',
           url: config.service.getFoodList,
           data: {
@@ -209,7 +210,7 @@ Page({
               })
             } else {
               if (res.confirm) {
-                wx.request({
+                ajax({
                   method: 'PUT',
                   url: config.service.removeType,
                   data: { id },
@@ -283,7 +284,7 @@ Page({
   },
   // 获取植物列表
   getTypeList() {
-    wx.request({
+    ajax({
       url: config.service.getTypeList,
       success: ({ data }) => {
         console.log(data)

@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const { ajax } = require('../../utils/ajax');
 var config = require('../../config')
 var { parseEmoji } = require('../../utils/emoji.js')
 Page({
@@ -61,7 +62,7 @@ Page({
   },
   // 获取数目
   findTimesNumByOpenid() {
-    wx.request({
+    ajax({
       url: config.service.findTimesNumByOpenid,
       data: {
         openid: this.data.userInfo.openid
@@ -81,7 +82,7 @@ Page({
         title: '加载中'
       })
     }
-    wx.request({
+    ajax({
       url: config.service.findTimesByOpenid,
       data: {
         pageIndex: this.data.pageIndex,
@@ -154,7 +155,7 @@ Page({
         console.log(res)
         if (res.confirm) {
           let id = e.currentTarget.dataset.id
-          wx.request({
+          ajax({
             method: 'PUT',
             url: config.service.removeTimes,
             data: {

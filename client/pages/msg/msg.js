@@ -2,6 +2,8 @@
 //获取应用实例
 const app = getApp()
 var config = require('../../config')
+const { ajax } = require('../../utils/ajax');
+
 Page({
   data: {
     pageIndex: 0,
@@ -44,7 +46,7 @@ Page({
   },
   // 获取未读消息条数
   getReadNum() {
-    wx.request({
+    ajax({
       url: config.service.getReadNum,
       data: {
         openid: app.globalData.openid
@@ -59,7 +61,7 @@ Page({
   },
   // 获取消息列表
   getMsgList() {
-    wx.request({
+    ajax({
       url: config.service.getMsgList,
       data: {
         pageIndex: this.data.pageIndex,
@@ -98,7 +100,7 @@ Page({
   goDetail(e) {
     console.log(e)
     let id = e.currentTarget.dataset.id
-    wx.request({
+    ajax({
       method: 'PUT',
       url: config.service.alterMsg,
       data: {

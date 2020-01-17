@@ -3,6 +3,7 @@
 
 var app = getApp()
 var config = require('../../config')
+const { ajax } = require('../../utils/ajax');
 
 Page({
   data: {
@@ -190,7 +191,7 @@ Page({
       success: (res) => {
         console.log(res)
         if (res.confirm) {
-          wx.request({
+          ajax({
             method: 'PUT',
             url: config.service.removePlant,
             data: { id },
@@ -264,7 +265,7 @@ Page({
   },
   // 获取植物列表
   getPlantList() {
-    wx.request({
+    ajax({
       url: config.service.getPlantList,
       data: {
         pageIndex: this.data.pageIndex,

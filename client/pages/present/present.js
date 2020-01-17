@@ -1,5 +1,6 @@
 // pages/gubaPost/gubaPost.js
 var { emojiMap } = require('../../utils/emoji.js')
+const { ajax } = require('../../utils/ajax');
 var { uploadFile } = require('../../utils/upload.js')
 var config = require('../../config')
 var { formatTime } = require('../../utils/util.js')
@@ -132,7 +133,7 @@ Page({
         pic: this.data.pic,
         time: formatTime(new Date())
       }
-      wx.request({
+      ajax({
         method: 'POST',
         url: config.service.addTimes,
         data: data,

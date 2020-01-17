@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 var config = require('../../config')
+const { ajax } = require('../../utils/ajax');
 const app = getApp()
 var playIcon = '../../images/icon/play.png'
 var pauseIcon = '../../images/icon/pause.png'
@@ -90,7 +91,7 @@ Page({
   getSongList() {
     if (app.globalData.openid) {
       console.log('getSongList')
-      wx.request({
+      ajax({
         url: config.service.collectFindByOpenId,
         data: {
           openid: app.globalData.openid
@@ -108,7 +109,7 @@ Page({
         success: ({ code }) => {
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
           console.log(code, 'res.code异步')
-          wx.request({
+          ajax({
             url: 'https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code',
             data: {
               appid: 'wxa951826c9c76290b',
@@ -120,7 +121,7 @@ Page({
               console.log(data, '小程序的openid')
               app.globalData.openid = data.openid
               app.globalData.isAdmin = app.globalData.adminCount.includes(data.openid)
-              wx.request({
+              ajax({
                 url: config.service.collectFindByOpenId,
                 data: {
                   openid: data.openid

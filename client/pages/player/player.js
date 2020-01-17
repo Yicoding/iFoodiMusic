@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 var config = require('../../config')
+const { ajax } = require('../../utils/ajax');
 const app = getApp();
 var Base64 = require('../../utils/base64.js').Base64
 var Lyric = require('../../utils/lyric-parse.js')
@@ -86,7 +87,7 @@ Page({
   // 判断是否收藏过该歌曲
   judgeCollect() {
     let id = app.globalData.playList[app.globalData.playIndex].songid? app.globalData.playList[app.globalData.playIndex].songid : app.globalData.playList[app.globalData.playIndex].id
-    wx.request({
+    ajax({
       url: config.service.collectFindBySongId,
       data: {
         id: id,
@@ -117,7 +118,7 @@ Page({
   // 添加收藏
   addCollect(id) {
     console.log(app.globalData.playList)
-    wx.request({
+    ajax({
       method: 'POST',
       url: config.service.addCollect,
       data: {
@@ -135,7 +136,7 @@ Page({
   },
   // 取消收藏
   removeCollect(id) {
-    wx.request({
+    ajax({
       method: 'PUT',
       url: config.service.removeCollect,
       data: {

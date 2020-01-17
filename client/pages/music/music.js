@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 var config = require('../../config')
+const { ajax } = require('../../utils/ajax');
 const app = getApp()
 var playIcon = '../../images/icon/play.png'
 var pauseIcon = '../../images/icon/pause.png'
@@ -24,7 +25,7 @@ Page({
     poster: '../../images/avatar.png',
   },
   onLoad: function () {
-    wx.request({
+    ajax({
       url: config.service.album,
       success: ({ data }) => {
         console.log(data)

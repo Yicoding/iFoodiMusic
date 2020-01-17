@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const { ajax } = require('../../utils/ajax');
 var config = require('../../config')
 var { formatTime } = require('../../utils/util.js')
 var timee = 0
@@ -25,7 +26,7 @@ Page({
     timee = setTimeout(() => {
       wx.showLoading()
     }, 500)
-    wx.request({
+    ajax({
       url: config.service.plantDetail,
       data: {
         id: this.data.id
@@ -49,7 +50,7 @@ Page({
   },
   // 获取评论列表
   getRateList() {
-    wx.request({
+    ajax({
       url: config.service.getPlantRateList,
       data: {
         id: this.data.id
@@ -118,7 +119,7 @@ Page({
   send() {
     if (this.data.text) {
       console.log('ok')
-      wx.request({
+      ajax({
         method: 'POST',
         url: config.service.addPlantRate,
         data: {
@@ -172,7 +173,7 @@ Page({
         console.log(res)
         if (res.confirm) {
           let id = e.currentTarget.dataset.id
-          wx.request({
+          ajax({
             method: 'PUT',
             url: config.service.removePlantRate,
             data: {

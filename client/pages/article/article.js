@@ -3,7 +3,10 @@
 const app = getApp()
 var config = require('../../config')
 var { formatTime } = require('../../utils/util.js')
+const { ajax } = require('../../utils/ajax');
 var timee = 0
+
+
 Page({
   data: {
     id: null,
@@ -25,7 +28,7 @@ Page({
     timee = setTimeout(() => {
       wx.showLoading()
     }, 500)
-    wx.request({
+    ajax({
       url: config.service.articleDetail,
       data: {
         id: this.data.id
@@ -49,7 +52,7 @@ Page({
   },
   // 获取评论列表
   getRateList() {
-    wx.request({
+    ajax({
       url: config.service.getArticleRateList,
       data: {
         id: this.data.id
@@ -119,7 +122,7 @@ Page({
   send() {
     if (this.data.text) {
       console.log('ok')
-      wx.request({
+      ajax({
         method: 'POST',
         url: config.service.addArticleRate,
         data: {
@@ -173,7 +176,7 @@ Page({
         console.log(res)
         if (res.confirm) {
           let id = e.currentTarget.dataset.id
-          wx.request({
+          ajax({
             method: 'PUT',
             url: config.service.removeArticleRate,
             data: {

@@ -2,10 +2,15 @@ var config = require('../config')
 
 function uploadFile(filePath) {
     return new Promise((resolve, reject) => {
+        const token = 'ifoodimusic';
         wx.uploadFile({
             // url: config.service.uploadUrl,
             url: config.service.putObject,
             filePath: filePath,
+            header: {
+                phone: token,
+                token
+            },
             name: 'file',
             success: function (res) {
                 console.log('uploadFile', res)

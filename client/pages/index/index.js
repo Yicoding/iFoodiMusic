@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const { ajax } = require('../../utils/ajax');
 var config = require('../../config')
 Page({
   data: {
@@ -132,38 +133,9 @@ Page({
       console.log(this.data.pageIndex)
     }
   },
-  getuserInfo(e) {
-    let userInfo = e.detail.userInfo
-    console.log(userInfo)
-    this.setData({
-      userInfo: userInfo
-    })
-    app.globalData.userInfo = userInfo
-    // 登录
-    wx.login({
-      success: ({ code }) => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        console.log(code, 'res.code')
-        wx.request({
-          url: 'https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code',
-          data: {
-            appid: 'wxa951826c9c76290b',
-            secret: '67957573d25420da690f4c6798e0e8a8',
-            js_code: code,
-            grant_type: 'authorization_code'
-          },
-          success: ({ data }) => {
-            console.log(data, '小程序的openid')
-            app.globalData.openid = data.openid
-            app.globalData.isAdmin = app.globalData.adminCount.includes(data.openid)
-          }
-        })
-      }
-    })
-  },
   // 获取菜单列表
   getTypeList() {
-    wx.request({
+    ajax({
       url: config.service.getTypeList,
       success: ({ data }) => {
         console.log('getTypeList', data)
@@ -182,7 +154,7 @@ Page({
   },
   // 获取列表
   getFoodList(type = null) {
-    wx.request({
+    ajax({
       url: config.service.getFoodList,
       data: {
         title: this.data.title,
@@ -310,7 +282,7 @@ Page({
         console.log(res)
         if (res.confirm) {
           let id = e.currentTarget.dataset.id
-          wx.request({
+          ajax({
             method: 'PUT',
             url: config.service.removeFood,
             data: { id },

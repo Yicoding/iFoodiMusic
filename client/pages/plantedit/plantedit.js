@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const { ajax } = require('../../utils/ajax');
 var config = require('../../config')
 var { uploadFile } = require('../../utils/upload.js')
 var { formatTime } = require('../../utils/util.js')
@@ -36,7 +37,7 @@ Page({
   },
   // 获取食物信息
   plantDetail(id) {
-    wx.request({
+    ajax({
       url: config.service.plantDetail,
       data: { id },
       success: ({ data }) => {
@@ -55,7 +56,7 @@ Page({
   },
   // 获取图片列表
   getPlantImg(id) {
-    wx.request({
+    ajax({
       url: config.service.getPlantImg,
       data: { id },
       success: ({ data }) => {
@@ -104,7 +105,7 @@ Page({
       })
     }
     if (id) { // 编辑
-      wx.request({
+      ajax({
         method: 'PUT',
         url: config.service.updatePlant,
         data: {
@@ -143,7 +144,7 @@ Page({
         }
       })
     } else { // 新增
-      wx.request({
+      ajax({
         method: 'POST',
         url: config.service.addPlant,
         data: {
@@ -166,7 +167,7 @@ Page({
               return uploadFile(item.src)
             })
             Promise.all(promises).then((args) => {
-              wx.request({
+              ajax({
                 method: 'POST',
                 url: config.service.addPlantImg,
                 data: {
@@ -276,7 +277,7 @@ Page({
   // 移除照片(修改美食)
   removePut(e) {
     this.data.imgList.splice(e.currentTarget.dataset.index, 1)
-    wx.request({
+    ajax({
       method: 'PUT',
       url: config.service.removePlantImg,
       data: { id: e.currentTarget.dataset.id },
@@ -337,7 +338,7 @@ Page({
         Promise.all(promises).then((args) => {
           console.log('args', args)
           this.data.num -= res.tempFilePaths.length
-          wx.request({
+          ajax({
             method: 'POST',
             url: config.service.addPlantImg,
             data: {

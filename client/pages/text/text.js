@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const { ajax } = require('../../utils/ajax');
 var config = require('../../config')
 var { parseEmoji } = require('../../utils/emoji.js')
 var { formatTime } = require('../../utils/util.js')
@@ -26,7 +27,7 @@ Page({
     timee = setTimeout(() => {
       wx.showLoading()
     }, 500)
-    wx.request({
+    ajax({
       url: config.service.timesDetail,
       data: {
         id: this.data.id
@@ -51,7 +52,7 @@ Page({
   },
   // 获取评论列表
   getRateList() {
-    wx.request({
+    ajax({
       url: config.service.getRateList,
       data: {
         id: this.data.id
@@ -106,7 +107,7 @@ Page({
   send() {
     if (this.data.text) {
       console.log('ok')
-      wx.request({
+      ajax({
         method: 'POST',
         url: config.service.addTimesRate,
         data: {
@@ -163,7 +164,7 @@ Page({
         console.log(res)
         if (res.confirm) {
           let id = e.currentTarget.dataset.id
-          wx.request({
+          ajax({
             method: 'PUT',
             url: config.service.removeRate,
             data: {

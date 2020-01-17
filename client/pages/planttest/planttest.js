@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const { ajax } = require('../../utils/ajax');
 var config = require('../../config')
 Page({
   data: {
@@ -41,7 +42,7 @@ Page({
   },
   // 获取文章列表
   getPlantList() {
-    wx.request({
+    ajax({
       url: config.service.getPlantList,
       data: {
         pageIndex: this.data.pageIndex,

@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+const { ajax } = require('../../utils/ajax');
 var config = require('../../config')
 var { uploadFile } = require('../../utils/upload.js')
 var { formatTime } = require('../../utils/util.js')
@@ -35,7 +36,7 @@ Page({
   },
   // 获取食物信息
   getTypeDetail(id) {
-    wx.request({
+    ajax({
       url: config.service.getTypeDetail,
       data: { id },
       success: ({ data }) => {
@@ -68,7 +69,7 @@ Page({
       })
     }
     if (id) { // 编辑
-      wx.request({
+      ajax({
         method: 'PUT',
         url: config.service.updateType,
         data: {
@@ -105,7 +106,7 @@ Page({
         }
       })
     } else { // 新增
-      wx.request({
+      ajax({
         method: 'POST',
         url: config.service.addType,
         data: {
