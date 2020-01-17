@@ -2,7 +2,7 @@
  * 全局封装wx.request
  * @param {*} obj 
  */
-const ajax = ({ method = 'GET', url, data, success, fail }) => {
+const ajax = ({ method = 'GET', url, data, success, fail, complete }) => {
   const token = 'ifoodimusic';
   wx.request({
     url,
@@ -17,7 +17,10 @@ const ajax = ({ method = 'GET', url, data, success, fail }) => {
     },
     fail: function (err) {
       fail && fail(err);
-    }
+    },
+    complete: function () {
+      complete && complete();
+    },
   })
 }
 module.exports = {
