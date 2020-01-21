@@ -25,7 +25,15 @@ Page({
     isShow: false,
     isEdit: true
   },
-  onLoad: function () {
+  onLoad: function (options) {
+    // const { id } = options;
+    // if (id) {
+    //   wx.setStorageSync('company_id', id);
+    // }
+    // wx.showToast({
+    //   title: `成功${id}`,
+    //   icon: 'none'
+    // })
     setTimeout(() => {
       this.setData({
         isShow: true
