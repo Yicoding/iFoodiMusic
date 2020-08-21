@@ -21,7 +21,7 @@
 .song{
     margin: 0 15rpx 0 20rpx;
 }
-image{
+.image{
     width: 100%;
     height: 100%;
 }

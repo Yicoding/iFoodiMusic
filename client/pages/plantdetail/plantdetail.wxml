@@ -14,7 +14,7 @@
     <view class="img-list">
       <image
         wx:for="{{imgList}}"
-        wx:key="{{item.id}}"
+        wx:key="id"
         mode="widthFix"
         src="{{item.src}}"
         catchtap="viewImage"
@@ -28,7 +28,7 @@
       <view
         class="list"
         wx:for="{{rateList}}"
-        wx:key="{{item.id}}">
+        wx:key="id">
           <view class="list-nick">
             <image
               class="avatar"

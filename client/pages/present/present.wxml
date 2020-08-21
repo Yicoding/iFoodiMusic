@@ -13,7 +13,7 @@
         value="{{textVal}}" />
     <!--<rich-text class="content" nodes="{{html}}"></rich-text>-->
     <view class="container" style="padding-bottom: {{barHeight}}px;">
-        <view wx:for="{{tempFilePaths}}" wx:key="{{item}}" class="image-item">
+        <view wx:for="{{tempFilePaths}}" wx:key="index" class="image-item">
             <image 
                 mode="aspectFill" 
                 class="image" 
@@ -49,7 +49,7 @@
                     <image 
                         class="emoji-list" 
                         wx:for="{{emojiArr}}" 
-                        wx:key="{{item.k}}" 
+                        wx:key="k" 
                         src="/images/emoji/{{item.src}}" 
                         wx:if="{{index < 28}}" 
                         data-k="{{item.k}}" 
@@ -59,7 +59,7 @@
                     <image 
                         class="emoji-list" 
                         wx:for="{{emojiArr}}" 
-                        wx:key="{{item.k}}" 
+                        wx:key="k" 
                         src="/images/emoji/{{item.src}}" 
                         wx:if="{{index > 27}}" 
                         data-k="{{item.k}}" 

@@ -5,7 +5,7 @@
   <view class="container">
     <view
       wx:for="{{songList}}" 
-      wx:key="{{item.id}}"
+      wx:key="id"
       class="list"
       bindtap="play"
       data-type="{{item}}"

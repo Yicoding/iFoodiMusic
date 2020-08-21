@@ -20,7 +20,7 @@
           class="image-item"
           wx:for="{{article.pic}}"
           wx:for-item="img"
-          wx:key="{{img}}"
+          wx:key="index"
           mode="aspectFill"
           src="{{img}}" 
           catchtap="viewImage"

@@ -20,7 +20,7 @@
   <view
     class="list"
     wx:for="{{timesList}}"
-    wx:key="{{item.id}}"
+    wx:key="id"
     bindtap="goDetail"
     data-id="{{item.id}}">
     <view class="nick">
@@ -43,7 +43,7 @@
           class="image-item"
           wx:for="{{item.pic}}"
           wx:for-item="img"
-          wx:key="{{img}}"
+          wx:key="index"
           mode="aspectFill"
           src="{{img}}" 
           catchtap="viewImage"

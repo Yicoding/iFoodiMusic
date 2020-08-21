@@ -7,7 +7,7 @@
     duration="{{duration}}"
     indicator-active-color="#fff"
     indicator-color="hsla(0,0%,100%,.5)">
-    <block wx:for="{{imgUrls}}" wx:key="{{imgUrls}}">
+    <block wx:for="{{imgUrls}}" wx:key="index">
       <swiper-item class="swiper-container">
         <image src="{{item}}" />
       </swiper-item>
@@ -19,7 +19,7 @@
   </view>
   <view 
     wx:for="{{albumList}}" 
-    wx:key="{{item.id}}" 
+    wx:key="id" 
     class="scroll-list"
     bindtap="gotoSongList"
     data-type="{{item}}">

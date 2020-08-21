@@ -2,13 +2,13 @@
   <view class="bg">
     <text bindtap="goPlayer" class="song" hidden="{{!isExpend}}">{{songInfo.name}}</text>
     <view class="container">
-      <image class="avatar" bindtap="switch" src="../../images/avatar.png"/>
+      <image class="avatar image" bindtap="switch" src="../../images/avatar.png"/>
     </view>
   </view>
   <view class="close" bindtap="close" hidden="{{!isExpend}}">
-    <image src="../../images/icon/error-1.png"/>
+    <image class="image" src="../../images/icon/error-1.png"/>
   </view>
   <view class="state" bindtap="play" hidden="{{!isExpend}}">
-    <image src="{{stateIcon}}"/>
+    <image class="image" src="{{stateIcon}}"/>
   </view>
 </view>

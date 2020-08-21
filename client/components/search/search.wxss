@@ -6,7 +6,7 @@
     align-items: center;
     position: relative;
 }
-input{
+.input{
     background: #fff;
     border-radius: 5rpx;
     padding: 0 20rpx 0 70rpx;

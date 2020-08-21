@@ -19,7 +19,7 @@
         <view
             class="li {{type == item.id ? 'active' : ''}}"
             wx:for="{{typeArrOne}}"
-            wx:key="{{item.id}}"
+            wx:key="id"
             bindtap="checkType"
             data-type="{{item.id}}">
             <image src="{{item.img}}" />
@@ -55,7 +55,7 @@
         <view
             class="list"
             wx:for="{{foodList}}"
-            wx:key="{{item.id}}"
+            wx:key="id"
             bindtap="goDetail"
             data-id="{{item.id}}">
             <image

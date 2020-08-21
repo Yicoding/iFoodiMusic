@@ -11,7 +11,7 @@
   </view>
   <view class="title">植物一览</view>
   <view class="container">
-    <view wx:for="{{id ? imgList : tempFilePaths}}" wx:key="{{index}}" class="image-item">
+    <view wx:for="{{id ? imgList : tempFilePaths}}" wx:key="index" class="image-item">
       <image mode="aspectFill" class="image" src="{{item.src}}" bindtap="viewImage" data-src="{{item.src}}" />
       <image class="icon-close" src="/images/icon-close.png" data-id="{{item.id}}" data-index="{{index}}" catchtap="remove" />
     </view>
