@@ -277,7 +277,7 @@ Page({
           loaded: true
         })
         data.data.forEach(item => {
-          item.createTime = item.createTime.slice(5)
+          item.createTime = item.createTime.slice(0, 10)
         })
         if (this.data.pageIndex == 0) {
           this.setData({

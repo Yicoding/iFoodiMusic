@@ -61,7 +61,6 @@ Page({
         console.log(data, 'rateList')
         if (data.data.length) {
           let rateList = data.data.map(item => {
-            item.present_time = item.present_time.slice(5)
             item.isMine = false
             if (this.data.article.openid == app.globalData.openid || item.openid == app.globalData.openid) {
               item.isMine = true

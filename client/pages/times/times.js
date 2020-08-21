@@ -81,7 +81,6 @@ Page({
         })
         console.log(data)
         let timesList = data.data.map(item => {
-          item.present_time = item.present_time.slice(5)
           item.content = parseEmoji(item.content)
           item.isDelete = item.openid == app.globalData.openid
           item.nickName = item.openid == app.globalData.specialName ? '狗子' : item.nickName

@@ -23,7 +23,7 @@ Page({
     info: '数据加载中...',
     title: '',
     isShow: false,
-    isEdit: true
+    isEdit: false
   },
   onLoad: function (options) {
     // const { id } = options;
