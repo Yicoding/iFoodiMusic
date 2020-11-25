@@ -38,9 +38,6 @@ const CONF = {
         uploadFolder: 'present',
         maxSize: 100
     },
-    qcloudAppId: '1257454171',
-    qcloudSecretId: 'AKIDmtlOmudVu31jBMs4XkiNnzvd6KI0Fopa',
-    qcloudSecretKey: 'e2B4h7GAoCLEqDPL2TegSyEJ8YkhQu9A',
     // 微信登录态有效期
     wxLoginExpires: 7200,
     wxMessageToken: 'abcdefgh'
