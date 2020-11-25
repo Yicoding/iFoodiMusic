@@ -1,15 +1,14 @@
 //index.js
 //获取应用实例
-const arr = require('./old').default;
+const arr = require('./arr');
 
 Page({
   data: {
     dataList: [],
     value: '',
-    src: '/images/icon/food-1.png'
+    src: '/images/icon/top.png'
   },
   onLoad: function () {
-
   },
   // 输入框改变
   onChange(e) {
@@ -21,6 +20,10 @@ Page({
     const { value } = this.data;
     this.searchFuc(value.trim());
   },
+  // 清空
+  clear() {
+    this.setData({ dataList: [], value: '' })
+  },
   // 搜索逻辑
   searchFuc(value) {
     if (value) {
@@ -28,7 +31,7 @@ Page({
       const dataList = [];
       arr.forEach(item => {
         var patten = new RegExp(value);
-        if (patten.test(item.title)) {
+        if (patten.test(item.title) || patten.test(item.content)) {
           dataList.push(item)
         }
       });

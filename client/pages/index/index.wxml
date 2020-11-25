@@ -1,21 +1,19 @@
-
 <wxs src="./tools.wxs" module="tools" />
-
 <view class="container">
-  请输入搜索内容：
-  <view class="search">
-    <input placeholder="请输入搜索内容" value="{{ value }}" bindinput="onChange" />
-    <view bindtap="search">搜索</view>
-  </view>
-  <view class="answer" wx:for="{{ dataList }}" wx:if="{{ item && item.title }}" wx:key>
-    <rich-text nodes="{{tools.tranFuc(item.title, value, index)}}" />
-    <view>
-      答案：
-      <text style="color: red;">{{ item.name }}</text>
+    请输入搜索内容：
+    <view class="search">
+        <input placeholder="请输入搜索内容" value="{{ value }}" bindinput="onChange" bindconfirm="search" />
+        <view bindtap="search">搜索</view>
     </view>
-  </view>
-  <view class="empty" wx:if="{{ dataList.length === 0 }}">没有搜索到结果，换个条件搜索吧～</view>
+    <view class="answer" wx:for="{{ dataList }}" wx:if="{{ item && item.title }}" wx:key="index">
+        <rich-text nodes="{{tools.tranFuc(item.title, value, index)}}" />
+        <rich-text nodes="{{tools.tranContent(item.content, value)}}" />
+        <view>
+            答案：
+            <text style="color: red;">{{ item.answer }}</text>
+        </view>
+    </view>
+    <view class="empty" wx:if="{{ dataList.length === 0 }}">没有搜索到结果，换个条件搜索吧～</view>
 </view>
-
 <!-- <view bindtap="goTop" class="arrow"></view> -->
 <image src="{{ src }}" bindtap="goTop" class="arrow" />

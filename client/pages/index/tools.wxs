@@ -1,13 +1,23 @@
 
-var tranFuc = function(title, value, index) {
-  if (title) {
+var tranFuc = function(text, value, index) {
+  if (text) {
     var patten = getRegExp(value.trim(), 'g');
-    return index+1 + '、' + title.replace(patten, function(a) {
+    return index+1 + '、' + text.replace(patten, function(a) {
+      return '<span style="color: red;">' + a + '</span>'
+    })
+  }
+}
+
+var tranContent = function(text, value) {
+  if (text) {
+    var patten = getRegExp(value.trim(), 'g');
+    return text.replace(patten, function(a) {
       return '<span style="color: red;">' + a + '</span>'
     })
   }
 }
 
 module.exports = {
-  tranFuc: tranFuc
+  tranFuc: tranFuc,
+  tranContent: tranContent
 }
